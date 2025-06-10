@@ -8,7 +8,7 @@ import requests
 app = Flask(__name__)
 CORS(app)
 api = Api(app, doc='/docs')
-ns = api.namespace('api', description='周童玥网站借口')
+ns = api.namespace('api', description='周童玥网站接口')
 
 # 配置 SQLite 数据库
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///zhouty.db'
@@ -101,4 +101,4 @@ class StageList(Resource):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
