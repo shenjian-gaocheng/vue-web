@@ -41,7 +41,7 @@ onMounted(async () => {
     <main class="main-scrollable flex-grow-1 bg-white px-5 py-3 overflow-auto">
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
-          <h4 v-if="items.length" class="mt-4 mb-3">{{ group }} 公演</h4>
+          <h3 v-if="items.length" class="mt-4 mb-3">{{ group }} 公演</h3>
           <ul class="list-group mb-3">
             <li
               v-for="(item, index) in (expandedGroups[group] ? items : items.slice(0, maxInitial))"
@@ -50,14 +50,14 @@ onMounted(async () => {
               >
               <div class="d-flex align-items-center">
                 <!-- 左侧：场次 + 日期 -->
-                <div class="text-end" style="min-width: 100px;">
+                <div class="text-center" style="min-width: 100px;">
                   <div class="fw-bold">第 {{ item.session }} 场</div>
                   <div class="text-muted">{{ item.date }}</div>
                 </div>
 
                 <!-- 中间：标题 -->
                 <div class="flex-grow-1 text-center">
-                  <div class="fw-semibold fs-5">{{ item.title }}</div>
+                  <div class="fw-semibold">{{ item.title }}</div>
                 </div>
 
                 <!-- 右侧：两个按钮 -->
