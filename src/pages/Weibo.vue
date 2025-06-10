@@ -1,12 +1,19 @@
+<script setup>
+import Sidebar from '../components/Sidebar.vue'
+</script>
+
 <template>
-  <div class="weibo-page">
-    <div class="glass-panel">
-      <h1>微博跳转</h1>
-      <div class="weibo-links">
-        <a href="https://weibo.com/u/7861137548" target="_blank">小周微博主页</a>
-        <a href="https://weibo.com/u/6660861957" target="_blank">应援站微博</a>
+  <div class="weibo-page d-flex">
+    <Sidebar />
+    <main class="flex-grow-1 d-flex align-items-center justify-content-end pe-5">
+      <div class="glass-panel">
+        <h1>微博跳转</h1>
+        <div class="weibo-links">
+          <a href="https://weibo.com/u/7861137548" target="_blank">小周微博主页</a>
+          <a href="https://weibo.com/u/6660861957" target="_blank">应援站微博</a>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
