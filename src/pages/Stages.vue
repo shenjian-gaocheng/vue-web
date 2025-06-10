@@ -41,10 +41,11 @@ onMounted(async () => {
     <main class="main-scrollable flex-grow-1 bg-white px-5 py-3 overflow-auto">
       <!-- 公演说明文字（放在所有公演列表之前） -->
       <div class="alert alert-info mb-4" role="note">
-        <p class="mb-1">以下是 <strong>周童玥</strong> 参加的所有公演列表，包括Team SII公演、新生公演以及其它公演。</p>
+        <p class="mb-1">以下是目前本站收录的 <strong>周童玥</strong> 参加的公演列表，包括Team SII公演、新生公演以及其它公演。</p>
         <p class="mb-1">点击右侧按钮可跳转至发布在 B 站的视频页面。</p>
-        <p class="mb-1"><strong>完整公演视频</strong>：SNH48 官方账号发布的完整回放。</p>
-        <p class="mb-0"><strong>小周 cut 视频</strong>：应援会发布的以周童玥为主的剪辑回放。</p>
+        <p class="mb-1"><strong>完整公演视频</strong>：SNH48 官方账号发布的完整公演回放。</p>
+        <p class="mb-1"><strong>小周cut视频</strong>：应援会发布的以周童玥为主的公演剪辑回放。</p>
+        <p class="mb-0">如果按钮为灰色，则代表该场公演官方没有上传回放，或是应援会没有制作剪辑。</p>
       </div>
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
