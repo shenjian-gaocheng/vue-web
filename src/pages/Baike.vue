@@ -11,7 +11,7 @@ import Sidebar from '../components/Sidebar.vue'
       <!-- 姓名 & 简介 -->
       <div class="text-center mb-4 py-4 bg-light rounded">
         <h1 class="fw-bold display-5 mb-1">周童玥</h1>
-        <h3 class="text-primary fw-bold">Zhou TongYue</h3>
+        <h3 class="text-warning fw-bold">Zhou TongYue</h3>
         <p class="text-muted">TEAM SII（SNH48 十八期生）</p>
       </div>
 
