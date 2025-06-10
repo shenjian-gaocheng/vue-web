@@ -22,6 +22,14 @@ body {
   display: flex;
 }
 
+.main-scrollable {
+  flex-grow: 1;
+  background-color: white;
+  padding: 1rem 1.5rem;
+  height: 100vh;
+  overflow-y: auto;
+}
+
 .art-text {
   font-size: 64px;
   font-weight: bold;

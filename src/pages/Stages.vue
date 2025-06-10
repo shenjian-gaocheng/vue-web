@@ -38,7 +38,7 @@ onMounted(async () => {
   <div class="layout-page d-flex">
     <Sidebar />
 
-    <main class="flex-grow-1 bg-white px-4 py-3 overflow-auto">
+    <main class="main-scrollable flex-grow-1 bg-white px-4 py-3 overflow-auto">
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
           <h4 v-if="items.length" class="mt-4 mb-3">{{ group }} 公演</h4>
