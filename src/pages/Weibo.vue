@@ -1,11 +1,19 @@
 <script setup>
 import Sidebar from '../components/Sidebar.vue'
+import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
+
+const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 </script>
 
 <template>
-  <div class="weibo-page d-flex">
-    <Sidebar />
-      <main class="main-area d-flex flex-column justify-content-center align-items-end flex-grow-1 pe-5">
+  <div :class="['weibo-page', 'd-flex', isMobile ? 'flex-column' : 'flex-row']">
+    <Sidebar ref="sidebarRef" :is-mobile="isMobile" v-model:collapsed="isSidebarCollapsed" />
+      <main 
+        class="main-area d-flex flex-column justify-content-center align-items-end flex-grow-1 pe-5"
+        :style="{
+          paddingTop: !isMobile || isSidebarCollapsed ? '16px' : '76px'
+        }"
+      >
       <div class="glass-panel">
         <h1>微博跳转</h1>
         <div class="weibo-links">

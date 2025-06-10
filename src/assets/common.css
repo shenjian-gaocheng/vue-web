@@ -49,6 +49,10 @@ body {
   margin-top: 20px;
 }
 
+.wiki-experience {
+  width: 220px;
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;

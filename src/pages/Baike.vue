@@ -1,23 +1,43 @@
 <script setup>
 import Sidebar from '../components/Sidebar.vue'
+import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
+
+const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 </script>
 
 <template>
-  <div class="layout-page d-flex">
-    <Sidebar />
-
-    <main class="main-scrollable flex-grow-1 overflow-auto px-4 py-3">
+  <div :class="['layout-page', 'd-flex', isMobile ? 'flex-column' : 'flex-row']">
+    <Sidebar ref="sidebarRef" :is-mobile="isMobile" v-model:collapsed="isSidebarCollapsed" />
+    <main 
+      class="position-relative main-scrollable flex-grow-1 overflow-auto px-4"
+      :style="{
+        paddingTop: !isMobile || isSidebarCollapsed ? '16px' : '76px'
+      }"
+    >
 
       <!-- 姓名 & 简介 -->
       <div class="text-center mb-4 py-4 bg-light rounded">
         <h1 class="fw-bold display-5 mb-1">周童玥</h1>
         <h3 class="text-warning fw-bold">Zhou TongYue</h3>
         <p class="text-muted">TEAM SII（SNH48 十八期生）</p>
+
+        <!-- 社交链接 -->
+        <div class="text-center">
+          <a href="https://weibo.com/u/7861137548" class="mx-3" target="_blank">
+            <i class="fab fa-weibo fa-2x text-danger"></i>
+          </a>
+          <a href="https://www.douyin.com/user/MS4wLjABAAAA85fHqEle3WCMj0JHlAVr2k5jq892OHh1u4193DL-Bk7-HOHksd_XQaF7oRteMNCE" class="mx-3" target="_blank">
+            <i class="fab fa-tiktok fa-2x text-dark"></i>
+          </a>
+          <a href="https://space.bilibili.com/3537104390850991" class="mx-3" target="_blank">
+            <i class="fab fa-bilibili fa-2x text-primary"></i>
+          </a>
+        </div>
       </div>
 
       <!-- 基本信息 -->
-      <div class="row text-center mb-4 g-4">
-        <div class="col-md-6">
+      <div class="row justify-content-center text-center mb-4 g-4">
+        <div class="col-md-5">
           <div class="card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title text-primary mb-3">个人信息</h5>
@@ -32,42 +52,30 @@ import Sidebar from '../components/Sidebar.vue'
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <div class="card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title text-primary mb-3">成员信息</h5>
               <ul class="list-unstyled mb-0 text-start">
-                <li><strong>加入时间：</strong> 2023-05-02</li>
+                <li><strong>加入时间：</strong> 2023.05.02</li>
                 <li><strong>加入所属：</strong> SNH48 十八期生</li>
                 <li><strong>最终所属：</strong> SNH48 S队（TEAM SII）</li>
                 <li><strong>所属公司：</strong> 上海丝芭文化传媒集团有限公司</li>
+                <li><strong>成员经历：</strong>
+                  <div class="d-flex">
+                    <div class="wiki-experience">2023.05.02 – 2023.08.26</div>
+                    <div>SNH48 预备生</div>
+                  </div>
+                  <div class="d-flex">
+                    <div class="wiki-experience">2023.08.27 – 至今</div>
+                    <div>SNH48 Team SII 成员</div>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- 社交链接 -->
-      <div class="text-center mb-5">
-        <a href="https://weibo.com/u/7861137548" class="mx-3" target="_blank">
-          <i class="fab fa-weibo fa-2x text-danger"></i>
-        </a>
-        <a href="https://www.douyin.com/user/MS4wLjABAAAA85fHqEle3WCMj0JHlAVr2k5jq892OHh1u4193DL-Bk7-HOHksd_XQaF7oRteMNCE" class="mx-3" target="_blank">
-          <i class="fab fa-tiktok fa-2x text-dark"></i>
-        </a>
-        <a href="https://space.bilibili.com/3537104390850991" class="mx-3" target="_blank">
-          <i class="fab fa-bilibili fa-2x text-primary"></i>
-        </a>
-      </div>
-
-      <hr class="mb-4" />
-
-      <!-- 经历 -->
-      <section class="text-center mb-5">
-        <h2 class="mb-4 fw-bold">经历</h2>
-        <p>2023.05.02 – 2023.08.26 SNH48 预备生</p>
-        <p>2023.08.27 – 至今 SNH48 Team SII 成员</p>
-      </section>
 
       <hr class="mb-4" />
 

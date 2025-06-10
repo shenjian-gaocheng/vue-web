@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import Sidebar from '../components/Sidebar.vue'
+import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
+
+const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 const groupedStages = ref({ 'Team SII': [], '新生': [], '其它': [] })
 const expandedGroups = ref({ 'Team SII': false, '新生': false, '其它': false })
@@ -35,10 +38,15 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="layout-page d-flex">
-    <Sidebar />
+  <div :class="['layout-page', 'd-flex', isMobile ? 'flex-column' : 'flex-row']">
+    <Sidebar ref="sidebarRef" :is-mobile="isMobile" v-model:collapsed="isSidebarCollapsed" />
 
-    <main class="main-scrollable flex-grow-1 bg-white px-5 py-3 overflow-auto">
+    <main
+      class="main-scrollable flex-grow-1 bg-white px-5 overflow-auto"
+      :style="{
+        paddingTop: !isMobile || isSidebarCollapsed ? '16px' : '76px'
+      }"
+    >
       <!-- 公演说明文字（放在所有公演列表之前） -->
       <div class="alert alert-info mb-4" role="note">
         <p class="mb-1">以下是目前本站收录的 <strong>周童玥</strong> 参加的公演列表，包括Team SII公演、新生公演以及其它公演。</p>
