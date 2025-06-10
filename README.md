@@ -9,7 +9,7 @@
 
 ```
 vue-web/
-├── public/               # 后端
+├── backend/              # 后端
 ├── public/               # 公共资源：avatar.jpg, bg.jpg 等
 ├── src/
 │   ├── views/            # 页面组件：Home.vue, Weibo.vue 等
