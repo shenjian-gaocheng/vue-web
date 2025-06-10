@@ -18,8 +18,7 @@ const count = ref(0)
     <!-- 右侧内容 -->
     <div class="main">
         <div class="main-content">
-            <h1 class="art-text">周童玥</h1>
-            <p class="code">神秘代码：158139179</p>
+            建设中
         </div>
     </div>
   </div>
@@ -38,45 +37,6 @@ html, body {
   display: flex;
   height: 100vh;
   font-family: sans-serif;
-}
-
-/* 左栏 */
-.sidebar {
-  width: 260px;
-  background-color: #a4552c;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 20px;
-}
-
-/* 头像样式 */
-.avatar {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  border: 4px solid white;
-  object-fit: cover;
-  margin-bottom: 30px;
-}
-
-/* 导航菜单 */
-.nav {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  font-size: 18px;
-  text-align: center;
-}
-
-.nav a {
-  color: white;
-  text-decoration: none;
-}
-
-.nav a:hover {
-  text-decoration: underline;
 }
 
 /* 右栏 */
