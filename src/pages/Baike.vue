@@ -103,7 +103,6 @@ import Sidebar from '../components/Sidebar.vue'
         <h2 class="mb-4 fw-bold">获奖</h2>
         <p><i class="fas fa-trophy text-warning me-2"></i>2024 SNH48 GROUP 年度青春盛典 No.53</p>
       </section>
-      <p>以上内容来源：SNH48.com</p>
     </main>
   </div>
 </template>
