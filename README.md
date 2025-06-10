@@ -29,6 +29,7 @@ vue-web/
 - Node.js ≥ 16.x（推荐使用最新版）
 - Python ≥ 3.11
 - Git
+- sqlite3
 - 推荐使用 VS Code 编辑器
 
 ### ✅ 克隆项目并安装依赖（仅适用于macOS/Linux）
