@@ -9,6 +9,7 @@
 
 ```
 vue-web/
+├── public/               # 后端
 ├── public/               # 公共资源：avatar.jpg, bg.jpg 等
 ├── src/
 │   ├── views/            # 页面组件：Home.vue, Weibo.vue 等
@@ -26,21 +27,35 @@ vue-web/
 ### ✅ 环境准备
 
 - Node.js ≥ 16.x（推荐使用最新版）
+- Python ≥ 3.11
 - Git
 - 推荐使用 VS Code 编辑器
 
-### ✅ 克隆项目并安装依赖
+### ✅ 克隆项目并安装依赖（仅适用于macOS/Linux）
 
 ```bash
 git clone https://github.com/shenjian-gaocheng/vue-web.git
 cd vue-web
 npm install
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+cd ..
 ```
 
 ### ✅ 启动开发服务器
 
 ```bash
 npm run dev
+```
+
+### ✅ 启动后端
+
+```bash
+cd backend
+source venv/bin/activate
+python3 app.py
 ```
 
 打开浏览器访问：
