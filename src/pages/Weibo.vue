@@ -1,12 +1,19 @@
+<script setup>
+import Sidebar from '../components/Sidebar.vue'
+</script>
+
 <template>
-  <div class="weibo-page">
-    <div class="glass-panel">
-      <h1>微博跳转</h1>
-      <div class="weibo-links">
-        <a href="https://weibo.com/u/7861137548" target="_blank">小周微博主页</a>
-        <a href="https://weibo.com/u/6660861957" target="_blank">应援站微博</a>
+  <div class="weibo-page d-flex">
+    <Sidebar />
+      <main class="main-area d-flex flex-column justify-content-center align-items-end flex-grow-1 pe-5">
+      <div class="glass-panel">
+        <h1>微博跳转</h1>
+        <div class="weibo-links">
+          <a href="https://weibo.com/u/7861137548" target="_blank">小周微博主页</a>
+          <a href="https://weibo.com/u/6660861957" target="_blank">应援站微博</a>
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -15,11 +22,9 @@
   background-image: url('/bg.jpg');
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content: flex-end; /* 靠右放置内容 */
-  align-items: center;
-  padding-right: 8vw; /* 右边留白 */
 }
 
 /* 玻璃卡片样式右移+柔化 */
