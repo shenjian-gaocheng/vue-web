@@ -7,7 +7,8 @@ const props = defineProps({
 const emit = defineEmits(['update:collapsed'])
 
 const year = new Date().getFullYear()
-const collapsed = ref(false)
+
+const collapsed = ref(props.isMobile)
 
 // 自动折叠（移动端）
 watchEffect(() => {

@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 
 export function useResponsiveSidebar() {
-  const isMobile = ref(false)
+  const isMobile = ref(window.innerWidth < 768)
   const isSidebarCollapsed = ref(true)
 
   const handleResize = () => {
