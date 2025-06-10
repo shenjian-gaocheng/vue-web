@@ -1,5 +1,27 @@
 /* src/assets/common.css */
 
+body {
+  margin: 0;
+  padding: 0;
+  /* background-image: url('/bg.jpg'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  width: 100%;
+  font-family: sans-serif;
+  display: flex;
+}
+
+.layout-page {
+  min-height: 100vh;
+  width: 100vw;
+  /* background-image: url('/bg.jpg'); */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+}
+
 .art-text {
   font-size: 64px;
   font-weight: bold;

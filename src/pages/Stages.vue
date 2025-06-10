@@ -35,7 +35,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="d-flex vh-100">
+  <div class="layout-page d-flex">
     <Sidebar />
 
     <main class="flex-grow-1 bg-white px-4 py-3 overflow-auto">

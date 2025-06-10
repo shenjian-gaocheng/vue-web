@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar.vue'
 </script>
 
 <template>
-  <div class="d-flex flex-column flex-md-row vh-100">
+  <div class="layout-page d-flex">
     <Sidebar />
     <main class="flex-fill d-flex justify-content-center align-items-center bg-white text-center">
       <div>

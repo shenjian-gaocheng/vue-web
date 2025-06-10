@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar.vue'
 <template>
   <div class="weibo-page d-flex">
     <Sidebar />
-    <main class="flex-grow-1 d-flex align-items-center justify-content-end pe-5">
+      <main class="main-area d-flex flex-column justify-content-center align-items-end flex-grow-1 pe-5">
       <div class="glass-panel">
         <h1>微博跳转</h1>
         <div class="weibo-links">
@@ -22,11 +22,9 @@ import Sidebar from '../components/Sidebar.vue'
   background-image: url('/bg.jpg');
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content: flex-end; /* 靠右放置内容 */
-  align-items: center;
-  padding-right: 8vw; /* 右边留白 */
 }
 
 /* 玻璃卡片样式右移+柔化 */
