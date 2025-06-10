@@ -56,7 +56,7 @@ onMounted(async () => {
               :key="item.id || item.session + item.date"
               class="list-group-item"
               >
-              <div class="d-flex align-items-center">
+              <div class="d-flex flex-column flex-md-row align-items-md-center gap-2">
                 <!-- 左侧：场次 + 日期 -->
                 <div class="text-center" style="min-width: 100px;">
                   <div class="fw-bold">第 {{ item.session }} 场</div>
@@ -64,12 +64,12 @@ onMounted(async () => {
                 </div>
 
                 <!-- 中间：标题 -->
-                <div class="flex-grow-1 text-center">
+                <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
                   <div class="fw-semibold">{{ item.title }}</div>
                 </div>
 
                 <!-- 右侧：两个按钮 -->
-                <div class="d-flex align-items-center gap-2">
+                <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-2">
                   <a
                     :href="item.url ? 'https://www.bilibili.com/video/' + item.url : null"
                     target="_blank"
