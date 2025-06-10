@@ -15,7 +15,7 @@ const toggleExpanded = group => {
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://127.0.0.1:5000/api/stages')
+    const res = await fetch('http://113.44.8.72:5000/api/stages')
     const data = await res.json()
     const temp = { 'Team SII': [], '新生': [], '其它': [] }
 
