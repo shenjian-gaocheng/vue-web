@@ -35,10 +35,6 @@ vue-web/
 ### ✅ 克隆项目并安装依赖（仅适用于macOS/Linux）
 
 ```bash
-npm install tsparticles
-```
-
-```bash
 apt install sqlite3
 apt install python3.10-venv
 ```
