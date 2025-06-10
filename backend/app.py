@@ -46,58 +46,58 @@ class StageList(Resource):
         """获取所有演出记录"""
         return Stage.query.all()
 
-    @ns.expect(stage_model)
-    def post(self):
-        """添加一条新的演出记录"""
-        data = request.json
-        try:
-            date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
-        except ValueError:
-            return {"error": "日期格式应为 YYYY-MM-DD"}, 400
+    # @ns.expect(stage_model)
+    # def post(self):
+    #     """添加一条新的演出记录"""
+    #     data = request.json
+    #     try:
+    #         date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+    #     except ValueError:
+    #         return {"error": "日期格式应为 YYYY-MM-DD"}, 400
 
-        stage = Stage(
-            session=int(data['session']),
-            date=date_obj,
-            type=data['type'],
-            title=data['title'],
-            url=data['url'],
-            cut_url=data['cut_url'],
-        )
-        db.session.add(stage)
-        db.session.commit()
-        return {"message": "演出记录已添加"}, 201
+    #     stage = Stage(
+    #         session=int(data['session']),
+    #         date=date_obj,
+    #         type=data['type'],
+    #         title=data['title'],
+    #         url=data['url'],
+    #         cut_url=data['cut_url'],
+    #     )
+    #     db.session.add(stage)
+    #     db.session.commit()
+    #     return {"message": "演出记录已添加"}, 201
     
 
-@ns.route('/stages/batch')
-class StageBatch(Resource):
-    @ns.expect([stage_model])  # 注意：接收列表
-    def post(self):
-        """批量添加演出记录"""
-        data_list = request.json
+# @ns.route('/stages/batch')
+# class StageBatch(Resource):
+#     @ns.expect([stage_model])  # 注意：接收列表
+#     def post(self):
+#         """批量添加演出记录"""
+#         data_list = request.json
 
-        if not isinstance(data_list, list):
-            return {"error": "请求体应为 JSON 数组"}, 400
+#         if not isinstance(data_list, list):
+#             return {"error": "请求体应为 JSON 数组"}, 400
 
-        stages = []
-        for i, data in enumerate(data_list):
-            try:
-                date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
-                stage = Stage(
-                    session=int(data['session']),
-                    date=date_obj,
-                    type=data['type'],
-                    title=data['title'],
-                    url=data['url'],
-                    cut_url=data['cut_url'],
-                )
-                stages.append(stage)
-            except (KeyError, ValueError) as e:
-                return {"error": f"第 {i+1} 条数据有误: {str(e)}"}, 400
+#         stages = []
+#         for i, data in enumerate(data_list):
+#             try:
+#                 date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+#                 stage = Stage(
+#                     session=int(data['session']),
+#                     date=date_obj,
+#                     type=data['type'],
+#                     title=data['title'],
+#                     url=data['url'],
+#                     cut_url=data['cut_url'],
+#                 )
+#                 stages.append(stage)
+#             except (KeyError, ValueError) as e:
+#                 return {"error": f"第 {i+1} 条数据有误: {str(e)}"}, 400
 
-        db.session.add_all(stages)
-        db.session.commit()
+#         db.session.add_all(stages)
+#         db.session.commit()
 
-        return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
+#         return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
 
 
 if __name__ == '__main__':
