@@ -35,6 +35,10 @@ vue-web/
 ### ✅ 克隆项目并安装依赖（仅适用于macOS/Linux）
 
 ```bash
+apt install sqlite3
+```
+
+```bash
 git clone https://github.com/shenjian-gaocheng/vue-web.git
 cd vue-web
 npm install
