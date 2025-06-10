@@ -61,7 +61,7 @@ onMounted(async () => {
                 </div>
 
                 <!-- 右侧：两个按钮 -->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center gap-2">
                   <a
                     :href="item.url ? 'https://www.bilibili.com/video/' + item.url : null"
                     target="_blank"
