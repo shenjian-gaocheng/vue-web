@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue'
 import Sidebar from '../components/Sidebar.vue'
 
-const groupedStages = ref({ 'Team SII': [], '新生': [], Other: [] })
-const expandedGroups = ref({ 'Team SII': false, '新生': false, Other: false })
+const groupedStages = ref({ 'Team SII': [], '新生': [], '其它': [] })
+const expandedGroups = ref({ 'Team SII': false, '新生': false, '其它': false })
 const maxInitial = 3
 
 const toggleExpanded = group => {
@@ -14,13 +14,13 @@ onMounted(async () => {
   try {
     const res = await fetch('http://127.0.0.1:5000/api/stages')
     const data = await res.json()
-    const temp = { 'Team SII': [], '新生': [], Other: [] }
+    const temp = { 'Team SII': [], '新生': [], '其它': [] }
 
     data.forEach(item => {
       const type = item.type?.trim()
       if (type === 'Team SII') temp['Team SII'].push(item)
       else if (type === '新生' || type === 'New Members') temp['新生'].push(item)
-      else temp.Other.push(item)
+      else temp['其它'].push(item)
     })
 
     for (const key in temp) {
@@ -38,7 +38,7 @@ onMounted(async () => {
   <div class="layout-page d-flex">
     <Sidebar />
 
-    <main class="main-scrollable flex-grow-1 bg-white px-4 py-3 overflow-auto">
+    <main class="main-scrollable flex-grow-1 bg-white px-5 py-3 overflow-auto">
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
           <h4 v-if="items.length" class="mt-4 mb-3">{{ group }} 公演</h4>
@@ -47,10 +47,45 @@ onMounted(async () => {
               v-for="(item, index) in (expandedGroups[group] ? items : items.slice(0, maxInitial))"
               :key="item.id || item.session + item.date"
               class="list-group-item"
-            >
-              <strong>{{ item.date }}</strong>
-              （第 {{ item.session }} 场） | {{ item.title }}<br />
-              <a :href="item.url" target="_blank">{{ item.url }}</a>
+              >
+              <div class="d-flex align-items-center">
+                <!-- 左侧：场次 + 日期 -->
+                <div class="text-end" style="min-width: 100px;">
+                  <div class="fw-bold">第 {{ item.session }} 场</div>
+                  <div class="text-muted">{{ item.date }}</div>
+                </div>
+
+                <!-- 中间：标题 -->
+                <div class="flex-grow-1 text-center">
+                  <div class="fw-semibold fs-5">{{ item.title }}</div>
+                </div>
+
+                <!-- 右侧：两个按钮 -->
+                <div class="d-flex align-items-center">
+                  <a
+                    :href="item.url ? 'https://www.bilibili.com/video/' + item.url : null"
+                    target="_blank"
+                    class="btn btn-sm"
+                    :class="item.url ? 'btn-primary' : 'btn-secondary disabled'"
+                    :tabindex="!item.url ? -1 : null"
+                    :aria-disabled="!item.url"
+                  >
+                    完整公演视频
+                  </a>
+
+                  <a
+                    :href="item.cut_url ? 'https://www.bilibili.com/video/' + item.cut_url : null"
+                    target="_blank"
+                    class="btn btn-sm"
+                    :class="item.cut_url ? 'btn-warning' : 'btn-secondary disabled'"
+                    :tabindex="!item.cut_url ? -1 : null"
+                    :aria-disabled="!item.cut_url"
+                  >
+                    小周cut视频
+                  </a>
+                  <!-- <button class="btn btn-sm btn-outline-secondary">收藏</button> -->
+                </div>
+              </div>
             </li>
           </ul>
           <button
