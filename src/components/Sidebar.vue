@@ -1,5 +1,21 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const isLandscapeOnMobile = ref(false)
+
+const updateOrientation = () => {
+  isLandscapeOnMobile.value =
+    window.innerWidth < 768 && window.innerWidth > window.innerHeight
+}
+
+onMounted(() => {
+  updateOrientation()
+  window.addEventListener('resize', updateOrientation)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateOrientation)
+})
 
 const props = defineProps({
   isMobile: Boolean,
@@ -41,7 +57,7 @@ const toggle = () => {
 
     <!-- 头像 -->
     <img
-      v-if="!collapsed"
+      v-if="!collapsed && !isLandscapeOnMobile"
       class="rounded-circle border border-warning mb-4 mx-auto mt-4 mt-md-0"
       src="https://www.snh48.com/images/member/zp_10290.jpg"
       alt="小周头像"
