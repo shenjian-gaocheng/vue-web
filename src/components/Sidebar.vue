@@ -1,6 +1,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
+const year = new Date().getFullYear()
+
 const isLandscapeOnMobile = ref(false)
 
 const updateOrientation = () => {
