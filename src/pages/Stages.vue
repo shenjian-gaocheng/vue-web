@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import OverlayMask from '../components/OverlayMask.vue'
+import Topbar from '../components/Topbar.vue'
 import Sidebar from '../components/Sidebar.vue'
 import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
 
@@ -38,14 +40,29 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div :class="['layout-page', 'd-flex', isMobile ? 'flex-column' : 'flex-row']">
-    <Sidebar ref="sidebarRef" :is-mobile="isMobile" v-model:collapsed="isSidebarCollapsed" />
+  <div class="layout-page d-flex">
+    <!-- 顶部栏：仅移动端显示 -->
+    <Topbar
+      v-if="isMobile"
+      :collapsed="isSidebarCollapsed"
+      @update:collapsed="isSidebarCollapsed = $event"
+    />
+
+    <!-- 遮罩：必须放在 Sidebar 后面、Main 前面 -->
+    <OverlayMask
+      v-if="isMobile && !isSidebarCollapsed"
+      @click="isSidebarCollapsed = true"
+    />
+
+    <!-- 侧边栏 -->
+    <Sidebar
+      :is-mobile="isMobile"
+      v-model:collapsed="isSidebarCollapsed"
+    />
 
     <main
       class="main-scrollable flex-grow-1 bg-white px-5 overflow-auto"
-      :style="{
-        paddingTop: !isMobile || isSidebarCollapsed ? '16px' : '76px'
-      }"
+      :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
       <!-- 公演说明文字（放在所有公演列表之前） -->
       <div class="alert alert-info mb-4" role="note">
