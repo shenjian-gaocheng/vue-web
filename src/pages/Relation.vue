@@ -1,10 +1,49 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import OverlayMask from '../components/OverlayMask.vue'
 import Topbar from '../components/Topbar.vue'
 import Sidebar from '../components/Sidebar.vue'
 import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
+
+const groupedMembers = ref({ 'Team SII 现队友': [], 'Team SII 前队友': [], '新生公演 前队友': [] })
+const expandedGroups = ref({ 'Team SII 现队友': false, 'Team SII 前队友': false, '新生公演 前队友': false })
+// const maxInitial = 3
+
+// const toggleExpanded = group => {
+//   expandedGroups.value[group] = !expandedGroups.value[group]
+// }
+
+onMounted(async () => {
+  try {
+    const res = await fetch('http://113.44.8.72:5000/api/teammates')
+    const data = await res.json()
+    const temp = { 'Team SII 现队友': [], 'Team SII 前队友': [], '新生公演 前队友': [] }
+
+    data.forEach(item => {
+      const isSII = item.is_teamsii
+      const isNew = item.is_teamnew
+      const isActive = item.is_active
+
+      if (isSII && isActive) {
+        temp['Team SII 现队友'].push(item)
+      } else if (isSII && !isActive) {
+        temp['Team SII 前队友'].push(item)
+      } else if (isNew && !isSII) {
+        temp['新生公演 前队友'].push(item)
+      }
+    })
+
+    // for (const key in temp) {
+    //   temp[key].sort((a, b) => parseInt(b.session) - parseInt(a.session))
+    // }
+
+    groupedMembers.value = temp
+  } catch (e) {
+    console.error('加载失败', e)
+  }
+})
 </script>
 
 <template>
@@ -28,11 +67,39 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       v-model:collapsed="isSidebarCollapsed"
     />
 
-    <main 
-      class="flex-fill d-flex justify-content-center align-items-center bg-white text-center"
-      :style="{ paddingTop: isMobile ? '76px' : '16px' }"
+    <main
+      class="d-flex flex-column align-items-center justify-content-center bg-white text-center"
+      :style="{
+        flex: 1,
+        minWidth: 0,
+        paddingTop: isMobile ? '76px' : '16px'
+      }"
     >
-      <div>
+      <div class="mb-5 w-75">
+        <h2 class="mb-3">Team SII 现队友</h2>
+        <p class="text-muted">
+          {{ groupedMembers['Team SII 现队友']
+            .map(m => m.note ? `${m.name}（${m.note}）` : m.name)
+            .join('、') || '暂无成员' }}
+        </p>
+      </div>
+
+      <div class="mb-5 w-75">
+        <h2 class="mb-3">Team SII 前队友</h2>
+        <p class="text-muted">
+          {{ groupedMembers['Team SII 前队友']
+            .map(m => m.note ? `${m.name}（${m.note}）` : m.name)
+            .join('、') || '暂无成员' }}
+        </p>
+      </div>
+
+      <div class="mb-5 w-75">
+        <h2 class="mb-3">新生公演 前队友</h2>
+        <p class="text-muted">
+          {{ groupedMembers['新生公演 前队友']
+            .map(m => m.note ? `${m.name}（${m.note}）` : m.name)
+            .join('、') || '暂无成员' }}
+        </p>
       </div>
     </main>
   </div>
