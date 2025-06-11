@@ -68,7 +68,14 @@ onMounted(async () => {
     />
 
     <main
-      class="main-scrollable d-flex flex-column align-items-center bg-white text-center"
+      :class="[
+        'd-flex',
+        'flex-column',
+        'align-items-center',
+        'bg-white',
+        'text-center',
+        !isMobile ? 'main-scrollable' : ''
+      ]"
       :style="{
         flex: 1,
         minWidth: 0,
@@ -95,7 +102,7 @@ onMounted(async () => {
         </p>
       </div>
 
-      <div class="mt-5 w-75">
+      <div class="mt-5 mb-5 w-75">
         <h2 class="mb-3">新生公演 前队友</h2>
         <p>周童玥曾经在新生公演（《命运的X号》、《代号XII 2.0》）时期的队友，不包括Team SII的成员。</p>
         <p class="text-muted">

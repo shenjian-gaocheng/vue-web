@@ -61,7 +61,13 @@ onMounted(async () => {
     />
 
     <main
-      class="main-scrollable flex-grow-1 bg-white px-5 overflow-auto"
+      :class="[
+        'flex-grow-1',
+        'bg-white',
+        'px-5',
+        'overflow-auto',
+        !isMobile ? 'main-scrollable' : ''
+      ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
       <!-- 公演说明文字（放在所有公演列表之前） -->

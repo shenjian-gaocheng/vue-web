@@ -29,7 +29,13 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
     />
 
     <main 
-      class="position-relative main-scrollable flex-grow-1 overflow-auto px-4"
+      :class="[
+        'position-relative',
+        'flex-grow-1',
+        'overflow-auto',
+        'px-4',
+        !isMobile ? 'main-scrollable' : ''
+      ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
 

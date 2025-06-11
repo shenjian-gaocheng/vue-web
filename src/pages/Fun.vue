@@ -29,7 +29,15 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
     />
 
     <main 
-      class="flex-fill d-flex justify-content-center align-items-center bg-white text-center"
+      :class="[
+        'flex-fill',
+        'd-flex',
+        'justify-content-center',
+        'align-items-center',
+        'bg-white',
+        'text-center',
+        !isMobile ? 'main-scrollable' : ''
+      ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
       <div>
