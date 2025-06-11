@@ -1,12 +1,12 @@
 import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 
 export function useResponsiveSidebar() {
-  const isMobile = ref(window.innerWidth < 768)
-  const isSidebarCollapsed = ref(window.innerWidth < 768) // 初始化根据窗口宽度决定
+  const isMobile = ref(window.innerWidth < 768 || window.innerHeight < 500)
+  const isSidebarCollapsed = ref(window.innerWidth < 768 || window.innerHeight < 500) // 初始化根据窗口宽度决定
   const isManuallyToggled = ref(false)
 
   const handleResize = () => {
-    isMobile.value = window.innerWidth < 768
+    isMobile.value = window.innerWidth < 768 || window.innerHeight < 500
   }
 
   onMounted(() => {

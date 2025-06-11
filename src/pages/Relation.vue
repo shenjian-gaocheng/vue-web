@@ -68,14 +68,14 @@ onMounted(async () => {
     />
 
     <main
-      class="d-flex flex-column align-items-center justify-content-center bg-white text-center"
+      class="main-scrollable d-flex flex-column align-items-center bg-white text-center"
       :style="{
         flex: 1,
         minWidth: 0,
         paddingTop: isMobile ? '76px' : '16px'
       }"
     >
-      <div class="mb-5 w-75">
+      <div class="mt-5 w-75">
         <h2 class="mb-3">Team SII 现队友</h2>
         <p>周童玥在Team SII的队友，包括正式成员、兼任成员和已分配到Team SII的预备生。</p>
         <p class="text-muted">
@@ -85,7 +85,7 @@ onMounted(async () => {
         </p>
       </div>
 
-      <div class="mb-5 w-75">
+      <div class="mt-5 w-75">
         <h2 class="mb-3">Team SII 前队友</h2>
         <p>周童玥在Team SII的前队友，包括已毕业或退团的正式成员，和已解除兼任的兼任成员。</p>
         <p class="text-muted">
@@ -95,7 +95,7 @@ onMounted(async () => {
         </p>
       </div>
 
-      <div class="mb-5 w-75">
+      <div class="mt-5 w-75">
         <h2 class="mb-3">新生公演 前队友</h2>
         <p>周童玥曾经在新生公演（《命运的X号》、《代号XII 2.0》）时期的队友，不包括Team SII的成员。</p>
         <p class="text-muted">

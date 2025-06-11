@@ -7,7 +7,8 @@ const isLandscapeOnMobile = ref(false)
 
 const updateOrientation = () => {
   isLandscapeOnMobile.value =
-    window.innerWidth < 768 && window.innerWidth > window.innerHeight
+    // window.innerWidth < 768 && window.innerWidth > window.innerHeight
+    window.innerHeight < 600
 }
 
 onMounted(() => {
