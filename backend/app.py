@@ -19,11 +19,14 @@ db = SQLAlchemy(app)
 class Stage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     session = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    date = db.Column(db.DateTime(timezone=True), nullable=False)
     type = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     url = db.Column(db.String(255))
     cut_url = db.Column(db.String(255))
+    is_stage = db.Column(db.Boolean, nullable=False)
+    is_end = db.Column(db.Boolean, nullable=False)
+
 
 class Teammate(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -46,7 +49,9 @@ stage_model = api.model('Stage', {
     'type': fields.String(required=True, description='演出类型'),
     'title': fields.String(required=True, description='演出名称'),
     'url': fields.String(description='完整回放链接'),
-    'cut_url': fields.String(description='cut回放链接')
+    'cut_url': fields.String(description='cut回放链接'),
+    'is_stage': fields.Boolean(required=True, description='是否为公演'),
+    'is_end': fields.Boolean(required=True, description='是否结束'),
 })
 
 teammate_model = api.model('Teammate', {
