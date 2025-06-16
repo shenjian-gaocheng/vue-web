@@ -17,7 +17,7 @@ const expandedGroups = ref({ 'Team SII 现队友': false, 'Team SII 前队友': 
 
 onMounted(async () => {
   try {
-    const res = await fetch('http://113.44.8.72:5000/api/teammates')
+    const res = await fetch('http://118.196.20.148:5000/api/teammates')
     const data = await res.json()
     const temp = { 'Team SII 现队友': [], 'Team SII 前队友': [], '新生公演 前队友': [] }
 
