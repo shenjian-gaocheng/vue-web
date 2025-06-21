@@ -42,13 +42,17 @@ const confirm = () => emit('confirm')
   background: white;
   border-radius: 8px;
   width: 800px;
-  max-width: 90%;
+  max-width: 100%;
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .modal-title {
   margin-top: 0;
   margin-bottom: 1rem;
+}
+.modal-body {
+  max-height: 70vh; /* 限制高度为视口的60%，你可以调整这个值 */
+  overflow-y: auto;
 }
 .modal-footer {
   display: flex;

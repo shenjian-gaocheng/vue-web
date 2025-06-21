@@ -4,6 +4,7 @@ import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
+import { useApi } from '@/composables/fetch'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
@@ -14,6 +15,9 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 const auth = useAuthStore()
 const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
 const { logout, verifyToken, startPolling, stopPolling } = auth            // 非 ref 的函数可直接解构
+
+// 调用api
+const { apiFetch } = useApi()
 
 const username = ref('')
 const password = ref('')
@@ -39,29 +43,23 @@ const login = async () => {
     return
   }
 
-  try {
-    const res = await fetch('http://127.0.0.1:5001/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value
-      })
+  const { ok, data } = await apiFetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value
     })
+  })
 
-    const data = await res.json()
-    if (res.ok) {
-      token.value = data.token
-      localStorage.setItem('token_zty', token.value)
-      isLoggedIn.value = true
-      message.value = '✅ 登录成功！'
-    } else {
-      message.value = data.message || '❌ 登录失败'
-    }
-  } catch (err) {
-    console.error(err)
-    message.value = '❌ 网络错误'
+  if (ok) {
+    token.value = data.token
+    localStorage.setItem('token_zty', token.value)
+    isLoggedIn.value = true
+    message.value = '✅ 登录成功！'
+  } else {
+    message.value = data.message || '❌ 登录失败'
   }
 }
 

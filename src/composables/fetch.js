@@ -2,7 +2,7 @@ import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
 export function useApi() {
-//   const baseUrl = 'http://127.0.0.1:5001/api'
+
   const baseUrl = 'http://118.196.20.148:5000/api'
   const auth = useAuthStore()
   const { token } = storeToRefs(auth)
@@ -18,21 +18,8 @@ export function useApi() {
       headers
     })
 
-    let responseData
-    try {
-      responseData = await res.json()
-    } catch (e) {
-      responseData = null
-    }
-
-    if (!res.ok) {
-      const error = new Error(responseData?.error || res.statusText || '请求失败')
-      error.status = res.status
-      error.response = responseData
-      throw error
-    }
-
-    return responseData
+    const data = await res.json().catch(() => ({}))  // 防止空响应体时报错
+    return { ok: res.ok, status: res.status, data }
   }
 
   return { apiFetch }

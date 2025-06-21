@@ -95,40 +95,54 @@ const handleConfirm = async () => {
     is_end: tempItem.value.is_end
   }
 
-  // 如果校验通过
+  let result
   try {
     if (selectedItem.value) {
       // 编辑（PUT）
-      await apiFetch(`/stages/${tempItem.value.id}`, {
+      result = await apiFetch(`/stages/${tempItem.value.id}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token.value}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       })
     } else {
       // 新建（POST）
-      await apiFetch('/stages', {
+      result = await apiFetch('/stages', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token.value}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
       })
     }
 
+    const { ok, status, data } = result
+
+    if (!ok) {
+      if (status === 401) {
+        alert('⚠️ 登录过期，请重新登录')
+        router.push('/login')
+      } else {
+        alert(`❌ ${selectedItem.value ? '修改' : '添加'}失败：${data.message || '服务器错误'}`)
+      }
+      return
+    }
+
+    alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
     showModal.value = false
     loadStages()
+
   } catch (err) {
-    if (err.status === 401) {
-      alert('⚠️ 登录过期，请重新登录')
-      router.push('/login') // 直接切换到登录页面
-    } else {
-      alert(`❌ 更新失败: ${err.message}`)
-    }
+    // 捕获网络错误
+    alert('❌ 网络连接失败，请检查网络或稍后重试')
+    console.error(err)
+    return
   }
+
+  showModal.value = false
+  loadStages()
+  alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
 }
 
 // 刷新登录状态
@@ -149,8 +163,12 @@ const toggleExpanded = group => {
 
 const loadStages = async () => {
   try {
-    const res = await apiFetch('/stages')
-    const data = await res
+    const { ok, status, data } = await apiFetch('/stages')
+    if (!ok) {
+      alert(`❌ 请求失败：${data.message || '未知错误'}`)
+      return
+    }
+
     const now = new Date()
     const temp = {
       '今日公演': [],
@@ -257,9 +275,9 @@ onUnmounted(() => {
         <p class="mb-1">收录了Team SII公演、新生公演以及其它公演和活动。</p>
         <p class="mb-1">点击右侧按钮可跳转至发布在 B 站的直播或视频页面。</p>
         <p class="mb-1"><strong>观看直播</strong>：SNH48 官方账号正在直播的公演或活动。</p>
-        <p class="mb-1"><strong>完整视频回放</strong>：SNH48 官方账号发布的完整视频回放。</p>
+        <p class="mb-1"><strong>完整视频回放</strong>：SNH48 官方账号发布的完整视频回放。若回放非官方发布，则会在标题注明。</p>
         <p class="mb-1"><strong>小周cut视频</strong>：应援会发布的以周童玥为主的剪辑回放。</p>
-        <p class="mb-0">如果按钮为灰色，则代表该场公演官方没有上传回放，或是应援会没有制作剪辑。</p>
+        <p class="mb-0">如果按钮为灰色，则代表该场公演没有回放，或是应援会没有制作剪辑。</p>
       </div>
 
       <div v-if="!isEast8" class="alert alert-warning mb-4">

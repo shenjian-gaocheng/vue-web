@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     try {
-      const res = await fetch('http://127.0.0.1:5001/api/verify', {
+      const res = await fetch('http://118.196.20.148:5000/api/verify', {
         headers: { Authorization: `Bearer ${storedToken}` }
       })
 
