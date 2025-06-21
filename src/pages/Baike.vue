@@ -1,8 +1,8 @@
 <script setup>
-import OverlayMask from '../components/OverlayMask.vue'
-import Topbar from '../components/Topbar.vue'
-import Sidebar from '../components/Sidebar.vue'
-import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
+import OverlayMask from '@/components/OverlayMask.vue'
+import Topbar from '@/components/Topbar.vue'
+import Sidebar from '@/components/Sidebar.vue'
+import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 </script>

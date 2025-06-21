@@ -1,12 +1,99 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import OverlayMask from '../components/OverlayMask.vue'
-import Topbar from '../components/Topbar.vue'
-import Sidebar from '../components/Sidebar.vue'
-import ZonedDateTime from '../components/ZonedDateTime.vue'
-import { useResponsiveSidebar } from '../composables/useResponsiveSidebar'
+import { ref, onMounted, onUnmounted } from 'vue'
+import OverlayMask from '@/components/OverlayMask.vue'
+import Topbar from '@/components/Topbar.vue'
+import Sidebar from '@/components/Sidebar.vue'
+import ZonedDateTime from '@/components/ZonedDateTime.vue'
+import Modal from '@/components/Modal.vue'
+import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
+import { useApi } from '@/composables/fetch'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
+// 响应式侧边栏
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
+
+// 引入 Pinia 状态
+const auth = useAuthStore()
+const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
+const { logout, verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
+
+// 调用api
+const { apiFetch } = useApi()
+
+// 默认弹框关闭
+const showModal = ref(false)
+const selectedItem = ref(null)        // 原始数据，用于页面展示
+const tempItem = ref({})              // 临时副本，仅用于弹框编辑
+function formatDateForInput(datetimeStr) {
+  // 原始格式: "2025-06-15 13:45:00+08:00"
+  // 去掉秒和时区部分
+  return datetimeStr.replace(' ', 'T').slice(0, 16)
+}
+function toISOWithTimezoneOffset(date) {
+  const pad = (num) => String(num).padStart(2, '0')
+
+  const yyyy = date.getFullYear()
+  const mm = pad(date.getMonth() + 1)
+  const dd = pad(date.getDate())
+  const hh = pad(date.getHours())
+  const min = pad(date.getMinutes())
+  const ss = pad(date.getSeconds())
+
+  // 假设固定使用北京时间 +08:00
+  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}+08:00`
+}
+const openModal = (item) => {
+  selectedItem.value = item
+  tempItem.value = JSON.parse(JSON.stringify(item))
+  if (tempItem.value.date) {
+    tempItem.value.date = formatDateForInput(tempItem.value.date)
+  }
+  showModal.value = true
+}
+
+const handleConfirm = async () => {
+  // 校验必填字段
+  if (!tempItem.value.title 
+    || !tempItem.value.date 
+    || !tempItem.value.session
+    || !tempItem.value.type
+  ) {
+    alert('❗ 请填写所有必填项')
+    showModal.value = true
+    return
+  }
+
+  // 如果校验通过
+  await apiFetch(`/stages/${tempItem.value.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token.value}`
+    },
+    body: JSON.stringify({
+      session: tempItem.value.session,
+      date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
+      type: tempItem.value.type,
+      title: tempItem.value.title,
+      url: tempItem.value.url,
+      cut_url: tempItem.value.cut_url,
+      is_stage: tempItem.value.is_stage,
+      is_end: tempItem.value.is_end
+    })
+  })
+  
+  showModal.value = false
+  loadStages()
+}
+
+// 刷新登录状态
+window.addEventListener('storage', (event) => {
+  if (event.key === 'token_zty') {
+    const store = useAuthStore()
+    store.isLoggedIn = !(event.newValue === null)
+  }
+})
 
 const groupedStages = ref({ 'Team SII': [], '新生': [], '其它': [] })
 const expandedGroups = ref({ 'Team SII': false, '新生': false, '其它': false })
@@ -16,10 +103,10 @@ const toggleExpanded = group => {
   expandedGroups.value[group] = !expandedGroups.value[group]
 }
 
-onMounted(async () => {
+const loadStages = async () => {
   try {
-    const res = await fetch('http://118.196.20.148:5000/api/stages')
-    const data = await res.json()
+    const res = await apiFetch('/stages')
+    const data = await res
     const now = new Date()
     const temp = {
       '今日公演': [],
@@ -68,7 +155,25 @@ onMounted(async () => {
   } catch (e) {
     console.error('加载失败', e)
   }
+}
+
+// 判断时区
+const isEast8 = ref(true)
+const timezone = ref('')
+
+onMounted(() => {
+  loadStages()  // 加载
+  // getTimezoneOffset 返回的是分钟，东八区 = -480
+  isEast8.value = new Date().getTimezoneOffset() === -480
+  timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone
+  verifyToken()
+  startPolling()
 })
+
+onUnmounted(() => {
+  stopPolling()
+})
+
 </script>
 
 <template>
@@ -112,6 +217,11 @@ onMounted(async () => {
         <p class="mb-1"><strong>小周cut视频</strong>：应援会发布的以周童玥为主的剪辑回放。</p>
         <p class="mb-0">如果按钮为灰色，则代表该场公演官方没有上传回放，或是应援会没有制作剪辑。</p>
       </div>
+
+      <div v-if="!isEast8" class="alert alert-warning mb-4">
+        <p class="mb-1">🌍 <strong>注意：</strong>以下公演及活动所标出的时间，是您当前所在位置（{{ timezone }}）的时间，而非北京时间。</p>
+      </div>
+
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
           <h3 v-if="items.length" class="mt-4 mb-3">{{ group }}</h3>
@@ -183,6 +293,13 @@ onMounted(async () => {
                       小周cut视频
                     </a>
                   </template>
+
+                  <!-- ✅ 登录后显示编辑按钮 -->
+                  <template v-if="isLoggedIn">
+                    <button class="btn btn-sm btn-outline-dark" @click="() => openModal(item)">
+                      编辑
+                    </button>
+                  </template>
                 </div>
               </div>
             </li>
@@ -196,6 +313,65 @@ onMounted(async () => {
           </button>
         </template>
       </div>
+
+      <Modal v-model="showModal" title="编辑项" @confirm="handleConfirm">
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">时间 <span class="text-danger">*</span><br>（请输入北京时间）</label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.date" type="datetime-local" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">场次 <span class="text-danger">*</span><br>（如果没有场次或不确定，请填写0）</label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.session" type="number" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">标题 <span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.title" type="text" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">队伍 <span class="text-danger">*</span></label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.type" type="text" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">是否已结束 <span class="text-danger">*</span></label>
+          <div class="col-sm-9 text-start">
+            <input v-model="tempItem.is_end" type="checkbox" class="form-check-input" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">是否为公演 <span class="text-danger">*</span></label>
+          <div class="col-sm-9 text-start">
+            <input v-model="tempItem.is_stage" type="checkbox" class="form-check-input" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">完整视频回放<br>（请输入SNH48在b站官号发布的公演视频回放bv号）</label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.url" type="text" class="form-control" />
+          </div>
+        </div>
+
+        <div class="form-group row mb-2 align-items-center">
+          <label class="col-sm-3 col-form-label text-start">小周cut视频<br>（请输入应援会在b站发布的小周cut视频bv号）</label>
+          <div class="col-sm-9">
+            <input v-model="tempItem.cut_url" type="text" class="form-control" />
+          </div>
+        </div>
+        <!-- 你可以放任何 slot 内容，甚至是编辑表单 -->
+      </Modal>
     </main>
   </div>
 </template>
