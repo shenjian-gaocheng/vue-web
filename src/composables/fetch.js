@@ -17,7 +17,22 @@ export function useApi() {
       ...options,
       headers
     })
-    return res.json()
+
+    let responseData
+    try {
+      responseData = await res.json()
+    } catch (e) {
+      responseData = null
+    }
+
+    if (!res.ok) {
+      const error = new Error(responseData?.error || res.statusText || '请求失败')
+      error.status = res.status
+      error.response = responseData
+      throw error
+    }
+
+    return responseData
   }
 
   return { apiFetch }

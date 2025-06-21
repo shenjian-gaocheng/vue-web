@@ -9,6 +9,10 @@ import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+
+// 增加路由
+const router = useRouter()
 
 // 响应式侧边栏
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
@@ -16,7 +20,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 // 引入 Pinia 状态
 const auth = useAuthStore()
 const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
-const { logout, verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
+const { verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
 
 // 调用api
 const { apiFetch } = useApi()
@@ -43,11 +47,27 @@ function toISOWithTimezoneOffset(date) {
   // 假设固定使用北京时间 +08:00
   return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}+08:00`
 }
-const openModal = (item) => {
-  selectedItem.value = item
-  tempItem.value = JSON.parse(JSON.stringify(item))
-  if (tempItem.value.date) {
-    tempItem.value.date = formatDateForInput(tempItem.value.date)
+const openModal = (item = null) => {
+  if (item) {
+    // 编辑：深拷贝已有项
+    selectedItem.value = item
+    tempItem.value = JSON.parse(JSON.stringify(item))
+    if (tempItem.value.date) {
+      tempItem.value.date = formatDateForInput(tempItem.value.date)
+    }
+  } else {
+    // 新建：初始化默认值
+    selectedItem.value = null
+    tempItem.value = {
+      session: '0',
+      date: '',
+      type: '',
+      title: '',
+      url: '',
+      cut_url: '',
+      is_stage: false,
+      is_end: false,
+    }
   }
   showModal.value = true
 }
@@ -64,27 +84,51 @@ const handleConfirm = async () => {
     return
   }
 
+  const payload = {
+    session: tempItem.value.session,
+    date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
+    type: tempItem.value.type,
+    title: tempItem.value.title,
+    url: tempItem.value.url,
+    cut_url: tempItem.value.cut_url,
+    is_stage: tempItem.value.is_stage,
+    is_end: tempItem.value.is_end
+  }
+
   // 如果校验通过
-  await apiFetch(`/stages/${tempItem.value.id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token.value}`
-    },
-    body: JSON.stringify({
-      session: tempItem.value.session,
-      date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
-      type: tempItem.value.type,
-      title: tempItem.value.title,
-      url: tempItem.value.url,
-      cut_url: tempItem.value.cut_url,
-      is_stage: tempItem.value.is_stage,
-      is_end: tempItem.value.is_end
-    })
-  })
-  
-  showModal.value = false
-  loadStages()
+  try {
+    if (selectedItem.value) {
+      // 编辑（PUT）
+      await apiFetch(`/stages/${tempItem.value.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token.value}`
+        },
+        body: JSON.stringify(payload)
+      })
+    } else {
+      // 新建（POST）
+      await apiFetch('/stages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token.value}`
+        },
+        body: JSON.stringify(payload)
+      })
+    }
+
+    showModal.value = false
+    loadStages()
+  } catch (err) {
+    if (err.status === 401) {
+      alert('⚠️ 登录过期，请重新登录')
+      router.push('/login') // 直接切换到登录页面
+    } else {
+      alert(`❌ 更新失败: ${err.message}`)
+    }
+  }
 }
 
 // 刷新登录状态
@@ -222,6 +266,12 @@ onUnmounted(() => {
         <p class="mb-1">🌍 <strong>注意：</strong>以下公演及活动所标出的时间，是您当前所在位置（{{ timezone }}）的时间，而非北京时间。</p>
       </div>
 
+      <template v-if="isLoggedIn">
+        <button class="btn btn-success mb-3" @click="() => openModal()">
+          ➕ 新建公演或活动记录
+        </button>
+      </template>
+
       <div class="w-100">
         <template v-for="(items, group) in groupedStages" :key="group">
           <h3 v-if="items.length" class="mt-4 mb-3">{{ group }}</h3>
@@ -339,7 +389,15 @@ onUnmounted(() => {
         <div class="form-group row mb-2 align-items-center">
           <label class="col-sm-3 col-form-label text-start">队伍 <span class="text-danger">*</span></label>
           <div class="col-sm-9">
-            <input v-model="tempItem.type" type="text" class="form-control" />
+            <select v-model="tempItem.type" class="form-select">
+              <option disabled value="">请选择队伍</option>
+              <option value="Team SII">Team SII</option>
+              <option value="New Members">新生公演</option>
+              <option value="Team NII">Team NII</option>
+              <option value="Team HII">Team HII</option>
+              <option value="Team X">Team X</option>
+              <option value="Others">其它（特殊公演或非公演）</option>
+            </select>
           </div>
         </div>
 

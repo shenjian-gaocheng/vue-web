@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
@@ -13,11 +13,22 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 // 引入 Pinia 状态
 const auth = useAuthStore()
 const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
-const { logout } = auth             // 非 ref 的函数可直接解构
+const { logout, verifyToken, startPolling, stopPolling } = auth            // 非 ref 的函数可直接解构
 
 const username = ref('')
 const password = ref('')
 const message = ref('')
+
+// 轮询监控登录
+onMounted(() => {
+  verifyToken()
+  startPolling()
+})
+
+onUnmounted(() => {
+  stopPolling()
+})
+
 
 // 登录
 const login = async () => {
