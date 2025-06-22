@@ -5,6 +5,7 @@ import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import ZonedDateTime from '@/components/ZonedDateTime.vue'
 import Modal from '@/components/Modal.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
 import { useAuthStore } from '@/stores/auth'
@@ -263,12 +264,15 @@ onUnmounted(() => {
       :class="[
         'flex-grow-1',
         'bg-white',
-        'px-5',
+        'px-4',
         'overflow-auto',
         !isMobile ? 'main-scrollable' : ''
       ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
+
+      <Notification />
+
       <!-- 公演说明文字（放在所有公演列表之前） -->
       <div class="alert alert-info mb-4" role="note">
         <p class="mb-1">以下是目前本站收录的 <strong>周童玥</strong> 参加的公演及活动列表，包括即将进行、正在进行以及已经结束的公演和活动。</p>

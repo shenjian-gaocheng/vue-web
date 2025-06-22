@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
 import { useAuthStore } from '@/stores/auth'
@@ -93,15 +94,21 @@ const handleLogout = () => {
       :class="[
         'flex-fill',
         'd-flex',
-        'justify-content-center',
-        'align-items-center',
+        'flex-column',
         'bg-white',
         'text-center',
+        'px-4',
         !isMobile ? 'main-scrollable' : ''
       ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
-      <div style="width: 300px">
+
+      <Notification />
+
+      <div
+        style="width: 300px; margin: auto"
+        class="d-flex flex-column justify-content-center align-items-center flex-grow-1 text-center"
+      >
         <template v-if="isLoggedIn">
           <h2>🎉 已登录</h2>
           <button class="btn btn-danger w-100 mt-3" @click="handleLogout">退出登录</button>

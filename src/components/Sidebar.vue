@@ -37,7 +37,7 @@ const toggle = () => {
     class="sidebar-menu bg-dark text-white p-3 d-flex flex-column"
     :class="props.isMobile ? 'position-fixed top-0 start-0 h-100' : 'vh-100'"
     :style="{
-      zIndex: props.isMobile ? 1050 : 'auto',
+      zIndex: props.isMobile ? 9999 : 'auto',
       width: props.isMobile
         ? '280px'
         : (props.collapsed ? '100px' : '280px'),

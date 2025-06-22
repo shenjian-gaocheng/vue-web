@@ -2,6 +2,7 @@
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
@@ -32,14 +33,17 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       :class="[
         'flex-fill',
         'd-flex',
-        'justify-content-center',
-        'align-items-center',
+        'flex-column',
         'bg-white',
         'text-center',
+        'px-4',
         !isMobile ? 'main-scrollable' : ''
       ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
+
+      <Notification />
+
       <div>
       </div>
     </main>

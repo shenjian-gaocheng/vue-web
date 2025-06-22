@@ -2,6 +2,7 @@
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
@@ -39,8 +40,10 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
 
+      <Notification />
+
       <!-- 姓名 & 简介 -->
-      <div class="text-center mb-4 py-4 bg-light rounded">
+      <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
         <h1 class="fw-bold display-5 mb-1">周童玥</h1>
         <h3 class="text-warning fw-bold">Zhou TongYue</h3>
         <p class="text-muted">TEAM SII（SNH48 十八期生）</p>
@@ -81,20 +84,11 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <div class="card-body">
               <h5 class="card-title text-primary mb-3">成员信息</h5>
               <ul class="list-unstyled mb-0 text-start">
-                <li><strong>加入时间：</strong> 2023.05.02</li>
+                <li><strong>加入时间：</strong> 2023-05-02</li>
                 <li><strong>加入所属：</strong> SNH48 十八期生</li>
+                <li><strong>升格时间：</strong> 2023-08-26</li>
                 <li><strong>最终所属：</strong> SNH48 S队（TEAM SII）</li>
                 <li><strong>所属公司：</strong> 上海丝芭文化传媒集团有限公司</li>
-                <li><strong>成员经历：</strong>
-                  <div class="d-flex">
-                    <div class="wiki-experience">2023.05.02 – 2023.08.26</div>
-                    <div>SNH48 预备生</div>
-                  </div>
-                  <div class="d-flex">
-                    <div class="wiki-experience">2023.08.27 – 至今</div>
-                    <div>SNH48 Team SII 成员</div>
-                  </div>
-                </li>
               </ul>
             </div>
           </div>
@@ -133,7 +127,12 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       <!-- 奖项 -->
       <section class="text-center mb-5">
         <h2 class="mb-4 fw-bold">获奖</h2>
-        <p><i class="fas fa-trophy text-warning me-2"></i>2024 SNH48 GROUP 年度青春盛典 No.53</p>
+        <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
+          <h5 class="m-0 p-0">
+            <i class="fas fa-trophy text-warning me-2"></i>2024 SNH48 GROUP 年度青春盛典 No.53
+          </h5>
+        </div>
+        
       </section>
     </main>
   </div>

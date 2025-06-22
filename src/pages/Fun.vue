@@ -2,18 +2,10 @@
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
-
-import { ref } from 'vue'
-import Modal from '@/components/Modal.vue'
-
-const showModal = ref(false)
-
-const doConfirm = () => {
-  alert('你点击了确认')
-}
 </script>
 
 <template>
@@ -41,21 +33,19 @@ const doConfirm = () => {
       :class="[
         'flex-fill',
         'd-flex',
-        'justify-content-center',
-        'align-items-center',
+        'flex-column',
         'bg-white',
         'text-center',
+        'px-4',
         !isMobile ? 'main-scrollable' : ''
       ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
-      <!-- <div>
-      </div> -->
-      <button @click="showModal = true">打开弹窗</button>
 
-      <Modal v-model="showModal" title="确认操作" @confirm="doConfirm">
-        <p>你确定要继续操作吗？</p>
-      </Modal>
+      <Notification />
+
+      <div>
+      </div>
     </main>
   </div>
 </template>

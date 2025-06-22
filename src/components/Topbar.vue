@@ -13,7 +13,7 @@ const toggle = () => {
 <template>
   <header
     class="position-fixed top-0 start-0 w-100 bg-warning text-black d-flex align-items-center px-3"
-    style="height: 60px; z-index: 1040;"
+    style="height: 60px; z-index: 9996;"
   >
     <button class="btn btn-sm btn-dark me-3" @click="toggle">
       ☰

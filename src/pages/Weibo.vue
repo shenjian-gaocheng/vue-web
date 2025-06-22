@@ -2,6 +2,7 @@
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
+import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
@@ -32,6 +33,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       class="main-area d-flex flex-column justify-content-center align-items-end flex-grow-1 pe-5"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
+
       <div class="glass-panel">
         <h1>微博跳转</h1>
         <div class="weibo-links">
