@@ -300,10 +300,10 @@ class StageBatch(Resource):
         stages = []
         for i, data in enumerate(data_list):
             try:
-                date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+                # date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
                 stage = Stage(
                     session=int(data['session']),
-                    date=date_obj,
+                    date=data['date'],
                     type=data['type'],
                     title=data['title'],
                     url=data['url'],
