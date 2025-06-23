@@ -215,6 +215,7 @@ const loadStages = async () => {
     }
 
     groupedStages.value = temp
+    filteredStages.value = { ...temp }
   } catch (e) {
     console.error('加载失败', e)
   }
@@ -236,6 +237,53 @@ onMounted(() => {
 onUnmounted(() => {
   stopPolling()
 })
+
+// 搜索
+const searchQuery = ref("")
+const searchSession = ref("")
+const searchStart = ref("")
+const searchEnd = ref("")
+const searchStartType = ref("text")
+const searchEndType = ref("text")
+const filteredStages = ref({})
+
+const applyFilters = () => {
+  const filtered = {}
+
+  for (const group in groupedStages.value) {
+    filtered[group] = groupedStages.value[group].filter(item => {
+      const matchQuery =
+        !searchQuery.value ||
+        item.title.includes(searchQuery.value) ||
+        item.type.includes(searchQuery.value)
+
+      const matchSession =
+        !searchSession.value ||
+        item.session === String(searchSession.value)
+
+      const date = new Date(item.date)
+      const matchStart = !searchStart.value || date >= new Date(searchStart.value)
+      const matchEnd = !searchEnd.value || date <= new Date(searchEnd.value)
+
+      return matchQuery && matchSession && matchStart && matchEnd
+    })
+  }
+
+  filteredStages.value = filtered
+}
+
+const clearFilters = () => {
+  searchQuery.value = ""
+  searchSession.value = ""
+  searchStart.value = ""
+  searchEnd.value = ""
+
+  // ✅ 重置类型，恢复 placeholder 显示
+  searchStartType.value = "text"
+  searchEndType.value = "text"
+
+  filteredStages.value = { ...groupedStages.value }
+}
 
 </script>
 
@@ -288,6 +336,53 @@ onUnmounted(() => {
         <p class="mb-1">🌍 <strong>注意：</strong>以下公演及活动所标出的时间，是您当前所在位置（{{ timezone }}）的时间，而非北京时间。</p>
       </div>
 
+      <h3 class="mt-4 mb-3">按条件筛选</h3>
+
+      <!-- ✅ 外层布局判断，只换布局，不重复内容 -->
+      <div
+        :class="[
+          'mb-4',
+          isMobile ? 'row g-2 justify-content-center' : 'd-flex flex-wrap gap-2 justify-content-center'
+        ]"
+      >
+        <div :class="isMobile ? 'col-10' : 'col-auto'">
+          <input v-model="searchQuery" class="form-control form-control-sm" placeholder="关键词，如：幻镜" />
+        </div>
+        <div :class="isMobile ? 'col-10' : 'col-auto'">
+          <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：156" />
+        </div>
+
+        <!-- ✅ 日期输入框：统一用 text + 切换成 date -->
+        <div :class="isMobile ? 'col-10' : 'col-auto'">
+          <input
+            v-model="searchStart"
+            :type="searchStartType"
+            class="form-control form-control-sm"
+            placeholder="开始日期"
+            @focus="searchStartType = 'date'"
+            @blur="() => { if (!searchStart) searchStartType = 'text' }"
+          />
+        </div>
+        <div :class="isMobile ? 'col-10' : 'col-auto'">
+          <input
+            v-model="searchEnd"
+            :type="searchEndType"
+            class="form-control form-control-sm"
+            placeholder="结束日期"
+            @focus="searchEndType = 'date'"
+            @blur="() => { if (!searchEnd) searchEndType = 'text' }"
+          />
+        </div>
+
+        <div :class="isMobile ? 'col-5' : 'col-auto'">
+          <button class="btn btn-primary btn-sm w-100" @click="applyFilters">搜索</button>
+        </div>
+        <div :class="isMobile ? 'col-5' : 'col-auto'">
+          <button class="btn btn-outline-primary btn-sm w-100" @click="clearFilters">重置</button>
+        </div>
+      </div>
+
+
       <template v-if="isLoggedIn">
         <button class="btn btn-success mb-3" @click="() => openModal()">
           ➕ 新建公演或活动记录
@@ -295,7 +390,7 @@ onUnmounted(() => {
       </template>
 
       <div class="w-100">
-        <template v-for="(items, group) in groupedStages" :key="group">
+        <template v-for="(items, group) in filteredStages" :key="group">
           <h3 v-if="items.length" class="mt-4 mb-3">{{ group }}</h3>
           <ul class="list-group mb-3">
             <li
