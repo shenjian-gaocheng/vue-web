@@ -204,8 +204,8 @@ const loadStages = async () => {
 
     for (const key in temp) {
       temp[key].sort((a, b) => {
-        const sessionDiff = parseInt(b.session) - parseInt(a.session)
-        if (sessionDiff !== 0) return sessionDiff
+        // const sessionDiff = parseInt(b.session) - parseInt(a.session)
+        // if (sessionDiff !== 0) return sessionDiff
 
         // session 相同时，再按时间排序
         const dateA = new Date(a.date?.trim())
