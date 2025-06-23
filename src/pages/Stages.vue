@@ -141,9 +141,9 @@ const handleConfirm = async () => {
     return
   }
 
-  showModal.value = false
-  loadStages()
-  alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
+  // showModal.value = false
+  // loadStages()
+  // alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
 }
 
 // 刷新登录状态
