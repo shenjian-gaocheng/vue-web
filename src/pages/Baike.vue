@@ -44,6 +44,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
       <!-- 姓名 & 简介 -->
       <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
+        <img src="/bg.jpg" alt="" class="mb-4" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
         <h1 class="fw-bold display-5 mb-1">周童玥</h1>
         <h3 class="text-warning fw-bold">Zhou TongYue</h3>
         <p class="text-muted">TEAM SII（SNH48 十八期生）</p>
@@ -63,7 +64,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       </div>
 
       <!-- 基本信息 -->
-      <div class="row justify-content-center text-center mb-4 g-4">
+      <div class="row justify-content-center text-center mt-4 mb-4 g-4">
+        <h2 class="mb-4 fw-bold">基本信息</h2>
         <div class="col-md-5">
           <div class="card shadow-sm h-100">
             <div class="card-body">
@@ -95,45 +97,44 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
         </div>
       </div>
 
-      <hr class="mb-4" />
-
       <!-- 特长 & 兴趣爱好 -->
-      <section class="text-center mb-5">
+      <div class="row justify-content-center text-center mt-4 mb-4 g-4">
         <h2 class="mb-4 fw-bold">个人特长及兴趣爱好</h2>
-        <div class="row justify-content-center">
-          <div class="col-md-5">
-            <div class="card p-3 shadow-sm">
-              <h5 class="fw-bold">个人特长</h5>
-              <ul class="list-unstyled">
+        <div class="col-md-5">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary mb-3">个人特长</h5>
+              <ul class="list-unstyled mb-0">
                 <li><i class="fas fa-check text-success me-2"></i>琵琶</li>
                 <li><i class="fas fa-check text-success me-2"></i>睡觉</li>
               </ul>
             </div>
           </div>
-          <div class="col-md-5">
-            <div class="card p-3 shadow-sm">
-              <h5 class="fw-bold">兴趣爱好</h5>
-              <ul class="list-unstyled">
+        </div>
+        <div class="col-md-5">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="card-title text-primary mb-3">兴趣爱好</h5>
+              <ul class="list-unstyled mb-0">
+                <ul class="list-unstyled">
                 <li><i class="fas fa-heart text-pink me-2"></i>美女</li>
                 <li><i class="fas fa-paw text-primary me-2"></i>猫猫狗狗</li>
+              </ul>
               </ul>
             </div>
           </div>
         </div>
-      </section>
-
-      <hr class="mb-4" />
+      </div>
 
       <!-- 奖项 -->
-      <section class="text-center mb-5">
+      <div class="row justify-content-center text-center mt-4 mb-4 g-4">
         <h2 class="mb-4 fw-bold">获奖</h2>
         <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
           <h5 class="m-0 p-0">
             <i class="fas fa-trophy text-warning me-2"></i>2024 SNH48 GROUP 年度青春盛典 No.53
           </h5>
         </div>
-        
-      </section>
+      </div>
     </main>
   </div>
 </template>
