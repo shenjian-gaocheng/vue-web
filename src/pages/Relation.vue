@@ -83,7 +83,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
         </div>
 
         <div class="mt-4 mb-5 mx-auto">
-          <p>周童玥在SNH48 Group举办的其他所有活动中的队友。</p>
+          <p>周童玥在SNH48 GROUP举办的其他所有活动中的队友。</p>
           <p class="text-muted">
             <strong>SNH48 GROUP《最佳拍档》第四季 周童玥的拍档：</strong>庄雅雯（前BEJ48 Team E成员）
           </p>
