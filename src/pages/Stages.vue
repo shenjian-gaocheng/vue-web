@@ -346,10 +346,10 @@ const clearFilters = () => {
         ]"
       >
         <div :class="isMobile ? 'col-10' : 'col-auto'">
-          <input v-model="searchQuery" class="form-control form-control-sm" placeholder="关键词，如：幻镜" />
+          <input v-model="searchQuery" class="form-control form-control-sm" placeholder="关键词，如：幻镜-C版" />
         </div>
         <div :class="isMobile ? 'col-10' : 'col-auto'">
-          <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：156" />
+          <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：155" />
         </div>
 
         <!-- ✅ 日期输入框：统一用 text + 切换成 date -->
@@ -402,7 +402,7 @@ const clearFilters = () => {
                 <!-- 左侧：场次 + 日期 -->
                 <div class="text-center" style="min-width: 100px;">
                   <div class="fw-bold">
-                    {{ item.session !== '0' ? `第 ${item.session} 场` : '场次未知' }}
+                    {{ item.session !== '0' ? `第 ${item.session} 场` : '不计入场次' }}
                   </div>
                   <ZonedDateTime :datetime="item.date" class="text-muted" />
                 </div>
