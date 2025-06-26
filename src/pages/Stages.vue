@@ -263,7 +263,7 @@ const applyFilters = () => {
 
       const date = new Date(item.date)
       const matchStart = !searchStart.value || date >= new Date(searchStart.value)
-      const matchEnd = !searchEnd.value || date <= new Date(searchEnd.value)
+      const matchEnd = !searchEnd.value || date <= new Date(new Date(searchEnd.value).getTime() + 86400000)
 
       return matchQuery && matchSession && matchStart && matchEnd
     })
@@ -336,8 +336,11 @@ const clearFilters = () => {
         <p class="mb-1">🌍 <strong>注意：</strong>以下公演及活动所标出的时间，是您当前所在位置（{{ timezone }}）的时间，而非北京时间。</p>
       </div>
 
-      <h3 class="mt-4 mb-3">按条件筛选</h3>
-
+      <div class="mt-4 mb-3">
+        <h3 class="mb-3">按条件筛选</h3>
+        <p class="mb-1">可按关键词、场次、时间来筛选特定的公演。</p>
+        <p class="mb-1">若要寻找与周童玥相关的重要公演，请在关键词一栏输入 <strong>周童玥</strong> 并搜索。</p> 
+      </div>
       <!-- ✅ 外层布局判断，只换布局，不重复内容 -->
       <div
         :class="[
