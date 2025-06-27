@@ -1,7 +1,8 @@
-from flask import Flask, request, session
+from flask import Flask, request, g
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # ✅ 导入 CORS
+import logging
 from datetime import datetime
 import requests
 import jwt
@@ -9,6 +10,12 @@ from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
 
+
+logging.basicConfig(
+    filename='stage_actions.log',
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+)
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
@@ -118,6 +125,7 @@ class Login(Resource):
         }
 
         token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+        logging.info(f"用户: {username} 成功登录了系统，IP: {request.remote_addr}")
         return {'token': token}
     
 
@@ -134,6 +142,7 @@ def token_required(f):
 
         try:
             payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            g.username = payload.get("username")
 
             # ✅ 打印调试 token 过期时间
             print("exp时间戳：", payload['exp'])
@@ -185,6 +194,8 @@ class TeammateList(Resource):
         )
         db.session.add(teammate)
         db.session.commit()
+
+        logging.info(f"用户: {g.username} 添加队友记录: {data['name']}，IP: {request.remote_addr}")
         return {"message": "队友记录已添加"}, 201
     
 
@@ -222,6 +233,7 @@ class TeammateBatch(Resource):
         db.session.add_all(teammates)
         db.session.commit()
 
+        logging.info(f"用户: {g.username} 添加 {len(teammates)} 条队友记录，IP: {request.remote_addr}")
         return {"message": f"成功添加 {len(teammates)} 条队友记录"}, 201
 
 @ns.route('/stages')
@@ -254,6 +266,8 @@ class StageList(Resource):
         )
         db.session.add(stage)
         db.session.commit()
+
+        logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {request.remote_addr}")
         return {"message": "演出记录已添加"}, 201
     
 
@@ -280,6 +294,8 @@ class StageItem(Resource):
             stage.is_end = data['is_end']
 
             db.session.commit()
+
+            logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {request.remote_addr}")
             return {"message": "演出记录已更新"}, 200
         except (KeyError, ValueError) as e:
             print(str(e))
@@ -300,10 +316,10 @@ class StageBatch(Resource):
         stages = []
         for i, data in enumerate(data_list):
             try:
-                # date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+                date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
                 stage = Stage(
                     session=int(data['session']),
-                    date=data['date'],
+                    date=date_obj,
                     type=data['type'],
                     title=data['title'],
                     url=data['url'],
@@ -318,8 +334,9 @@ class StageBatch(Resource):
         db.session.add_all(stages)
         db.session.commit()
 
+        logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {request.remote_addr}")
         return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host="0.0.0.0", port=5001, debug=True)
