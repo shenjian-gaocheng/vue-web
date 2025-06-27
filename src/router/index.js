@@ -6,6 +6,7 @@ import Stages from '@/pages/Stages.vue'
 import Fun from '@/pages/Fun.vue'
 import Relation from '@/pages/Relation.vue'
 import Events from '@/pages/Events.vue'
+import About from '@/pages/About.vue'
 import Login from '@/pages/Login.vue'
 
 const routes = [
@@ -16,7 +17,8 @@ const routes = [
   { path: '/fun', name: 'Fun', component: Fun },
   { path: '/relation', name: 'Relation', component: Relation },
   { path: '/events', name: 'Events', component: Events },
-  { path: '/login', name: 'Login', component: Login },
+  { path: '/about', name: 'About', component: About },
+  { path: '/admin-login', name: 'Login', component: Login },
 ]
 
 const router = createRouter({

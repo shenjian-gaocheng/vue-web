@@ -80,6 +80,7 @@ const toggle = () => {
           '/stages': '公演及活动列表',
           // '/fun': '趣事集锦',
           '/relation': '团内人物关系',
+          '/about': '关于本站',
           // '/events': '团内大事件'
         }"
         :key="path"
@@ -102,6 +103,7 @@ const toggle = () => {
       :class="props.isMobile ? 'pt-3' : ''"
       v-if="!collapsed"
     >
+      <strong>周童玥应援站</strong><br />
       &copy; {{ year }} 周童玥应援会<br />
       部分来源：SNH48.com<br />
       神秘代码：158139179
