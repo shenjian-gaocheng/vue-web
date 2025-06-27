@@ -103,7 +103,7 @@ const toggle = () => {
       :class="props.isMobile ? 'pt-3' : ''"
       v-if="!collapsed"
     >
-      <strong>周童玥应援站</strong><br />
+      <strong>周童玥应援站（内测中）</strong><br />
       &copy; {{ year }} 周童玥应援会<br />
       部分来源：SNH48.com<br />
       神秘代码：158139179
