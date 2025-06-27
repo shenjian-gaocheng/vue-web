@@ -115,7 +115,7 @@ const handleLogout = () => {
         </template>
 
         <template v-else>
-          <h2 class="mb-3">登录</h2>
+          <h2 class="mb-3">网站管理员登录</h2>
           <input v-model="username" type="text" placeholder="用户名" class="form-control mb-2" />
           <input v-model="password" type="password" placeholder="密码" class="form-control mb-3" />
           <button @click="login" class="btn btn-primary w-100">登录</button>
