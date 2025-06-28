@@ -91,6 +91,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                 <li><strong>升格时间：</strong> 2023-08-26</li>
                 <li><strong>最终所属：</strong> SNH48 S队（TEAM SII）</li>
                 <li><strong>所属公司：</strong> 上海丝芭文化传媒集团有限公司</li>
+                <li><strong>Catch Phrase：</strong> 这是新月，这是满月，这是——【周童玥】！</li>
+                <li><strong>应援色：</strong> 💛黄色</li>
               </ul>
             </div>
           </div>
