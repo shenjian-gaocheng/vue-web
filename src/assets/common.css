@@ -31,7 +31,6 @@ body {
 }
 
 .art-text {
-  font-size: 64px;
   font-weight: bold;
   font-family: 'Georgia', 'Times New Roman', serif;
   animation: fadeIn 2s ease-in-out forwards, rainbowColor 10s linear infinite;
@@ -40,6 +39,14 @@ body {
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.art-text-pc {
+  font-size: 64px;
+}
+
+.art-text-mobile {
+  font-size: 48px;
 }
 
 .code {

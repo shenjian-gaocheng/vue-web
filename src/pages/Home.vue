@@ -40,9 +40,9 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       <!-- 主体内容，撑满空间并居中 -->
       <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
         <div>
-          <component :is="isMobile ? 'h2' : 'h1'" class="art-text">
+          <h1 :class="['art-text', isMobile ? 'art-text-mobile' : 'art-text-pc']">
             周童玥应援站
-          </component>
+          </h1>
           <p class="code">（内测中）</p>
           <p class="code">“这是新月，这是满月，这是——周童玥！”</p>
           <p class="code">神秘代码：158139179</p>
