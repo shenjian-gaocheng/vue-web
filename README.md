@@ -56,4 +56,4 @@ python3 app.py
 ## 📄 License
 
 MIT License  
-© 2025 shenjian-gaocheng & 小周的网站
+© 2025 shenjian-gaocheng & 周童玥应援会
