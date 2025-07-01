@@ -27,4 +27,4 @@ dist-ssr
 src/pages/RelationOld.vue
 
 # db
-backend/instance/.gitignore
+backend/instance/
