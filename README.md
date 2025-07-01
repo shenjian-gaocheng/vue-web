@@ -56,4 +56,8 @@ python3 app.py
 ## 📄 License
 
 MIT License  
+<<<<<<< HEAD
 © 2025 shenjian-gaocheng & 周童玥应援会
+=======
+© 2025 shenjian-gaocheng & 小周的网站
+>>>>>>> github/main
