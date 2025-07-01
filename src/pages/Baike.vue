@@ -72,7 +72,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <h5 class="card-title text-primary mb-3">个人信息</h5>
               <ul class="list-unstyled mb-0 text-start">
                 <li><strong>昵称：</strong> 小周</li>
-                <li><strong>生日：</strong> 03.22</li>
+                <li><strong>生日：</strong> 2005-03-22</li>
                 <li><strong>星座：</strong> 白羊座</li>
                 <li><strong>血型：</strong> -</li>
                 <li><strong>身高：</strong> 165 cm</li>
@@ -88,7 +88,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <ul class="list-unstyled mb-0 text-start">
                 <li><strong>加入时间：</strong> 2023-05-02</li>
                 <li><strong>加入所属：</strong> SNH48 十八期生</li>
-                <li><strong>升格时间：</strong> 2023-08-26</li>
+                <li><strong>升格时间：</strong> 2023-08-18（当日S队公演宣布）</li>
                 <li><strong>最终所属：</strong> SNH48 S队（TEAM SII）</li>
                 <li><strong>所属公司：</strong> 上海丝芭文化传媒集团有限公司</li>
                 <li><strong>Catch Phrase：</strong> 这是新月，这是满月，这是——“周童玥”！</li>
