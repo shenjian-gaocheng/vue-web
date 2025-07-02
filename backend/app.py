@@ -1,4 +1,4 @@
-from flask import Flask, request, g, send_from_directory
+from flask import Flask, request, g
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # ✅ 导入 CORS
@@ -101,10 +101,6 @@ teammate_model = api.model('Teammate', {
     'url': fields.String(description='预留链接'),
     'note': fields.String(description='备注')
 })
-
-@app.route('/swaggerui/<path:filename>')
-def swaggerui_static(filename):
-    return send_from_directory('swaggerui', filename)
 
 # 登录并返回token
 @ns.route('/login')
