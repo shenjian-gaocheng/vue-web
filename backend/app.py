@@ -28,7 +28,7 @@ authorizations = {
         'description': '使用格式：Bearer <token>'
     }
 }
-api = Api(app, doc='/docs', authorizations=authorizations, security='Bearer Auth')
+api = Api(app, prefix="/api", doc='/docs', authorizations=authorizations, security='Bearer Auth')
 ns = api.namespace('api', description='明星接口')
 
 # 配置 SQLite 数据库
