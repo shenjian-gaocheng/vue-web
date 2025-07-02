@@ -1,4 +1,4 @@
-from flask import Flask, request, g, send_from_directory
+from flask import Flask, request, g
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # ✅ 导入 CORS
@@ -6,7 +6,6 @@ import logging
 from datetime import datetime
 import requests
 import jwt
-import os
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
@@ -30,7 +29,7 @@ authorizations = {
     }
 }
 api = Api(app, prefix="/api", doc='/docs', authorizations=authorizations, security='Bearer Auth')
-ns = api.namespace('api', description='明星接口')
+ns = api.namespace('', description='明星接口')
 
 # 配置 SQLite 数据库
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///zhouty.db'
@@ -102,11 +101,6 @@ teammate_model = api.model('Teammate', {
     'url': fields.String(description='预留链接'),
     'note': fields.String(description='备注')
 })
-
-@ app.route('/api/swaggerui/<path:filename>')
-def swagger_ui_static(filename):
-    root_dir = os.path.dirname(api.__file__)  # flask_restx 静态资源目录
-    return send_from_directory(os.path.join(root_dir, 'static'), filename)
 
 # 登录并返回token
 @ns.route('/login')
