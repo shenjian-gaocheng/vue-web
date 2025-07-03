@@ -394,7 +394,7 @@ const clearFilters = () => {
 
       <div class="w-100">
         <!-- 加载状态 -->
-        <div v-if="isLoading" class="text-center text-muted my-4">
+        <div v-if="!Object.keys(filteredStages).length" class="text-center text-muted my-4">
           正在加载…
         </div>
 
