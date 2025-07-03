@@ -66,7 +66,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           <h2 class="mb-3">Team SII 前队友</h2>
           <p>周童玥在Team SII的前队友，包括已毕业或退团的正式成员，和已解除兼任的兼任成员。</p>
           <p class="text-muted">
-            黄恩茹、李慧、马玉灵、邵雪聪、朱涵佳、刘倩倩（GNZ48 Team NIII兼任，GNZ48荣誉毕业生）、彭嘉敏
+            李慧、马玉灵、邵雪聪、朱涵佳、黄恩茹、刘倩倩（原GNZ48 Team NIII兼任，GNZ48荣誉毕业生）、彭嘉敏
           </p>
         </div>
 
