@@ -393,6 +393,12 @@ const clearFilters = () => {
       </template>
 
       <div class="w-100">
+        <!-- 加载状态 -->
+        <div v-if="isLoading" class="text-center text-muted my-4">
+          正在加载…
+        </div>
+
+        <!-- 数据已加载 -->
         <template v-for="(items, group) in filteredStages" :key="group">
           <h3 v-if="items.length" class="mt-4 mb-3">{{ group }}</h3>
           <ul class="list-group mb-3">
