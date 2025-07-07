@@ -18,6 +18,6 @@ const toggle = () => {
     <button class="btn btn-sm btn-dark me-3" @click="toggle">
       ☰
     </button>
-    <span class="fw-bold">周童玥的满月泛舟记录厅（内测中）</span>
+    <span class="fw-bold">小星云之家（内测中）</span>
   </header>
 </template>

@@ -51,13 +51,13 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
       <div style="max-width: 900px; margin: 0 auto; padding-left: 16px; padding-right: 16px;">
         <div class="mt-4 mx-auto">
-          <h1>关于周童玥的满月泛舟记录厅</h1>
+          <h1>关于小星云之家</h1>
         </div>
 
         <div class="mt-5 mx-auto">
           <h2 class="mb-3">本站主题</h2>
           <!-- <p>周童玥应援站（zty0322.top）是SNH48-周童玥应援会建立的，以介绍、宣传周童玥为主的网站。</p> -->
-          <p>周童玥的满月泛舟记录厅（zty0322.top）是由SNH48-周童玥的粉丝建立的，以介绍、宣传周童玥为主的网站。</p>
+          <p>小星云之家（zty0322.top）是由SNH48-周童玥的粉丝建立的，以介绍、宣传周童玥为主的网站。</p>
           <p>包括了介绍周童玥的百科、社交平台链接、以及所有周童玥参加过的公演及团内活动的列表。</p>
         </div>
 

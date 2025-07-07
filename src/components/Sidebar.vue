@@ -103,7 +103,7 @@ const toggle = () => {
       :class="props.isMobile ? 'pt-3' : ''"
       v-if="!collapsed"
     >
-      <strong>周童玥的满月泛舟记录厅（内测中）</strong><br />
+      <strong>小星云之家（内测中）</strong><br />
       &copy; {{ year }} zty0322.top<br />
       部分来源：SNH48.com<br />
       神秘代码：158139179
