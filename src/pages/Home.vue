@@ -41,7 +41,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
         <div>
           <h1 :class="['art-text', isMobile ? 'art-text-mobile' : 'art-text-pc']">
-            周童玥应援站
+            小星云之家
           </h1>
           <p class="code">（内测中）</p>
           <p class="code">“这是新月，这是满月，这是——周童玥！”</p>
