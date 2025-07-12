@@ -58,7 +58,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           <h2 class="mb-3">Team SII 现队友</h2>
           <p>周童玥在Team SII的队友，包括正式成员、兼任成员和已分配到Team SII的预备生。</p>
           <p class="text-muted">
-            陈雨孜、段艺璇、黄怡慈（BEJ48 Team B兼任）、芦馨怡、刘增艳、宁轲、沈小爱、田姝丽、由淼、闫明筠、杨心渝、张雷雷、张倩、赵天杨、冯雪（预备生）、蒋夏羽（预备生）、盛乐（预备生）
+            陈雨孜、段艺璇、黄怡慈（BEJ48 Team B兼任）、蒋夏羽、芦馨怡、刘增艳、宁轲、沈小爱、盛乐、田姝丽、由淼、闫明筠、杨心渝、张雷雷、张倩、赵天杨、冯雪（预备生）
           </p>
         </div>
 
