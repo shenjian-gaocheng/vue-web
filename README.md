@@ -19,6 +19,7 @@ apt install sqlite3
 apt install python3.10-venv
 npm install
 npm install dayjs@latest
+npm install swiper
 ```
 
 ```bash
