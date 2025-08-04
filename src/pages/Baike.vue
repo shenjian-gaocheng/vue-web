@@ -54,7 +54,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           <a href="https://weibo.com/u/7861137548" class="mx-3" target="_blank">
             <i class="fab fa-weibo fa-2x text-danger"></i>
           </a>
-          <a href="https://www.douyin.com/user/MS4wLjABAAAA85fHqEle3WCMj0JHlAVr2k5jq892OHh1u4193DL-Bk7-HOHksd_XQaF7oRteMNCE" class="mx-3" target="_blank">
+          <a href="https://v.douyin.com/R0CZVXm5esU/" class="mx-3" target="_blank">
             <i class="fab fa-tiktok fa-2x text-dark"></i>
           </a>
           <a href="https://space.bilibili.com/3537104390850991" class="mx-3" target="_blank">
@@ -125,6 +125,28 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </ul>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- 参加过的公演 -->
+      <div class="row justify-content-center text-center mt-4 mb-4 g-4">
+        <h2 class="mb-4 fw-bold">主要参与的公演</h2>
+        <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
+          <h5 class="mb-3 p-0">
+            <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《INTO THE LIGHT》公演（2025.08.16 - ）
+          </h5>
+          <p class="mb-3 p-0">
+            <i class="fas fa-theater-masks text-warning me-2"></i>《命运的X号》新生公演（2023.05.02 - 2024.04.24）
+          </p>
+          <p class="mb-3 p-0">
+            <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《幻镜》B版公演（2023.05.26 - 2025.02.16）
+          </p>
+          <p class="mb-3 p-0">
+            <i class="fas fa-theater-masks text-warning me-2"></i>《代号XII 2.0》新生公演（2024.05.05 - 2025.03.12）
+          </p>
+          <p class="m-0 p-0">
+            <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《幻镜》C版公演（2025.02.23 - 2025.07.27）
+          </p>
         </div>
       </div>
 
