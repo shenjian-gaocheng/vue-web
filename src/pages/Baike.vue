@@ -133,7 +133,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
         <h2 class="mb-4 fw-bold">主要参与的公演</h2>
         <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
           <h5 class="mb-3 p-0">
-            <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《INTO THE LIGHT》公演（2025.08.16 - ）
+            <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - ）</b>
           </h5>
           <p class="mb-3 p-0">
             <i class="fas fa-theater-masks text-warning me-2"></i>《命运的X号》新生公演（2023.05.02 - 2024.04.24）
