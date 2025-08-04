@@ -133,6 +133,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
         <h2 class="mb-4 fw-bold">获奖</h2>
         <div class="text-center mb-4 py-4 bg-light rounded col-md-10 mx-auto">
           <h5 class="m-0 p-0">
+            <i class="fas fa-trophy text-warning me-2"></i>2025 SNH48 GROUP 年度青春盛典 No.47
             <i class="fas fa-trophy text-warning me-2"></i>2024 SNH48 GROUP 年度青春盛典 No.53
           </h5>
         </div>
