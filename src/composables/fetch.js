@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 
 export function useApi() {
 
-  const baseUrl = 'https://zty0322.top/api'
+  const baseUrl = 'http://118.196.20.148:5000/api'
   const auth = useAuthStore()
   const { token } = storeToRefs(auth)
 
