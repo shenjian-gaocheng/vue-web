@@ -104,7 +104,7 @@ const toggle = () => {
       v-if="!collapsed"
     >
       <strong>小星云之家（内测中）</strong><br />
-      &copy; {{ year }} zty0322.top<br />
+      &copy; {{ year }} 小星云之家<br />
       部分来源：SNH48.com<br />
       神秘代码：158139179
     </div>
