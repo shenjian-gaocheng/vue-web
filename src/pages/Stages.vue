@@ -147,12 +147,12 @@ const handleConfirm = async () => {
 }
 
 // 刷新登录状态
-window.addEventListener('storage', (event) => {
-  if (event.key === 'token_zty') {
-    const store = useAuthStore()
-    store.isLoggedIn = !(event.newValue === null)
-  }
-})
+// window.addEventListener('storage', (event) => {
+//   if (event.key === 'token_zty') {
+//     const store = useAuthStore()
+//     store.isLoggedIn = !(event.newValue === null)
+//   }
+// })
 
 const groupedStages = ref({ 'Team SII': [], '新生': [], '其它': [] })
 const expandedGroups = ref({ 'Team SII': false, '新生': false, '其它': false })
@@ -230,12 +230,13 @@ onMounted(() => {
   // getTimezoneOffset 返回的是分钟，东八区 = -480
   isEast8.value = new Date().getTimezoneOffset() === -480
   timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone
-  verifyToken()
-  startPolling()
+  // verifyToken()
+  // startPolling()
 })
 
 onUnmounted(() => {
-  stopPolling()
+  // stopPolling()
+  // isLoggedIn.value = true
 })
 
 // 搜索
