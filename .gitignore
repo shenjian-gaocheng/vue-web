@@ -25,6 +25,7 @@ dist-ssr
 
 # test
 src/pages/RelationOld.vue
+legacy
 
 # db
 backend/instance/
