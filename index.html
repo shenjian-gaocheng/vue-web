@@ -8,10 +8,10 @@
     <title>All for 周童玥</title>
 
     <style>
-      /* 默认：Vue 容器可见，警告隐藏 */
-      #app { display: block; }
+      /* 默认显示警告，隐藏 Vue 容器 */
+      #app { display: none; }
       #legacy-warning {
-        display: none;
+        display: block;
         padding: 2em;
         background: #fff3cd;
         border: 1px solid #ffeeba;
@@ -32,13 +32,13 @@
     </style>
   </head>
   <body>
-    <!-- Vue 挂载点（默认显示） -->
+    <!-- Vue 挂载点（默认隐藏） -->
     <div id="app"></div>
 
-    <!-- 警告（默认隐藏） -->
+    <!-- 默认可见的“旧浏览器提示” -->
     <div id="legacy-warning">
       <img src="http://118.196.20.148:3000/assets/513707f0b6155b8201821ed00e4b5c8c-g96gU8mC.jpg"
-        alt="提示图片" />
+           alt="提示图片" />
       <h2>浏览器不支持</h2>
       <p>您正在使用的浏览器版本过旧，或已禁用 JavaScript，无法正常使用本站的功能。</p>
       <p>建议使用现代浏览器（Chrome / Firefox / Edge / Safari 等），并确保已启用 JavaScript。</p>
@@ -48,7 +48,7 @@
       </noscript>
     </div>
 
-    <!-- 关键特性检测 -->
+    <!-- 检测脚本 -->
     <script>
       (function () {
         var legacy =
@@ -57,20 +57,17 @@
           !('addEventListener' in window) ||
           !('querySelector' in document);
 
-        if (legacy) {
-          // 隐藏 Vue，显示警告
+        if (!legacy) {
+          // 现代浏览器 → 显示 Vue，隐藏警告
           var app = document.getElementById('app');
           var warn = document.getElementById('legacy-warning');
-          if (app) app.style.display = 'none';
-          if (warn) warn.style.display = 'block';
-        } else {
-          // 现代浏览器 → 动态加载 Vue 入口
-          var s = document.createElement('script');
-          s.type = 'module';
-          s.src = '/src/main.js';
-          document.body.appendChild(s);
+          if (app) app.style.display = 'block';
+          if (warn) warn.style.display = 'none';
         }
       })();
     </script>
+
+    <!-- Vite 标准入口（现代浏览器才会执行；构建时会替换成 /assets/index-xxxxx.js） -->
+    <script type="module" src="/src/main.js"></script>
   </body>
 </html>
