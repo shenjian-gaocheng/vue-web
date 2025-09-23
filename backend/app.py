@@ -57,6 +57,7 @@ class Stage(db.Model):
     title = db.Column(db.String(100), nullable=False)
     url = db.Column(db.String(255))
     cut_url = db.Column(db.String(255))
+    time = db.Column(db.String(255)) # 这里time指的是演出地点，而不是时间（使用了原来预留给时间的列）
     is_stage = db.Column(db.Boolean, nullable=False)
     is_end = db.Column(db.Boolean, nullable=False)
 
@@ -88,6 +89,7 @@ stage_model = api.model('Stage', {
     'title': fields.String(required=True, description='演出名称'),
     'url': fields.String(description='完整回放链接'),
     'cut_url': fields.String(description='cut回放链接'),
+    'time': fields.String(description='演出地点'),
     'is_stage': fields.Boolean(required=True, description='是否为公演'),
     'is_end': fields.Boolean(required=True, description='是否结束'),
 })

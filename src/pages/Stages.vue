@@ -328,9 +328,9 @@ const clearFilters = () => {
         <p class="mb-1">收录了Team SII公演、新生公演以及其它公演和活动。</p>
         <p class="mb-1">点击右侧按钮可跳转至发布在 B 站的直播或视频页面。</p>
         <p class="mb-1"><strong>观看直播</strong>：SNH48 官方账号正在直播的公演或活动。</p>
-        <p class="mb-1"><strong>完整视频回放</strong>：SNH48 官方账号发布的完整视频回放。若回放非官方发布，则会在标题注明。</p>
-        <p class="mb-1"><strong>小周cut视频</strong>：应援会发布的以周童玥为主的剪辑回放。</p>
-        <p class="mb-0">如果按钮为灰色，则代表该场公演没有回放，或是应援会没有制作剪辑。</p>
+        <p class="mb-1"><strong>完整视频回放</strong>：SNH48 官方账号发布的公演完整视频回放。若回放非官方发布，则会在标题注明。</p>
+        <p class="mb-1"><strong>小周cut视频</strong>：公演中周童玥相关内容的剪辑回放。</p>
+        <p class="mb-0">如果按钮为灰色，则代表该场公演没有回放，或是没有制作剪辑。</p>
       </div>
 
       <div v-if="!isEast8" class="alert alert-warning mb-4">
@@ -425,13 +425,65 @@ const clearFilters = () => {
                 <!-- 右侧：两个按钮 -->
                 <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-2">
                   <!-- 判断 group 是否为“今日公演”，然后提供直播入口 -->
-                  <template v-if="group === '今日公演' ">
+                  <template v-if="group === '今日公演'">
+                    <!-- SNH 或 time 为空 -->
                     <a
+                      v-if="!item.time || item.time === 'SNH'"
                       href="https://live.bilibili.com/48"
                       target="_blank"
                       class="btn btn-sm btn-success"
                     >
                       观看直播
+                    </a>
+
+                    <!-- GNZ -->
+                    <a
+                      v-else-if="item.time === 'GNZ'"
+                      href="https://live.bilibili.com/391199"
+                      target="_blank"
+                      class="btn btn-sm btn-success"
+                    >
+                      观看直播
+                    </a>
+
+                    <!-- BEJ -->
+                    <a
+                      v-else-if="item.time === 'BEJ'"
+                      href="https://live.bilibili.com/383045"
+                      target="_blank"
+                      class="btn btn-sm btn-success"
+                    >
+                      观看直播
+                    </a>
+
+                    <!-- CKG -->
+                    <a
+                      v-else-if="item.time === 'CKG'"
+                      href="https://live.bilibili.com/6015846"
+                      target="_blank"
+                      class="btn btn-sm btn-success"
+                    >
+                      观看直播
+                    </a>
+
+                    <!-- CGT -->
+                    <a
+                      v-else-if="item.time === 'CGT'"
+                      href="https://live.bilibili.com/27848865"
+                      target="_blank"
+                      class="btn btn-sm btn-success"
+                    >
+                      观看直播
+                    </a>
+
+                    <!-- 默认情况 -->
+                    <a
+                      v-else
+                      href="javascript:void(0)"
+                      target="_blank"
+                      class="btn btn-sm btn-success disabled"
+                    >
+                      暂无直播
                     </a>
                   </template>
 
