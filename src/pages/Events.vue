@@ -46,7 +46,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
       <div class="video-wrapper">
         <iframe
-          src="https://player.bilibili.com/player.html&aid=115671186867538&bvid=BV14b2sBYE2U&cid=34542519535&p=1"
+          src="https://player.bilibili.com/player.html&aid=115671186867538&bvid=BV14b2sBYE2U&cid=34542519535&page=1"
           scrolling="no"
           frameborder="0"
           allowfullscreen
