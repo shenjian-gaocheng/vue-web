@@ -44,8 +44,29 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
       <Notification />
 
-      <div>
+      <div class="video-wrapper">
+        <iframe
+          src="https://player.bilibili.com/player.html?aid=413672301&bvid=BV1MV41167e9&cid=208508865&page=1"
+          scrolling="no"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       </div>
     </main>
   </div>
 </template>
+
+<style scoped>
+.video-wrapper {
+  width: 100%;
+  max-width: 960px;   /* 可选：限制最大宽度 */
+  margin: 0 auto;     /* 居中 */
+  aspect-ratio: 16 / 9;
+}
+
+.video-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+</style>
