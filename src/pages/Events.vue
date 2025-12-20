@@ -37,18 +37,14 @@ const loadEvents = async () => {
     timelineItems.value = data
       .map(item => ({
         id: item.id,
+        rawDate: item.date,  // ⭐ 保留原始 YYYYMMDD
         date: formatCNDateFromYYYYMMDD(item.date),
         title: item.title,
         img: `/${item.img}`,   // 图片需在 public/
         tag: 'SNH48',
         detail: item.detail
       }))
-      .sort((a, b) => {
-        // 时间线：按日期升序（早 → 晚）
-        return a.id - b.id
-        // 或更严谨：
-        // return a.date.localeCompare(b.date)
-      })
+      .sort((a, b) => a.rawDate.localeCompare(b.rawDate))
   } catch (e) {
     console.error('加载失败', e)
   }
