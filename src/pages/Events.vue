@@ -97,9 +97,10 @@ const normalizeDetail = (text) => {
 
       <Notification />
 
+      <h2 class="timeline-title">周童玥偶像运动会射箭决赛录像</h2>
       <div class="video-wrapper">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=115671186867538&bvid=BV14b2sBYE2U&cid=34545270848&p=3"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=115671186867538&bvid=BV14b2sBYE2U&cid=34550189043&p=5"
           scrolling="no"
           frameborder="0"
           allowfullscreen
@@ -166,9 +167,10 @@ const normalizeDetail = (text) => {
 }
 
 .timeline-title {
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 700;
   margin: 6px 0 18px;
+  text-align: center;
 }
 
 /* 容器 */
