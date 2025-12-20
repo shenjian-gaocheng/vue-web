@@ -6,6 +6,28 @@ import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
+
+// ✅ 年表数据（按你截图风格：日期范围 + 标题 + 队伍 + 图片）
+const timelineItems = [
+  {
+    date: '2023年5月2日',
+    title: '周童玥出道',
+    img: '/event20230502.jpg', // 换成你自己的图片路径
+    tag: 'SNH48'
+  },
+  {
+    date: '2023年8月18日',
+    title: '周童玥升格为Team SII正式成员',
+    img: '/event20230818.jpg',
+    tag: 'SNH48'
+  },
+  {
+    date: '2025年8月2日',
+    title: '周童玥第12届年度青春盛典第47名',
+    img: '/event20250802.jpg',
+    tag: 'SNH48'
+  }
+]
 </script>
 
 <template>
@@ -52,6 +74,40 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           allowfullscreen
         ></iframe>
       </div>
+
+      <section class="timeline-section">
+        <h2 class="timeline-title">大事年表</h2>
+
+        <div class="timeline">
+          <div
+            v-for="(it, idx) in timelineItems"
+            :key="idx"
+            class="timeline-row"
+            :class="{ reverse: idx % 2 === 1 }"
+          >
+            <!-- 左侧（或右侧）图片卡 -->
+            <div class="timeline-media">
+              <div class="photo-card">
+                <img :src="it.img" :alt="it.title" />
+                <div v-if="it.tag" class="corner-tag">{{ it.tag }}</div>
+              </div>
+            </div>
+
+            <!-- 中轴线与圆点 -->
+            <div class="timeline-axis">
+              <span class="axis-dot"></span>
+            </div>
+
+            <!-- 右侧（或左侧）信息条 -->
+            <div class="timeline-info">
+              <div class="info-bar">
+                <div class="info-date">{{ it.date }}</div>
+                <div class="info-sub">{{ it.title }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 </template>
@@ -68,5 +124,175 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
   width: 100%;
   height: 100%;
   border: none;
+}
+
+.timeline-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 28px auto 40px;
+  text-align: left;
+}
+
+.timeline-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 6px 0 18px;
+}
+
+/* 容器 */
+.timeline {
+  position: relative;
+  padding: 8px 0;
+}
+
+/* 一行：三列（媒体 / 中轴 / 信息） */
+.timeline-row {
+  display: grid;
+  grid-template-columns: 1fr 56px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 0;
+}
+
+/* 奇偶反转：让内容左右交错 */
+.timeline-row.reverse .timeline-media {
+  order: 3;
+}
+.timeline-row.reverse .timeline-info {
+  order: 1;
+}
+.timeline-row.reverse .timeline-axis {
+  order: 2;
+}
+
+/* ====== 中轴线 ====== */
+.timeline-axis {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.timeline-axis::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  bottom: -18px;
+  width: 2px;
+  background: #e5e5e5;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.axis-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: white;
+  border: 3px solid #f2b705;
+  box-shadow: 0 0 0 4px rgba(240, 90, 119, 0.12);
+  margin-top: 6px;
+  z-index: 2;
+}
+
+/* ====== 图片卡（模仿截图：圆角+描边） ====== */
+.photo-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 3px solid #f2b705;
+  background: #111;
+  max-width: 640px;
+  width: 100%;
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 右上角斜角标（BEJ48） */
+.corner-tag {
+  position: absolute;
+  top: 10px;
+  right: -34px;
+  transform: rotate(45deg);
+  background: #f2b705;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 6px 40px;
+  letter-spacing: 1px;
+}
+
+/* ====== 信息条（粉色渐变 + 左侧红色竖条/横线） ====== */
+.timeline-info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.timeline-row.reverse .timeline-info {
+  justify-content: flex-end;
+}
+
+.info-bar {
+  width: min(640px, 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(242, 183, 5, 0.18),
+    rgba(242, 183, 5, 0.08)
+  );
+  border-left: 6px solid #f2b705;
+  padding: 14px 18px;
+  border-radius: 10px;
+}
+
+.timeline-row.reverse .info-bar {
+  border-left: none;
+  border-right: 6px solid #f2b705;
+}
+
+.info-date {
+  font-size: 20px;
+  font-weight: 800;
+  color: #f2b705; /* 主体黄色 */
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(242, 183, 5, 0.45);
+  margin-bottom: 10px;
+}
+
+.info-sub {
+  font-size: 18px;
+  color: #555;
+  letter-spacing: 0.5px;
+}
+
+/* ====== 移动端：改为上下堆叠（更好看） ====== */
+@media (max-width: 768px) {
+  .timeline-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .timeline-axis {
+    display: none;
+  }
+
+  .timeline-row.reverse .timeline-media,
+  .timeline-row.reverse .timeline-info {
+    order: initial;
+  }
+
+  .timeline-info,
+  .timeline-row.reverse .timeline-info {
+    justify-content: flex-start;
+  }
+
+  .info-bar,
+  .timeline-row.reverse .info-bar {
+    border-right: none;
+    border-left: 6px solid #f2b705;
+  }
 }
 </style>
