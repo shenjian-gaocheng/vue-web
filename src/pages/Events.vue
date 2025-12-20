@@ -57,6 +57,12 @@ const loadEvents = async () => {
 onMounted(() => {
   loadEvents()
 })
+
+const normalizeDetail = (text) => {
+  if (!text) return ''
+  // 把字面量 \n / \r\n 变成真实换行
+  return text.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n')
+}
 </script>
 
 <template>
@@ -132,7 +138,7 @@ onMounted(() => {
               <div class="info-bar">
                 <div class="info-date">{{ it.date }}</div>
                 <div class="info-sub">{{ it.title }}</div>
-                <div class="info-detail">{{ it.detail }}</div>
+                <div class="info-detail">{{ normalizeDetail(it.detail) }}</div>
               </div>
             </div>
           </div>
