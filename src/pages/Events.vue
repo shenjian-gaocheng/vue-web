@@ -97,10 +97,10 @@ const normalizeDetail = (text) => {
 
       <Notification />
 
-      <h2 class="timeline-title">周童玥偶像运动会射箭决赛录像</h2>
+      <h2 class="timeline-title">周童玥偶像运动会射箭项目录像</h2>
       <div class="video-wrapper">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=115671186867538&bvid=BV14b2sBYE2U&cid=34550189043&p=5"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=115672679977274&bvid=BV1g52XB2E9k&cid=34550255530&p=1"
           scrolling="no"
           frameborder="0"
           allowfullscreen
