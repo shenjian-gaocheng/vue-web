@@ -305,6 +305,7 @@ onMounted(() => {
   font-size: 12px;
   color: #555;
   letter-spacing: 0.5px;
+  white-space: pre-line;
 }
 
 /* ====== 移动端：改为上下堆叠（更好看） ====== */
