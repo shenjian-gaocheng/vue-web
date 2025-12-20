@@ -71,6 +71,13 @@ class Teammate(db.Model):
     url = db.Column(db.String(255))
     note = db.Column(db.String(255))
 
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    detail = db.Column(db.Text, nullable=False)
+    img = db.Column(db.Text, nullable=False)
+
 # 自动创建表
 with app.app_context():
     db.create_all()
@@ -102,6 +109,14 @@ teammate_model = api.model('Teammate', {
     'is_active': fields.Boolean(required=True, description='是否活跃'),
     'url': fields.String(description='预留链接'),
     'note': fields.String(description='备注')
+})
+
+event_model = api.model('Event', {
+    'id': fields.String(description='大事记id'),
+    'date': fields.String(required=True, description='大事记日期，格式 YYYYMMDD'),
+    'title': fields.String(required=True, description='大事记标题'),
+    'detail': fields.String(description='大事记详情'),
+    'img': fields.String(required=True, description='大事记图片链接'),
 })
 
 # 登录并返回token
@@ -338,6 +353,13 @@ class StageList(Resource):
 #         logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {request.remote_addr}")
 #         return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
 
+@ns.route('/events')
+class EventList(Resource):
+    @ns.marshal_list_with(event_model)
+    @ns.doc(security=None)
+    def get(self):
+        """获取所有大事记记录"""
+        return Event.query.all()
 
 if __name__ == '__main__':
     # app.run(host="127.0.0.1", port=5000, debug=False)
