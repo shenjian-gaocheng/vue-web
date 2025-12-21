@@ -29,3 +29,7 @@ legacy
 
 # db
 backend/instance/
+
+# img
+public/event*.jpg
+public/toWebp
