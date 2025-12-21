@@ -170,7 +170,7 @@ const normalizeDetail = (text) => {
 
           <!-- 可选：当前筛选无数据时给个提示 -->
           <div v-if="filteredTimelineItems.length === 0" class="empty-tip">
-            该年份暂无记录
+            正在加载…
           </div>
         </div>
       </section>
