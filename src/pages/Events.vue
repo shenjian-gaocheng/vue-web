@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
@@ -10,6 +10,18 @@ import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 const timelineItems = ref([])
+
+// ===== 年份筛选（只要这几个）=====
+const yearOptions = ['all', '2025', '2024', '2023']
+const activeYear = ref('all')
+
+const getYear = (rawDate) => (rawDate && rawDate.length >= 4 ? rawDate.slice(0, 4) : '未知')
+
+// 根据 activeYear 过滤：all 就返回全部
+const filteredTimelineItems = computed(() => {
+  if (activeYear.value === 'all') return timelineItems.value
+  return timelineItems.value.filter(it => getYear(it.rawDate) === activeYear.value)
+})
 
 // 转换日期格式
 const formatCNDateFromYYYYMMDD = (dateStr) => {
@@ -82,7 +94,7 @@ const normalizeDetail = (text) => {
       v-model:collapsed="isSidebarCollapsed"
     />
 
-    <main 
+    <main
       :class="[
         'flex-fill',
         'd-flex',
@@ -94,7 +106,6 @@ const normalizeDetail = (text) => {
       ]"
       :style="{ paddingTop: isMobile ? '76px' : '16px' }"
     >
-
       <Notification />
 
       <h2 class="timeline-title">周童玥偶像运动会射箭项目录像</h2>
@@ -109,11 +120,28 @@ const normalizeDetail = (text) => {
 
       <section class="timeline-section">
         <h2 class="timeline-title">大事年表</h2>
+        <p class="text-center">
+          除特别注明外，所有图片均来自SNH48公演直播截图，或由SNH48官方微博发布。
+        </p>
+
+        <!-- 年份筛选条：全部 / 2025 / 2024 / 2023 -->
+        <div class="year-filter">
+          <button
+            v-for="y in yearOptions"
+            :key="y"
+            type="button"
+            class="year-btn"
+            :class="{ active: activeYear === y }"
+            @click="activeYear = y"
+          >
+            {{ y === 'all' ? '全部' : y }}
+          </button>
+        </div>
 
         <div class="timeline">
           <div
-            v-for="(it, idx) in timelineItems"
-            :key="idx"
+            v-for="(it, idx) in filteredTimelineItems"
+            :key="it.id ?? (it.rawDate + '_' + idx)"
             class="timeline-row"
             :class="{ reverse: idx % 2 === 1 }"
           >
@@ -138,6 +166,11 @@ const normalizeDetail = (text) => {
                 <div class="info-detail">{{ normalizeDetail(it.detail) }}</div>
               </div>
             </div>
+          </div>
+
+          <!-- 可选：当前筛选无数据时给个提示 -->
+          <div v-if="filteredTimelineItems.length === 0" class="empty-tip">
+            该年份暂无记录
           </div>
         </div>
       </section>
@@ -171,6 +204,38 @@ const normalizeDetail = (text) => {
   font-weight: 700;
   margin: 6px 0 18px;
   text-align: center;
+}
+
+/* ===== 年份筛选条 ===== */
+.year-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 8px 0 16px;
+  justify-content: center;
+}
+
+.year-btn {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #444;
+}
+
+.year-btn.active {
+  border-color: #f2b705;
+  background: rgba(242, 183, 5, 0.12);
+  color: #111;
+}
+
+.empty-tip {
+  margin: 18px 0 6px;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
 }
 
 /* 容器 */
