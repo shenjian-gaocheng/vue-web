@@ -233,7 +233,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <!-- 分区标题 -->
               <div class="mb-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                  <h4 class="mb-0">周童玥的队友</h4>
+                  <h4 class="mb-0 fw-bold">周童玥的队友</h4>
                   <span class="badge text-bg-secondary">Team SII / 新生</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -248,7 +248,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                    <h5 class="mb-0">Team SII 现队友</h5>
+                    <h5 class="mb-0 fw-bold">Team SII 现队友</h5>
                     <span class="badge rounded-pill text-bg-primary">现</span>
                   </div>
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -258,25 +258,25 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                   </div>
 
                   <div class="d-flex flex-wrap name-wrap">
-                    <span class="badge rounded-pill text-dark px-0 fs-6">曹可甜、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">陈雨孜、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">蒋夏羽、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">芦馨怡、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘诗彤、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘增艳、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">柳雨呈、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">宁轲、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">盛乐、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">田姝丽、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">由淼、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">闫明筠、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">杨心渝、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张雷雷、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张倩、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">赵天杨、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">武博涵（Team X兼任）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">李婷（预备生）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘婧阳（预备生）</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">曹可甜、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈雨孜、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">蒋夏羽、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">芦馨怡、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘诗彤、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘增艳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">柳雨呈、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">宁轲、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">盛乐、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">田姝丽、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">由淼、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">闫明筠、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">杨心渝、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张雷雷、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张倩、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">武博涵（Team X兼任）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李婷（预备生）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘婧阳（预备生）</span>
                   </div>
                 </div>
               </section>
@@ -285,7 +285,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                    <h5 class="mb-0">Team SII 前队友</h5>
+                    <h5 class="mb-0 fw-bold">Team SII 前队友</h5>
                     <span class="badge rounded-pill text-bg-secondary">前</span>
                   </div>
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -295,16 +295,16 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                   </div>
 
                   <div class="d-flex flex-wrap name-wrap">
-                    <span class="badge rounded-pill text-dark px-0 fs-6">李慧、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">马玉灵、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">邵雪聪、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">朱涵佳、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">黄恩茹、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘倩倩（原GNZ48 Team NIII兼任）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">彭嘉敏、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">黄怡慈（原BEJ48 Team B兼任）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">段艺璇、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">沈小爱</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李慧、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">马玉灵、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">邵雪聪、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">朱涵佳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">黄恩茹、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘倩倩（原GNZ48 Team NIII兼任）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">彭嘉敏、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">黄怡慈（原BEJ48 Team B兼任）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">段艺璇、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">沈小爱</span>
                   </div>
                 </div>
               </section>
@@ -313,7 +313,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <section class="border-0 bg-light-subtle mb-5">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                    <h5 class="mb-0">新生公演 前队友</h5>
+                    <h5 class="mb-0 fw-bold">新生公演 前队友</h5>
                     <span class="badge rounded-pill text-bg-secondary">新生阶段</span>
                   </div>
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -323,39 +323,38 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                   </div>
 
                   <div class="d-flex flex-wrap name-wrap">
-                    <span class="badge rounded-pill text-dark px-0 fs-6">林佳怡、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">禹佳蔚、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张月铭、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">王依柳、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">熊紫轶、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘小涵、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">卢晨昕、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">李虞龙若、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">温若其、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">许佳佳、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">尤可莹、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张怡婷、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">梁怀方、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">唐程成、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">王悦垚、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">王紫澍、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">叶凡、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张瀚引、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">陈真允一、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">罗颍宸、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">温冰冰、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">吴欣怡、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">夏奕欣、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张曼妮、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">陈芷晴、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">潘力帼、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">陈俞希、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">金泓言、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">李妍、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">李子忻、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">杨秋野（原名孙莉）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">肖彦竹</span>
-
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">林佳怡、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">禹佳蔚、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张月铭、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">王依柳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">熊紫轶、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘小涵、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">卢晨昕、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李虞龙若、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">温若其、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">许佳佳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">尤可莹、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张怡婷、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">梁怀方、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">唐程成、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">王悦垚、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">王紫澍、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">叶凡、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张瀚引、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈真允一、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">罗颍宸、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">温冰冰、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">吴欣怡、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">夏奕欣、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张曼妮、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈芷晴、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">潘力帼、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈俞希、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">金泓言、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李妍、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李子忻、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">杨秋野（原名孙莉）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">肖彦竹</span>
                   </div>
                 </div>
               </section>
@@ -363,7 +362,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <!-- 其他关系 -->
               <div class="mb-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                  <h4 class="mb-0">其他关系</h4>
+                  <h4 class="mb-0 fw-bold">其他关系</h4>
                   <span class="badge text-bg-secondary">活动</span>
                 </div>
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
@@ -377,27 +376,27 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                    <h5 class="mb-0">《最佳拍档》第四季 拍档</h5>
+                    <h5 class="mb-0 fw-bold">《最佳拍档》第四季 拍档</h5>
                     <span class="badge rounded-pill text-bg-primary">最佳拍档</span>
                   </div>
 
                   <div class="d-flex flex-wrap name-wrap">
-                    <span class="badge rounded-pill text-dark px-0 fs-6">庄雅雯（前 BEJ48 Team E 成员）</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">庄雅雯（前 BEJ48 Team E 成员）</span>
                   </div>
                 </div>
               </section>
               <section class="border-0 bg-light-subtle">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                    <h5 class="mb-0">《燃烧吧，团魂》第二季「我说的都队」社团</h5>
+                    <h5 class="mb-0 fw-bold">《燃烧吧，团魂》第二季「我说的都队」社团</h5>
                     <span class="badge rounded-pill text-bg-primary">团魂</span>
                   </div>
 
                   <div class="d-flex flex-wrap name-wrap">
-                    <span class="badge rounded-pill text-dark px-0 fs-6">刘增艳、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">叶凡（SNH48 Team NII 成员）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">张倩、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6">唐程成（SNH48 Team NII 成员）</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘增艳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">叶凡（SNH48 Team NII 成员）、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张倩、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">唐程成（SNH48 Team NII 成员）</span>
                     <span class="badge rounded-pill text-bg-primary fs-6">周童玥：队长</span>
                   </div>
                 </div>
