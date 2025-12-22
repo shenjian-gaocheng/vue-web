@@ -240,8 +240,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </div>
 
               <!-- Team SII 现队友 -->
-              <section class="card border-0 bg-light-subtle mb-4">
-                <div class="card-body p-4">
+              <section class="border-0 bg-light-subtle mb-4">
+                <div class="card-body">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                     <h4 class="mb-0">Team SII 现队友</h4>
                     <span class="badge rounded-pill text-bg-primary">现</span>
@@ -276,7 +276,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </section>
 
               <!-- Team SII 前队友 -->
-              <section class="card border-0 bg-light-subtle mb-4">
+              <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                     <h4 class="mb-0">Team SII 前队友</h4>
@@ -304,7 +304,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </section>
 
               <!-- 新生公演 前队友 -->
-              <section class="card border-0 bg-light-subtle mb-5">
+              <section class="border-0 bg-light-subtle mb-5">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                     <h4 class="mb-0">新生公演 前队友</h4>
@@ -353,8 +353,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </section>
 
               <!-- 其他关系 -->
-              <section class="card border-0 bg-white">
-                <div class="card-body p-0">
+              <section class="border-0 bg-white">
+                <div class="card-body p-4">
                   <h4 class="mb-2">其他关系</h4>
                   <p class="text-muted mb-3">
                     周童玥在 SNH48 GROUP 其他活动中的队友。
