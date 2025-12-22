@@ -232,9 +232,14 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
               <!-- 分区标题 -->
               <div class="mb-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                  <h4 class="mb-0">周童玥的队友</h4>
+                  <span class="badge text-bg-secondary">Team SII / 新生</span>
+                </div>
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                  <h5 class="mb-0">周童玥的队友</h5>
-                  <span class="badge text-bg-secondary">Team / 新生 / 活动</span>
+                  <p class="text-muted mb-3">
+                    周童玥在 Team SII 以及新生公演时期的队友。
+                  </p>
                 </div>
                 <!-- <hr class="my-3"> -->
               </div>
@@ -242,8 +247,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <!-- Team SII 现队友 -->
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
-                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                    <h4 class="mb-0">Team SII 现队友</h4>
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">Team SII 现队友</h5>
                     <span class="badge rounded-pill text-bg-primary">现</span>
                   </div>
                   <p class="text-muted mb-3">
@@ -278,8 +283,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <!-- Team SII 前队友 -->
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
-                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                    <h4 class="mb-0">Team SII 前队友</h4>
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">Team SII 前队友</h5>
                     <span class="badge rounded-pill text-bg-secondary">前</span>
                   </div>
                   <p class="text-muted mb-3">
@@ -306,8 +311,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <!-- 新生公演 前队友 -->
               <section class="border-0 bg-light-subtle mb-5">
                 <div class="card-body p-4">
-                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
-                    <h4 class="mb-0">新生公演 前队友</h4>
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">新生公演 前队友</h5>
                     <span class="badge rounded-pill text-bg-secondary">新生阶段</span>
                   </div>
                   <p class="text-muted mb-3">
@@ -353,26 +358,44 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               </section>
 
               <!-- 其他关系 -->
-              <section class="border-0 bg-white">
-                <div class="card-body p-4">
-                  <h4 class="mb-2">其他关系</h4>
+              <div class="mb-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                  <h4 class="mb-0">其他关系</h4>
+                  <span class="badge text-bg-secondary">活动</span>
+                </div>
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                   <p class="text-muted mb-3">
                     周童玥在 SNH48 GROUP 其他活动中的队友。
                   </p>
+                </div>
+                <!-- <hr class="my-3"> -->
+              </div>
 
-                  <div class="vstack gap-3">
-                    <div class="p-3 bg-light-subtle rounded">
-                      <div class="fw-semibold mb-1">《最佳拍档》第四季 拍档</div>
-                      <div class="text-muted">庄雅雯（前 BEJ48 Team E 成员）</div>
-                    </div>
+              <section class="border-0 bg-light-subtle mb-4">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">《最佳拍档》第四季 拍档</h5>
+                    <span class="badge rounded-pill text-bg-primary">最佳拍档</span>
+                  </div>
 
-                    <div class="p-3 bg-light-subtle rounded">
-                      <div class="fw-semibold mb-1">《燃烧吧，团魂》第二季「我说的都队」社团</div>
-                      <div class="text-muted">
-                        刘增艳、叶凡（SNH48 Team NII 成员）、张倩、唐程成（SNH48 Team NII 成员）
-                        <span class="ms-2 badge text-bg-primary">周童玥：队长</span>
-                      </div>
-                    </div>
+                  <div class="d-flex flex-wrap gap-2 name-wrap">
+                    <span class="badge rounded-pill text-bg-light border text-dark">庄雅雯（前 BEJ48 Team E 成员）</span>
+                  </div>
+                </div>
+              </section>
+              <section class="border-0 bg-light-subtle">
+                <div class="card-body p-4">
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <h5 class="mb-0">《燃烧吧，团魂》第二季「我说的都队」社团</h5>
+                    <span class="badge rounded-pill text-bg-primary">团魂</span>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2 name-wrap">
+                    <span class="badge rounded-pill text-bg-light border text-dark">刘增艳</span>
+                    <span class="badge rounded-pill text-bg-light border text-dark">叶凡（SNH48 Team NII 成员）</span>
+                    <span class="badge rounded-pill text-bg-light border text-dark">张倩</span>
+                    <span class="badge rounded-pill text-bg-light border text-dark">唐程成（SNH48 Team NII 成员）</span>
+                    <span class="badge rounded-pill text-bg-primary border">周童玥：队长</span>
                   </div>
                 </div>
               </section>
