@@ -272,10 +272,9 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-bg-light border text-dark">张雷雷</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">张倩</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">赵天杨</span>
-
-                    <span class="badge rounded-pill text-bg-warning text-dark">武博涵（Team X兼任）</span>
-                    <span class="badge rounded-pill text-bg-info text-dark">李婷（预备生）</span>
-                    <span class="badge rounded-pill text-bg-info text-dark">刘婧阳（预备生）</span>
+                    <span class="badge rounded-pill text-bg-light border">武博涵（Team X兼任）</span>
+                    <span class="badge rounded-pill text-bg-light border">李婷（预备生）</span>
+                    <span class="badge rounded-pill text-bg-light border">刘婧阳（预备生）</span>
                   </div>
                 </div>
               </section>
@@ -297,9 +296,9 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-bg-light border text-dark">邵雪聪</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">朱涵佳</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">黄恩茹</span>
-                    <span class="badge rounded-pill text-bg-warning text-dark">刘倩倩（原GNZ48 Team NIII兼任）</span>
+                    <span class="badge rounded-pill text-bg-light border">刘倩倩（原GNZ48 Team NIII兼任）</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">彭嘉敏</span>
-                    <span class="badge rounded-pill text-bg-warning text-dark">黄怡慈（原BEJ48 Team B兼任）</span>
+                    <span class="badge rounded-pill text-bg-light border">黄怡慈（原BEJ48 Team B兼任）</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">段艺璇</span>
                     <span class="badge rounded-pill text-bg-light border text-dark">沈小爱</span>
 
