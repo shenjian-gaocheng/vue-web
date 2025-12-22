@@ -227,7 +227,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           </div>
 
           <!-- 外层卡片 -->
-          <div class="card shadow-sm border-0">
+          <div class="bg-light shadow-sm border-0">
             <div class="card-body p-4 p-md-5">
 
               <!-- 分区标题 -->
@@ -236,12 +236,12 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                   <h5 class="mb-0">周童玥的队友</h5>
                   <span class="badge text-bg-secondary">Team / 新生 / 活动</span>
                 </div>
-                <hr class="my-3">
+                <!-- <hr class="my-3"> -->
               </div>
 
               <!-- Team SII 现队友 -->
               <section class="border-0 bg-light-subtle mb-4">
-                <div class="card-body">
+                <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                     <h4 class="mb-0">Team SII 现队友</h4>
                     <span class="badge rounded-pill text-bg-primary">现</span>
