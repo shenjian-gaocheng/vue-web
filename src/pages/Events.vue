@@ -47,6 +47,7 @@ const loadEvents = async () => {
 
     // ====== 后端 events → 时间线格式 ======
     timelineItems.value = data
+      .filter(item => item.is_imp === true)  // 只保留重要事件
       .map(item => ({
         id: item.id,
         rawDate: item.date,  // ⭐ 保留原始 YYYYMMDD

@@ -77,6 +77,7 @@ class Event(db.Model):
     title = db.Column(db.Text, nullable=False)
     detail = db.Column(db.Text, nullable=False)
     img = db.Column(db.Text, nullable=False)
+    is_imp = db.Column(db.Boolean, nullable=False)
 
 # 自动创建表
 with app.app_context():
@@ -117,6 +118,7 @@ event_model = api.model('Event', {
     'title': fields.String(required=True, description='大事记标题'),
     'detail': fields.String(description='大事记详情'),
     'img': fields.String(required=True, description='大事记图片链接'),
+    'is_imp': fields.Boolean(required=True, description='是否为重要事件'),
 })
 
 # 登录并返回token
