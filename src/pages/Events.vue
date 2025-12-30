@@ -10,18 +10,20 @@ import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 const timelineItems = ref([])
+const isLoading = ref(true)
+
+// ===== 年表类型切换：重要 / 全部 =====
+const scopeOptions = [
+  { key: 'imp', label: '重要大事年表' },
+  { key: 'all', label: '全部大事年表' }
+]
+const activeScope = ref('imp') // 默认显示重要
 
 // ===== 年份筛选（只要这几个）=====
 const yearOptions = ['all', '2025', '2024', '2023']
 const activeYear = ref('all')
 
 const getYear = (rawDate) => (rawDate && rawDate.length >= 4 ? rawDate.slice(0, 4) : '未知')
-
-// 根据 activeYear 过滤：all 就返回全部
-const filteredTimelineItems = computed(() => {
-  if (activeYear.value === 'all') return timelineItems.value
-  return timelineItems.value.filter(it => getYear(it.rawDate) === activeYear.value)
-})
 
 // 转换日期格式
 const formatCNDateFromYYYYMMDD = (dateStr) => {
@@ -34,10 +36,34 @@ const formatCNDateFromYYYYMMDD = (dateStr) => {
   return `${y}年${m}月${d}日`
 }
 
+// 详情换行规整
+const normalizeDetail = (text) => {
+  if (!text) return ''
+  return String(text).replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n')
+}
+
+// ===== 组合筛选：年份 + (重要/全部) =====
+const filteredTimelineItems = computed(() => {
+  let arr = timelineItems.value
+
+  // ① scope：重要才按 is_imp 过滤
+  if (activeScope.value === 'imp') {
+    arr = arr.filter(it => it.is_imp === true)
+  }
+
+  // ② 年份
+  if (activeYear.value !== 'all') {
+    arr = arr.filter(it => getYear(it.rawDate) === activeYear.value)
+  }
+
+  return arr
+})
+
 // 调用api
 const { apiFetch } = useApi()
 
 const loadEvents = async () => {
+  isLoading.value = true
   try {
     const { ok, data } = await apiFetch('/events')
     if (!ok) {
@@ -45,33 +71,29 @@ const loadEvents = async () => {
       return
     }
 
-    // ====== 后端 events → 时间线格式 ======
-    timelineItems.value = data
-      .filter(item => item.is_imp === true)  // 只保留重要事件
+    // ✅注意：这里不能再 filter is_imp，否则“全部”模式永远没有非重要事件
+    timelineItems.value = (data ?? [])
       .map(item => ({
         id: item.id,
-        rawDate: item.date,  // ⭐ 保留原始 YYYYMMDD
+        rawDate: item.date, // YYYYMMDD
         date: formatCNDateFromYYYYMMDD(item.date),
         title: item.title,
-        img: `/${item.img}`,   // 图片需在 public/
+        img: item.img ? `/${item.img}` : '', // 重要模式要用到图片
         tag: 'SNH48',
-        detail: item.detail
+        detail: item.detail,
+        is_imp: item.is_imp === true
       }))
       .sort((a, b) => a.rawDate.localeCompare(b.rawDate))
   } catch (e) {
     console.error('加载失败', e)
+  } finally {
+    isLoading.value = false
   }
 }
 
 onMounted(() => {
   loadEvents()
 })
-
-const normalizeDetail = (text) => {
-  if (!text) return ''
-  // 把字面量 \n / \r\n 变成真实换行
-  return text.replace(/\\r\\n/g, '\n').replace(/\\n/g, '\n')
-}
 </script>
 
 <template>
@@ -125,7 +147,21 @@ const normalizeDetail = (text) => {
           除特别注明外，所有图片均来自SNH48公演直播截图，或由SNH48官方微博发布。
         </p>
 
-        <!-- 年份筛选条：全部 / 2025 / 2024 / 2023 -->
+        <!-- ① 年表类型切换：重要 / 全部 -->
+        <div class="scope-filter">
+          <button
+            v-for="s in scopeOptions"
+            :key="s.key"
+            type="button"
+            class="scope-btn"
+            :class="{ active: activeScope === s.key }"
+            @click="activeScope = s.key"
+          >
+            {{ s.label }}
+          </button>
+        </div>
+
+        <!-- ② 年份筛选条 -->
         <div class="year-filter">
           <button
             v-for="y in yearOptions"
@@ -139,7 +175,8 @@ const normalizeDetail = (text) => {
           </button>
         </div>
 
-        <div class="timeline">
+        <!-- ✅重要：保留原时间轴格式 -->
+        <div v-if="activeScope === 'imp'" class="timeline">
           <div
             v-for="(it, idx) in filteredTimelineItems"
             :key="it.id ?? (it.rawDate + '_' + idx)"
@@ -149,8 +186,7 @@ const normalizeDetail = (text) => {
             <!-- 左侧（或右侧）图片卡 -->
             <div class="timeline-media">
               <div class="photo-card">
-                <img :src="it.img" :alt="it.title" />
-                <!-- <div v-if="it.tag" class="corner-tag">{{ it.tag }}</div> -->
+                <img v-if="it.img" :src="it.img" :alt="it.title" />
               </div>
             </div>
 
@@ -169,10 +205,31 @@ const normalizeDetail = (text) => {
             </div>
           </div>
 
-          <!-- 可选：当前筛选无数据时给个提示 -->
-          <div v-if="filteredTimelineItems.length === 0" class="empty-tip">
-            正在加载…
+          <div v-if="isLoading" class="empty-tip">正在加载…</div>
+          <div v-else-if="filteredTimelineItems.length === 0" class="empty-tip">当前筛选无数据</div>
+        </div>
+
+        <!-- ✅全部：列表模式（不带图片） -->
+        <div v-else class="event-list">
+          <div
+            v-for="it in filteredTimelineItems"
+            :key="it.id ?? (it.rawDate + '_' + it.title)"
+            class="event-item"
+          >
+            <div class="event-head">
+              <div class="event-date">{{ it.date }}</div>
+              <!-- <span v-if="it.is_imp" class="badge-imp">重要</span> -->
+            </div>
+
+            <div class="event-title">{{ it.title }}</div>
+
+            <!-- <div v-if="normalizeDetail(it.detail)" class="event-detail">
+              {{ normalizeDetail(it.detail) }}
+            </div> -->
           </div>
+
+          <div v-if="isLoading" class="empty-tip">正在加载…</div>
+          <div v-else-if="filteredTimelineItems.length === 0" class="empty-tip">当前筛选无数据</div>
         </div>
       </section>
     </main>
@@ -182,16 +239,11 @@ const normalizeDetail = (text) => {
 <style scoped>
 .video-wrapper {
   width: 100%;
-  max-width: 960px;   /* 可选：限制最大宽度 */
-  margin: 0 auto;     /* 居中 */
+  max-width: 960px;
+  margin: 0 auto;
   aspect-ratio: 16 / 9;
 }
-
-.video-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
+.video-wrapper iframe { width: 100%; height: 100%; border: none; }
 
 .timeline-section {
   width: 100%;
@@ -207,6 +259,30 @@ const normalizeDetail = (text) => {
   text-align: center;
 }
 
+/* ===== 年表类型切换 ===== */
+.scope-filter {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 8px 0 10px;
+  justify-content: center;
+}
+
+.scope-btn {
+  border: 1px solid #eee;
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #444;
+}
+.scope-btn.active {
+  border-color: #ffc107;              /* warning */
+  background: #ffc107;  /* warning 浅黄 */
+  color: #111;                 /* 深黄字 */
+}
+
 /* ===== 年份筛选条 ===== */
 .year-filter {
   display: flex;
@@ -215,7 +291,6 @@ const normalizeDetail = (text) => {
   margin: 8px 0 16px;
   justify-content: center;
 }
-
 .year-btn {
   border: 1px solid #eee;
   background: #fff;
@@ -225,7 +300,6 @@ const normalizeDetail = (text) => {
   font-weight: 700;
   color: #444;
 }
-
 .year-btn.active {
   border-color: #f2b705;
   background: rgba(242, 183, 5, 0.12);
@@ -265,7 +339,6 @@ const normalizeDetail = (text) => {
   order: 2;
 }
 
-/* ====== 中轴线 ====== */
 .timeline-axis {
   position: relative;
   height: 100%;
@@ -273,7 +346,6 @@ const normalizeDetail = (text) => {
   justify-content: center;
   align-items: center;
 }
-
 .timeline-axis::before {
   content: "";
   position: absolute;
@@ -284,7 +356,6 @@ const normalizeDetail = (text) => {
   left: 50%;
   transform: translateX(-50%);
 }
-
 .axis-dot {
   width: 14px;
   height: 14px;
@@ -292,7 +363,6 @@ const normalizeDetail = (text) => {
   background: white;
   border: 3px solid #f2b705;
   box-shadow: 0 0 0 4px rgba(240, 90, 119, 0.12);
-  /* margin-top: 6px; */
   z-index: 2;
 }
 
@@ -348,12 +418,10 @@ const normalizeDetail = (text) => {
   padding: 14px 18px;
   border-radius: 10px;
 }
-
 .timeline-row.reverse .info-bar {
   border-left: none;
   border-right: 6px solid #f2b705;
 }
-
 .info-date {
   font-size: 20px;
   font-weight: 800;
@@ -362,47 +430,109 @@ const normalizeDetail = (text) => {
   border-bottom: 2px solid rgba(242, 183, 5, 0.45);
   margin-bottom: 10px;
 }
-
 .info-sub {
   font-size: 18px;
   color: #555;
   letter-spacing: 0.5px;
   font-weight: 600;
 }
-
 .info-detail {
   padding-top: 8px;
   font-size: 12px;
   color: #555;
   letter-spacing: 0.5px;
   white-space: pre-line;
+  line-height: 1.65;
 }
 
-/* ====== 移动端：改为上下堆叠（更好看） ====== */
 @media (max-width: 768px) {
+  /* ① 单列（你已有） */
   .timeline-row {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 14px;
+    text-align: center; /* 关键：整体文本居中 */
   }
 
   .timeline-axis {
     display: none;
   }
 
+  /* ② 图片卡整体居中 */
+  .timeline-media {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* ③ 信息条容器居中 */
+  .timeline-info {
+    display: flex;
+    justify-content: center !important;
+  }
+
+  /* ④ 信息卡片自身居中 + 文本对齐 */
+  .info-bar {
+    margin: 0 auto;
+    text-align: left; /* 如果你想正文仍然左对齐，可保留 */
+  }
+
+  /* ⑤ 取消 reverse 带来的左右逻辑影响 */
   .timeline-row.reverse .timeline-media,
   .timeline-row.reverse .timeline-info {
     order: initial;
   }
 
-  .timeline-info,
-  .timeline-row.reverse .timeline-info {
-    justify-content: flex-start;
-  }
-
-  .info-bar,
   .timeline-row.reverse .info-bar {
     border-right: none;
     border-left: 6px solid #f2b705;
   }
+}
+
+/* ====== 全部：列表样式（无图片） ====== */
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 6px 0 10px;
+}
+.event-item {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #fff;
+  text-align: left;
+}
+.event-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.event-date {
+  font-size: 16px;
+  font-weight: 900;
+  color: #f2b705;
+}
+.badge-imp {
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(240, 90, 119, 0.35);
+  background: rgba(240, 90, 119, 0.12);
+  color: #c23a53;
+  font-weight: 800;
+}
+.event-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.event-detail {
+  font-size: 14px;
+  color: #555;
+  letter-spacing: 0.2px;
+  white-space: pre-line;
+  line-height: 1.65;
 }
 </style>
