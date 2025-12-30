@@ -4,147 +4,147 @@ import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import ZonedDateTime from '@/components/ZonedDateTime.vue'
-import Modal from '@/components/Modal.vue'
+// import Modal from '@/components/Modal.vue'
 import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
 import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router'
+// import { storeToRefs } from 'pinia'
+// import { useRouter } from 'vue-router'
 
 // 增加路由
-const router = useRouter()
+// const router = useRouter()
 
 // 响应式侧边栏
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 // 引入 Pinia 状态
 const auth = useAuthStore()
-const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
-const { verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
+// const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
+// const { verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
 
 // 调用api
 const { apiFetch } = useApi()
 
 // 默认弹框关闭
-const showModal = ref(false)
-const selectedItem = ref(null)        // 原始数据，用于页面展示
-const tempItem = ref({})              // 临时副本，仅用于弹框编辑
-function formatDateForInput(datetimeStr) {
-  // 原始格式: "2025-06-15 13:45:00+08:00"
-  // 去掉秒和时区部分
-  return datetimeStr.replace(' ', 'T').slice(0, 16)
-}
-function toISOWithTimezoneOffset(date) {
-  const pad = (num) => String(num).padStart(2, '0')
+// const showModal = ref(false)
+// const selectedItem = ref(null)        // 原始数据，用于页面展示
+// const tempItem = ref({})              // 临时副本，仅用于弹框编辑
+// function formatDateForInput(datetimeStr) {
+//   // 原始格式: "2025-06-15 13:45:00+08:00"
+//   // 去掉秒和时区部分
+//   return datetimeStr.replace(' ', 'T').slice(0, 16)
+// }
+// function toISOWithTimezoneOffset(date) {
+//   const pad = (num) => String(num).padStart(2, '0')
 
-  const yyyy = date.getFullYear()
-  const mm = pad(date.getMonth() + 1)
-  const dd = pad(date.getDate())
-  const hh = pad(date.getHours())
-  const min = pad(date.getMinutes())
-  const ss = pad(date.getSeconds())
+//   const yyyy = date.getFullYear()
+//   const mm = pad(date.getMonth() + 1)
+//   const dd = pad(date.getDate())
+//   const hh = pad(date.getHours())
+//   const min = pad(date.getMinutes())
+//   const ss = pad(date.getSeconds())
 
-  // 假设固定使用北京时间 +08:00
-  return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}+08:00`
-}
-const openModal = (item = null) => {
-  if (item) {
-    // 编辑：深拷贝已有项
-    selectedItem.value = item
-    tempItem.value = JSON.parse(JSON.stringify(item))
-    if (tempItem.value.date) {
-      tempItem.value.date = formatDateForInput(tempItem.value.date)
-    }
-  } else {
-    // 新建：初始化默认值
-    selectedItem.value = null
-    tempItem.value = {
-      session: '0',
-      date: '',
-      type: '',
-      title: '',
-      url: '',
-      cut_url: '',
-      is_stage: false,
-      is_end: false,
-    }
-  }
-  showModal.value = true
-}
+//   // 假设固定使用北京时间 +08:00
+//   return `${yyyy}-${mm}-${dd}T${hh}:${min}:${ss}+08:00`
+// }
+// const openModal = (item = null) => {
+//   if (item) {
+//     // 编辑：深拷贝已有项
+//     selectedItem.value = item
+//     tempItem.value = JSON.parse(JSON.stringify(item))
+//     if (tempItem.value.date) {
+//       tempItem.value.date = formatDateForInput(tempItem.value.date)
+//     }
+//   } else {
+//     // 新建：初始化默认值
+//     selectedItem.value = null
+//     tempItem.value = {
+//       session: '0',
+//       date: '',
+//       type: '',
+//       title: '',
+//       url: '',
+//       cut_url: '',
+//       is_stage: false,
+//       is_end: false,
+//     }
+//   }
+//   showModal.value = true
+// }
 
-const handleConfirm = async () => {
-  // 校验必填字段
-  if (!tempItem.value.title 
-    || !tempItem.value.date 
-    || !tempItem.value.session
-    || !tempItem.value.type
-  ) {
-    alert('❗ 请填写所有必填项')
-    showModal.value = true
-    return
-  }
+// const handleConfirm = async () => {
+//   // 校验必填字段
+//   if (!tempItem.value.title 
+//     || !tempItem.value.date 
+//     || !tempItem.value.session
+//     || !tempItem.value.type
+//   ) {
+//     alert('❗ 请填写所有必填项')
+//     showModal.value = true
+//     return
+//   }
 
-  const payload = {
-    session: tempItem.value.session,
-    date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
-    type: tempItem.value.type,
-    title: tempItem.value.title,
-    url: tempItem.value.url,
-    cut_url: tempItem.value.cut_url,
-    is_stage: tempItem.value.is_stage,
-    is_end: tempItem.value.is_end
-  }
+//   const payload = {
+//     session: tempItem.value.session,
+//     date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
+//     type: tempItem.value.type,
+//     title: tempItem.value.title,
+//     url: tempItem.value.url,
+//     cut_url: tempItem.value.cut_url,
+//     is_stage: tempItem.value.is_stage,
+//     is_end: tempItem.value.is_end
+//   }
 
-  let result
-  try {
-    if (selectedItem.value) {
-      // 编辑（PUT）
-      result = await apiFetch(`/stages/${tempItem.value.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-    } else {
-      // 新建（POST）
-      result = await apiFetch('/stages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-    }
+//   let result
+//   try {
+//     if (selectedItem.value) {
+//       // 编辑（PUT）
+//       result = await apiFetch(`/stages/${tempItem.value.id}`, {
+//         method: 'PUT',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(payload)
+//       })
+//     } else {
+//       // 新建（POST）
+//       result = await apiFetch('/stages', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(payload)
+//       })
+//     }
 
-    const { ok, status, data } = result
+//     const { ok, status, data } = result
 
-    if (!ok) {
-      if (status === 401) {
-        alert('⚠️ 登录过期，请重新登录')
-        router.push('/login')
-      } else {
-        alert(`❌ ${selectedItem.value ? '修改' : '添加'}失败：${data.message || '服务器错误'}`)
-      }
-      return
-    }
+//     if (!ok) {
+//       if (status === 401) {
+//         alert('⚠️ 登录过期，请重新登录')
+//         router.push('/login')
+//       } else {
+//         alert(`❌ ${selectedItem.value ? '修改' : '添加'}失败：${data.message || '服务器错误'}`)
+//       }
+//       return
+//     }
 
-    alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
-    showModal.value = false
-    loadStages()
+//     alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
+//     showModal.value = false
+//     loadStages()
 
-  } catch (err) {
-    // 捕获网络错误
-    alert('❌ 网络连接失败，请检查网络或稍后重试')
-    console.error(err)
-    return
-  }
+//   } catch (err) {
+//     // 捕获网络错误
+//     alert('❌ 网络连接失败，请检查网络或稍后重试')
+//     console.error(err)
+//     return
+//   }
 
-  // showModal.value = false
-  // loadStages()
-  // alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
-}
+//   // showModal.value = false
+//   // loadStages()
+//   // alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
+// }
 
 // 刷新登录状态
 // window.addEventListener('storage', (event) => {
@@ -234,10 +234,10 @@ onMounted(() => {
   // startPolling()
 })
 
-onUnmounted(() => {
-  // stopPolling()
-  // isLoggedIn.value = true
-})
+// onUnmounted(() => {
+//   stopPolling()
+//   isLoggedIn.value = true
+// })
 
 // 搜索
 const searchQuery = ref("")
@@ -387,11 +387,11 @@ const clearFilters = () => {
       </div>
 
 
-      <template v-if="isLoggedIn">
+      <!-- <template v-if="isLoggedIn">
         <button class="btn btn-success mb-3" @click="() => openModal()">
           ➕ 新建公演或活动记录
         </button>
-      </template>
+      </template> -->
 
       <div class="w-100">
         <!-- 加载状态 -->
@@ -524,11 +524,11 @@ const clearFilters = () => {
                   </template>
 
                   <!-- ✅ 登录后显示编辑按钮 -->
-                  <template v-if="isLoggedIn">
+                  <!-- <template v-if="isLoggedIn">
                     <button class="btn btn-sm btn-outline-dark" @click="() => openModal(item)">
                       编辑
                     </button>
-                  </template>
+                  </template> -->
                 </div>
               </div>
             </li>
@@ -543,7 +543,7 @@ const clearFilters = () => {
         </template>
       </div>
 
-      <Modal v-model="showModal" title="编辑项" @confirm="handleConfirm">
+      <!-- <Modal v-model="showModal" title="编辑项" @confirm="handleConfirm">
         <div class="form-group row mb-2 align-items-center">
           <label class="col-sm-3 col-form-label text-start">时间 <span class="text-danger">*</span><br>（请输入北京时间）</label>
           <div class="col-sm-9">
@@ -607,8 +607,8 @@ const clearFilters = () => {
             <input v-model="tempItem.cut_url" type="text" class="form-control" />
           </div>
         </div>
-        <!-- 你可以放任何 slot 内容，甚至是编辑表单 -->
-      </Modal>
+        你可以放任何 slot 内容，甚至是编辑表单
+      </Modal> -->
     </main>
   </div>
 </template>
