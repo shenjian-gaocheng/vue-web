@@ -8,7 +8,7 @@ import ZonedDateTime from '@/components/ZonedDateTime.vue'
 import Notification from '@/components/Notification.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
-import { useAuthStore } from '@/stores/auth'
+// import { useAuthStore } from '@/stores/auth'
 // import { storeToRefs } from 'pinia'
 // import { useRouter } from 'vue-router'
 
@@ -19,7 +19,7 @@ import { useAuthStore } from '@/stores/auth'
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 // 引入 Pinia 状态
-const auth = useAuthStore()
+// const auth = useAuthStore()
 // const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
 // const { verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
 
