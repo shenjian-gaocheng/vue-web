@@ -1,17 +1,17 @@
-import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
+// import { useAuthStore } from '@/stores/auth'
+// import { storeToRefs } from 'pinia'
 
 export function useApi() {
 
   const baseUrl = 'http://118.196.20.148:5000/api'
-  const auth = useAuthStore()
-  const { token } = storeToRefs(auth)
+  // const auth = useAuthStore()
+  // const { token } = storeToRefs(auth)
 
   const apiFetch = async (path, options = {}) => {
     const headers = options.headers || {}
-    if (token.value) {
-      headers['Authorization'] = `Bearer ${token.value}`
-    }
+    // if (token.value) {
+    //   headers['Authorization'] = `Bearer ${token.value}`
+    // }
 
     const res = await fetch(`${baseUrl}${path}`, {
       ...options,
