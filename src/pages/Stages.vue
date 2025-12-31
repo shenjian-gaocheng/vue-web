@@ -185,7 +185,13 @@ const loadStages = async () => {
       const date = new Date(item.date?.trim())
       const isStage = item.is_stage
       const isUpcoming = date > now
-      const isCurrent = date <= now && item.is_end === false
+
+      // 判断是否为今日公演，直接按照0时计算
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const targetDate = new Date(date)
+      targetDate.setHours(0, 0, 0, 0)
+      const isCurrent = targetDate.getTime() === today.getTime() && item.is_end === false
     
       if (isCurrent && isStage) {
         temp['今日公演'].push(item)
@@ -284,6 +290,40 @@ const clearFilters = () => {
   searchEndType.value = "text"
 
   filteredStages.value = { ...groupedStages.value }
+}
+
+// 判断是否距离现在开始30分钟
+const parseToDate = (v) => {
+  if (!v) return null
+
+  // 数字：可能是秒/毫秒时间戳
+  if (typeof v === 'number') {
+    return new Date(v < 1e12 ? v * 1000 : v)
+  }
+
+  // 字符串：兼容 "YYYY-MM-DD HH:mm:ss" / "YYYY-MM-DD HH:mm" / ISO
+  if (typeof v === 'string') {
+    const s = v.trim().replace(' ', 'T') // 让 "2025-12-31 19:00" 变成 ISO 友好格式
+    const d = new Date(s)
+    return isNaN(d.getTime()) ? null : d
+  }
+
+  // Date 对象
+  if (v instanceof Date) return v
+
+  return null
+}
+
+const canShowLiveButton = (startDateLike) => {
+  const start = parseToDate(startDateLike)
+  if (!start) return false
+
+  const now = new Date()
+
+  // 提前 30 分钟的时间点
+  const showFrom = new Date(start.getTime() - 30 * 60 * 1000)
+
+  return now >= showFrom
 }
 
 </script>
@@ -424,8 +464,8 @@ const clearFilters = () => {
 
                 <!-- 右侧：两个按钮 -->
                 <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-2">
-                  <!-- 判断 group 是否为“今日公演”，然后提供直播入口 -->
-                  <template v-if="group === '今日公演'">
+                  <!-- 判断 group 是否为“今日公演”，且是否距离开场30分钟之内，然后提供直播入口 -->
+                  <template v-if="group === '今日公演' && canShowLiveButton(item.date)">
                     <!-- SNH 或 time 为空 -->
                     <a
                       v-if="!item.time || item.time === 'SNH'"
@@ -483,6 +523,13 @@ const clearFilters = () => {
                       target="_blank"
                       class="btn btn-sm btn-success disabled"
                     >
+                      暂无直播
+                    </a>
+                  </template>
+
+                  <!-- 如果是“今日公演”，且距离开场超过30分钟，不提供直播入口 -->
+                  <template v-else-if="group === '今日公演'">
+                    <a href="javascript:void(0)" class="btn btn-sm btn-success disabled">
                       暂无直播
                     </a>
                   </template>
