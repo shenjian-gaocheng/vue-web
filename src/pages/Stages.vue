@@ -191,7 +191,7 @@ const loadStages = async () => {
       today.setHours(0, 0, 0, 0)
       const targetDate = new Date(date)
       targetDate.setHours(0, 0, 0, 0)
-      const isCurrent = targetDate.getTime() === today.getTime() && item.is_end === false
+      const isCurrent = targetDate.getTime() <= today.getTime() && item.is_end === false
     
       if (isCurrent && isStage) {
         temp['今日公演'].push(item)
