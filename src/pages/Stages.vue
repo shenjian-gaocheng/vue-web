@@ -209,6 +209,9 @@ const loadStages = async () => {
     })
 
     for (const key in temp) {
+      // 筛选出未开始的公演组别
+      const isTodayGroup = key.includes('今日') || key === '即将开始'
+      
       temp[key].sort((a, b) => {
         // const sessionDiff = parseInt(b.session) - parseInt(a.session)
         // if (sessionDiff !== 0) return sessionDiff
@@ -216,7 +219,10 @@ const loadStages = async () => {
         // session 相同时，再按时间排序
         const dateA = new Date(a.date?.trim())
         const dateB = new Date(b.date?.trim())
-        return dateB - dateA  // 时间降序（晚的在前）
+        // 今日 → 时间升序，其它 → 时间降序
+        return isTodayGroup
+          ? dateA - dateB   // 升序（早的在前）
+          : dateB - dateA   // 降序（晚的在前）
       })
     }
 
