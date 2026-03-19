@@ -134,7 +134,7 @@ onMounted(() => {
       <h2 class="timeline-title">周童玥第十二届年度金曲大赏《Lollipop（棒棒糖）》演出实录</h2>
       <div class="video-wrapper">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=116228274326556&bvid=BV1hew8zbEmJ&cid=36700359402&p=2"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=116228274326556&bvid=BV1hew8zbEmJ&cid=36700359449&p=2"
           scrolling="no"
           frameborder="0"
           allowfullscreen
