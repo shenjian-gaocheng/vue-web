@@ -261,10 +261,11 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">曹可甜、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈雨孜、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">蒋夏羽、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">芦馨怡、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘诗彤、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘增艳、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李婷、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">芦馨怡、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">柳雨呈、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘增艳、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">宁轲、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">盛乐、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">田姝丽、</span>
@@ -275,7 +276,6 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张倩、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">武博涵（Team X兼任）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李婷（预备生）、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘婧阳（预备生）</span>
                   </div>
                 </div>
