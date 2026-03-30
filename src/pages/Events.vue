@@ -20,7 +20,7 @@ const scopeOptions = [
 const activeScope = ref('imp') // 默认显示重要
 
 // ===== 年份筛选（只要这几个）=====
-const yearOptions = ['all', '2025', '2024', '2023']
+const yearOptions = ['all', '2026', '2025', '2024', '2023']
 const activeYear = ref('all')
 
 const getYear = (rawDate) => (rawDate && rawDate.length >= 4 ? rawDate.slice(0, 4) : '未知')
