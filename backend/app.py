@@ -29,7 +29,7 @@ authorizations = {
     }
 }
 api = Api(app, prefix="/api", doc='/docs', authorizations=authorizations, security='Bearer Auth')
-ns = api.namespace('', description='明星接口')
+ns = api.namespace('', description='小周网站后端接口')
 
 # 配置 SQLite 数据库
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///zhouty.db'
@@ -79,6 +79,12 @@ class Event(db.Model):
     img = db.Column(db.Text, nullable=False)
     is_imp = db.Column(db.Boolean, nullable=False)
 
+class Portrait(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ver_yearmonth = db.Column(db.Integer, nullable=False)
+    ver_code = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.Text, nullable=False)
+
 # 自动创建表
 with app.app_context():
     db.create_all()
@@ -119,6 +125,13 @@ event_model = api.model('Event', {
     'detail': fields.String(description='大事记详情'),
     'img': fields.String(required=True, description='大事记图片链接'),
     'is_imp': fields.Boolean(required=True, description='是否为重要事件'),
+})
+
+portrait_model = api.model('Portrait', {
+    'id': fields.String(description='公式照id'),
+    'ver_yearmonth': fields.String(required=True, description='公式照版本年月，格式 YYYYMM'),
+    'ver_code': fields.String(required=True, description='公式照版本代号'),
+    'name': fields.String(required=True, description='公式照名称'),
 })
 
 # 登录并返回token
@@ -362,6 +375,14 @@ class EventList(Resource):
     def get(self):
         """获取所有大事记记录"""
         return Event.query.all()
+    
+@ns.route('/portraits')
+class PortraitList(Resource):
+    @ns.marshal_list_with(portrait_model)
+    @ns.doc(security=None)
+    def get(self):
+        """获取所有公式照记录"""
+        return Portrait.query.all()
 
 if __name__ == '__main__':
     # app.run(host="127.0.0.1", port=5000, debug=False)

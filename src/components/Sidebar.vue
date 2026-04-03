@@ -75,8 +75,9 @@ const toggle = () => {
       <router-link
         v-for="(label, path) in {
           '/': '主页',
-          '/weibo': '微博',
+          // '/weibo': '微博',
           '/baike': '小周百科',
+          '/portrait': '公式照',
           '/stages': '公演及活动列表',
           '/events': '大事年表',
           // '/fun': '趣事集锦',
