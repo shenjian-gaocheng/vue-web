@@ -109,6 +109,10 @@ const moveGallery = (key, delta) => {
   scrollGalleryTo(key, currentIndex + delta)
 }
 
+const getGsCaption = (index) => {
+  return `官网公式照 (${index + 1})`
+}
+
 const loadPortraits = async () => {
   isLoading.value = true
   try {
@@ -221,7 +225,7 @@ onMounted(() => {
               <div v-if="!isMobile" class="portrait-desktop-grid">
                 <figure class="portrait-card portrait-card-zp">
                   <img :src="item.zp" :alt="`${item.name} 正片`" loading="lazy" />
-                  <figcaption>zp</figcaption>
+                  <figcaption>剧场公式照</figcaption>
                 </figure>
 
                 <figure
@@ -230,14 +234,14 @@ onMounted(() => {
                   class="portrait-card"
                 >
                   <img :src="img" :alt="`${item.name} gs${index + 1}`" loading="lazy" />
-                  <figcaption>{{ `gs${index + 1}` }}</figcaption>
+                  <figcaption>{{ getGsCaption(index) }}</figcaption>
                 </figure>
               </div>
 
               <div v-else class="portrait-mobile-stack">
                 <figure class="portrait-card portrait-card-zp portrait-mobile-zp">
                   <img :src="item.zp" :alt="`${item.name} 正片`" loading="lazy" />
-                  <figcaption>zp</figcaption>
+                  <figcaption>剧场公式照</figcaption>
                 </figure>
 
                 <div class="portrait-slider-shell">
@@ -274,7 +278,7 @@ onMounted(() => {
                       class="portrait-card portrait-slide"
                     >
                       <img :src="img" :alt="`${item.name} gs${index + 1}`" loading="lazy" />
-                      <figcaption>{{ `gs${index + 1}` }}</figcaption>
+                      <figcaption>{{ getGsCaption(index) }}</figcaption>
                     </figure>
                   </div>
 
