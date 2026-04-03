@@ -261,6 +261,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">曹可甜、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈雨孜、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">蒋夏羽、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘婧阳、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘诗彤、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">李婷、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">芦馨怡、</span>
@@ -274,9 +275,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">杨心渝、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张雷雷、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张倩、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">武博涵（Team X兼任）、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘婧阳（预备生）</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">武博涵（Team X兼任）</span>
                   </div>
                 </div>
               </section>
@@ -304,7 +303,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">彭嘉敏、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">黄怡慈（原BEJ48 Team B兼任）、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">段艺璇、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">沈小爱</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">沈小爱、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨</span>
                   </div>
                 </div>
               </section>
