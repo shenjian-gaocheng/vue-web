@@ -174,6 +174,9 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           </div>
 
           <div class="mb-4 py-4 bg-light rounded">
+            <!-- <h5 class="mb-3 p-0">
+              <i class="fas fa-theater-masks text-warning me-2"></i><b>全新公演企划《1&1 Anyone》公演（2026.05.04 - ）</b>
+            </h5> -->
             <h5 class="mb-3 p-0">
               <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - ）</b>
             </h5>

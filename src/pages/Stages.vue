@@ -176,6 +176,7 @@ const loadStages = async () => {
       '今日行程': [],
       '即将开始': [],
       'Team SII 公演': [],
+      '1&1 Anyone 公演': [],
       '新生公演': [],
       '其它公演及活动': []
     }
@@ -201,6 +202,8 @@ const loadStages = async () => {
         temp['即将开始'].push(item)
       } else if (type === 'Team SII') {
         temp['Team SII 公演'].push(item)
+      } else if (type === '11') {
+        temp['1&1 Anyone 公演'].push(item)
       } else if (type === '新生' || type === 'New Members') {
         temp['新生公演'].push(item)
       } else {
@@ -318,6 +321,14 @@ const parseToDate = (v) => {
   if (v instanceof Date) return v
 
   return null
+}
+
+const splitTitle = (title) => {
+  const match = title.match(/（完整回放由B站up主“[^"]*”提供）/)
+  if (!match) return { main: title, note: '' }
+  const note = match[0]
+  const main = title.replace(note, '').trim()
+  return { main, note }
 }
 
 const canShowLiveButton = (startDateLike) => {
@@ -465,7 +476,10 @@ const canShowLiveButton = (startDateLike) => {
 
                 <!-- 中间：标题 -->
                 <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
-                  <div class="fw-semibold">{{ item.title }}</div>
+                  <div>
+                    <div class="fw-semibold">{{ splitTitle(item.title).main }}</div>
+                    <div v-if="splitTitle(item.title).note" class="text-muted small mt-1">{{ splitTitle(item.title).note }}</div>
+                  </div>
                 </div>
 
                 <!-- 右侧：两个按钮 -->
@@ -624,6 +638,7 @@ const canShowLiveButton = (startDateLike) => {
             <select v-model="tempItem.type" class="form-select">
               <option disabled value="">请选择队伍</option>
               <option value="Team SII">Team SII</option>
+              <option value="11">1&1 Anyone 公演</option>
               <option value="New Members">新生公演</option>
               <option value="Team NII">Team NII</option>
               <option value="Team HII">Team HII</option>
