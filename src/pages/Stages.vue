@@ -257,6 +257,7 @@ onMounted(() => {
 // 搜索
 const searchQuery = ref("")
 const searchSession = ref("")
+const searchStageCode = ref("")
 const searchStart = ref("")
 const searchEnd = ref("")
 const searchStartType = ref("text")
@@ -277,11 +278,15 @@ const applyFilters = () => {
         !searchSession.value ||
         item.session === String(searchSession.value)
 
+      const matchStageCode =
+        !searchStageCode.value ||
+        item.stage_code === searchStageCode.value
+
       const date = new Date(item.date)
       const matchStart = !searchStart.value || date >= new Date(searchStart.value)
       const matchEnd = !searchEnd.value || date <= new Date(new Date(searchEnd.value).getTime() + 86400000)
 
-      return matchQuery && matchSession && matchStart && matchEnd
+      return matchQuery && matchSession && matchStageCode && matchStart && matchEnd
     })
   }
 
@@ -291,6 +296,7 @@ const applyFilters = () => {
 const clearFilters = () => {
   searchQuery.value = ""
   searchSession.value = ""
+  searchStageCode.value = ""
   searchStart.value = ""
   searchEnd.value = ""
 
@@ -411,6 +417,20 @@ const canShowLiveButton = (startDateLike) => {
         </div>
         <div :class="isMobile ? 'col-10' : 'col-auto'">
           <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：155" />
+        </div>
+        <div :class="isMobile ? 'col-10' : 'col-auto'">
+          <select v-model="searchStageCode" class="form-select form-select-sm">
+            <option value="">筛选公演</option>
+            <option value="MX">命运的X号</option>
+            <option value="HJ-B">幻镜-B版</option>
+            <option value="XII">代号XII 2.0</option>
+            <option value="HJ-C">幻镜-C版</option>
+            <option value="ITL">INTO THE LIGHT</option>
+            <!-- <option value="11">1&amp;1 Anyone</option> -->
+            <option value="SJHS">三角函数</option>
+            <option value="FX">Fire X</option>
+            <option value="SP">特殊公演</option>
+          </select>
         </div>
 
         <!-- ✅ 日期输入框：统一用 text + 切换成 date -->

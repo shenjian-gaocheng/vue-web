@@ -54,6 +54,7 @@ class Stage(db.Model):
     session = db.Column(db.Integer, nullable=False)
     date = db.Column(db.String(100), nullable=False)
     type = db.Column(db.String(100), nullable=False)
+    stage_code = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     url = db.Column(db.String(255))
     cut_url = db.Column(db.String(255))
@@ -100,6 +101,7 @@ stage_model = api.model('Stage', {
     'session': fields.String(required=True, description='演出场次'),
     'date': fields.String(required=True, description='演出日期，格式 YYYY-MM-DD'),
     'type': fields.String(required=True, description='演出类型'),
+    'stage_code': fields.String(required=True, description='演出代码'),
     'title': fields.String(required=True, description='演出名称'),
     'url': fields.String(description='完整回放链接'),
     'cut_url': fields.String(description='cut回放链接'),
@@ -383,6 +385,18 @@ class PortraitList(Resource):
     def get(self):
         """获取所有公式照记录"""
         return Portrait.query.all()
+    
+# 健康检查接口
+@ns.route('/health')
+class Health(Resource):
+    @ns.doc(security=None)
+    def get(self):
+        """检查API和数据库连接状态"""
+        try:
+            db.session.execute(db.text('SELECT 1'))
+            return {'status': 'ok', 'db': 'connected'}
+        except Exception as e:
+            return {'status': 'error', 'db': str(e)}, 500
 
 if __name__ == '__main__':
     # app.run(host="127.0.0.1", port=5000, debug=False)
