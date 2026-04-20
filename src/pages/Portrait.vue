@@ -246,7 +246,7 @@ onMounted(() => {
 
                 <div class="portrait-slider-shell">
                   <div class="portrait-slider-head">
-                    <span class="slider-label">gs1 - gs4</span>
+                    <!-- <span class="slider-label">gs1 - gs4</span> -->
                     <div class="slider-actions">
                       <button
                         type="button"
