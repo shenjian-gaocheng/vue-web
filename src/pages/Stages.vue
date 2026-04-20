@@ -426,7 +426,7 @@ const canShowLiveButton = (startDateLike) => {
             <option value="XII">代号XII 2.0</option>
             <option value="HJ-C">幻镜-C版</option>
             <option value="ITL">INTO THE LIGHT</option>
-            <!-- <option value="11">1&amp;1 Anyone</option> -->
+            <option value="11">1&amp;1 Anyone</option>
             <option value="SJHS">三角函数</option>
             <option value="FX">Fire X</option>
             <option value="SP">特殊公演</option>
