@@ -402,7 +402,7 @@ const canShowLiveButton = (startDateLike) => {
 
       <div class="mt-4 mb-3">
         <h3 class="mb-3">按条件筛选</h3>
-        <p class="mb-1">可按关键词、场次、时间来筛选特定的公演。</p>
+        <p class="mb-1">可按关键词、场次、公演名称、时间来筛选特定的公演。</p>
         <p class="mb-1">若要寻找与周童玥相关的重要公演，请在关键词一栏输入 <strong>周童玥</strong> 并搜索。</p> 
       </div>
       <!-- ✅ 外层布局判断，只换布局，不重复内容 -->
@@ -413,10 +413,10 @@ const canShowLiveButton = (startDateLike) => {
         ]"
       >
         <div :class="isMobile ? 'col-10' : 'col-auto'">
-          <input v-model="searchQuery" class="form-control form-control-sm" placeholder="关键词，如：幻镜-C版" />
+          <input v-model="searchQuery" class="form-control form-control-sm" placeholder="关键词，如：生日公演" />
         </div>
         <div :class="isMobile ? 'col-10' : 'col-auto'">
-          <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：155" />
+          <input v-model="searchSession" type="number" class="form-control form-control-sm" placeholder="场次，如：239" />
         </div>
         <div :class="isMobile ? 'col-10' : 'col-auto'">
           <select v-model="searchStageCode" class="form-select form-select-sm">
