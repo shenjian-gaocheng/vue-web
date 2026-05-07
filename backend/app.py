@@ -7,6 +7,7 @@ from datetime import datetime
 import requests
 import jwt
 from functools import wraps
+from werkzeug.middleware.proxy_fix import ProxyFix
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
 
@@ -19,6 +20,8 @@ logging.basicConfig(
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=['https://zty0322.top', 'http://localhost:5173'])
+# 信任前 1 层反向代理（如 Nginx）转发的客户端地址
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 authorizations = {
     'Bearer Auth': {
@@ -36,6 +39,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///zhouty.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'super-secret-key'  # 用于生成 JWT Token
 db = SQLAlchemy(app)
+
+
+def get_client_ip():
+    """优先取反向代理头中的真实客户端 IP，最后回退到 remote_addr。"""
+    x_forwarded_for = request.headers.get('X-Forwarded-For', '')
+    if x_forwarded_for:
+        real_ip = x_forwarded_for.split(',')[0].strip()
+        if real_ip:
+            return real_ip
+
+    x_real_ip = request.headers.get('X-Real-IP', '').strip()
+    if x_real_ip:
+        return x_real_ip
+
+    return request.remote_addr or 'unknown'
 
 # 定义数据模型
 class User(db.Model):
@@ -153,7 +171,7 @@ class Login(Resource):
         expiration = datetime.now(timezone.utc) + timedelta(days=1)
         payload = {'username': username, 'exp': expiration}
         token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
-        logging.info(f"用户: {username} 成功登录了系统，IP: {request.remote_addr}")
+        logging.info(f"用户: {username} 成功登录了系统，IP: {get_client_ip()}")
 
         resp = make_response({'message': '登录成功'})
         resp.set_cookie(
@@ -318,7 +336,7 @@ class StageList(Resource):
         db.session.add(stage)
         db.session.commit()
 
-        logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {request.remote_addr}")
+        logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {get_client_ip()}")
         return {"message": "演出记录已添加"}, 201
     
 
@@ -348,7 +366,7 @@ class StageItem(Resource):
 
             db.session.commit()
 
-            logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {request.remote_addr}")
+            logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {get_client_ip()}")
             return {"message": "演出记录已更新"}, 200
         except (KeyError, ValueError) as e:
             print(str(e))
@@ -389,7 +407,7 @@ class StageBatch(Resource):
         db.session.add_all(stages)
         db.session.commit()
 
-        logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {request.remote_addr}")
+        logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {get_client_ip()}")
         return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
 
 @ns.route('/events')
