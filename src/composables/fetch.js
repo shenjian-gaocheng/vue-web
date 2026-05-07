@@ -3,7 +3,8 @@
 
 export function useApi() {
 
-  const baseUrl = 'http://118.196.20.148:5000/api'
+  // const baseUrl = 'http://118.196.20.148:5000/api'
+  const baseUrl = 'https://zty0322.top/api'
   // const auth = useAuthStore()
   // const { token } = storeToRefs(auth)
 
