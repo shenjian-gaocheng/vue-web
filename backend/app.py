@@ -2,6 +2,7 @@ from flask import Flask, request, g, make_response
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # ✅ 导入 CORS
+import os
 import logging
 from datetime import datetime
 import requests
@@ -38,6 +39,7 @@ ns = api.namespace('', description='小周网站后端接口')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///zhouty.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'super-secret-key'  # 用于生成 JWT Token
+app.config['ADMIN_USERS'] = {'zhouty'}
 db = SQLAlchemy(app)
 
 
@@ -228,6 +230,45 @@ class Logout(Resource):
         resp = make_response({'message': '已退出登录'})
         resp.set_cookie('token_zty', '', httponly=True, secure=True, samesite='Strict', max_age=0)
         return resp
+
+
+@ns.route('/admin/logs')
+class AdminLogs(Resource):
+    @token_required
+    def get(self):
+        if g.username not in app.config['ADMIN_USERS']:
+            return {'message': '没有权限访问管理员日志'}, 403
+
+        limit = request.args.get('limit', default=200, type=int)
+        if limit is None:
+            limit = 200
+        limit = max(1, min(limit, 1000))
+
+        log_candidates = [
+            '/var/www/vue-web/backend/stage_actions.log',
+            os.path.join(os.path.dirname(__file__), 'stage_actions.log')
+        ]
+
+        log_path = next((p for p in log_candidates if os.path.exists(p)), None)
+        if not log_path:
+            return {'message': '找不到日志文件', 'logs': [], 'count': 0}, 404
+
+        matched = []
+        try:
+            with open(log_path, 'r', encoding='utf-8', errors='ignore') as f:
+                for line in f:
+                    if '用户:' in line:
+                        matched.append(line.strip())
+        except OSError as e:
+            return {'message': f'读取日志失败: {str(e)}', 'logs': [], 'count': 0}, 500
+
+        matched = matched[-limit:]
+        return {
+            'count': len(matched),
+            'limit': limit,
+            'log_file': log_path,
+            'logs': matched
+        }, 200
 
 
 @ns.route('/teammates')

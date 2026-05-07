@@ -9,6 +9,7 @@ import Stages from '@/pages/Stages.vue'
 import Events from '@/pages/Events.vue'
 import About from '@/pages/About.vue'
 import Login from '@/pages/Login.vue'
+import AdminLogs from '@/pages/AdminLogs.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -21,6 +22,7 @@ const routes = [
   { path: '/events', name: 'Events', component: Events },
   { path: '/about', name: 'About', component: About },
   { path: '/admin-login', name: 'Login', component: Login },
+  { path: '/admin-logs', name: 'AdminLogs', component: AdminLogs },
 ]
 
 const router = createRouter({

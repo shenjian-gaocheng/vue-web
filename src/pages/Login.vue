@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
@@ -19,6 +20,7 @@ const { logout, verifyToken, startPolling, stopPolling } = auth            // �
 
 // 调用api
 const { apiFetch } = useApi()
+const router = useRouter()
 
 const username = ref('')
 const password = ref('')
@@ -109,6 +111,7 @@ const handleLogout = () => {
       >
         <template v-if="isLoggedIn">
           <h2>🎉 已登录</h2>
+          <button class="btn btn-primary w-100 mt-3" @click="router.push('/admin-logs')">查看操作日志</button>
           <button class="btn btn-danger w-100 mt-3" @click="handleLogout">退出登录</button>
         </template>
 
