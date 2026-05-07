@@ -8,7 +8,7 @@ import Stages from '@/pages/Stages.vue'
 // import Relation from '@/pages/Relation.vue'
 import Events from '@/pages/Events.vue'
 import About from '@/pages/About.vue'
-// import Login from '@/pages/Login.vue'
+import Login from '@/pages/Login.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
