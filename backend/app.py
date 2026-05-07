@@ -1,4 +1,4 @@
-from flask import Flask, request, g
+from flask import Flask, request, g, make_response
 from flask_restx import Api, Resource, fields
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  # ✅ 导入 CORS
@@ -18,7 +18,7 @@ logging.basicConfig(
 )
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
+CORS(app, supports_credentials=True, origins=['https://zty0322.top', 'http://localhost:5173'])
 
 authorizations = {
     'Bearer Auth': {
@@ -136,64 +136,80 @@ portrait_model = api.model('Portrait', {
     'name': fields.String(required=True, description='公式照名称'),
 })
 
-# 登录并返回token
-# @ns.route('/login')
-# class Login(Resource):
-#     @ns.expect(user_model)
-#     @ns.doc(security=None)
-#     def post(self):
-#         data = request.json
-#         username = data.get('username')
-#         password = data.get('password')  # 明文密码
-#         user = User.query.filter_by(username=username).first()
+# 登录：设置 HttpOnly Cookie
+@ns.route('/login')
+class Login(Resource):
+    @ns.expect(user_model)
+    @ns.doc(security=None)
+    def post(self):
+        data = request.json
+        username = data.get('username')
+        password = data.get('password')
+        user = User.query.filter_by(username=username).first()
 
-#         if not user or not check_password_hash(user.password_hash, password):
-#             return {'message': '用户名或密码错误'}, 401
+        if not user or not user.check_password(password):
+            return {'message': '用户名或密码错误'}, 401
 
-#         # 设置过期时间为1小时
-#         expiration = datetime.now(timezone.utc) + timedelta(days=1)
-#         payload = {
-#             'username': username,
-#             'exp': expiration
-#         }
+        expiration = datetime.now(timezone.utc) + timedelta(days=1)
+        payload = {'username': username, 'exp': expiration}
+        token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
+        logging.info(f"用户: {username} 成功登录了系统，IP: {request.remote_addr}")
 
-#         token = jwt.encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
-#         logging.info(f"用户: {username} 成功登录了系统，IP: {request.remote_addr}")
-#         return {'token': token}
-    
+        resp = make_response({'message': '登录成功'})
+        resp.set_cookie(
+            'token_zty',
+            token,
+            httponly=True,
+            secure=True,
+            samesite='Strict',
+            max_age=86400
+        )
+        return resp
 
-# 验证token
-# def token_required(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         auth_header = request.headers.get('Authorization')
 
-#         if not auth_header or not auth_header.startswith('Bearer '):
-#             return {'message': '缺少或格式错误的Token'}, 401
+# 验证 token（从 Cookie 读取）
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.cookies.get('token_zty')
+        if not token:
+            return {'message': '未登录或会话已过期'}, 401
+        try:
+            payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            g.username = payload.get('username')
+        except jwt.ExpiredSignatureError:
+            return {'message': 'Token已过期'}, 401
+        except jwt.InvalidTokenError:
+            return {'message': 'Token无效'}, 401
+        return f(*args, **kwargs)
+    return decorated
 
-#         token = auth_header.split(' ')[1]  # 提取 "Bearer token" 的 token 部分
 
-#         try:
-#             payload = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
-#             g.username = payload.get("username")
+# 验证登录状态
+@ns.route('/verify')
+class TokenVerify(Resource):
+    @ns.doc(security=None)
+    def get(self):
+        token = request.cookies.get('token_zty')
+        if not token:
+            return {'message': '未登录'}, 401
+        try:
+            jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            return {'message': 'Token有效'}, 200
+        except jwt.ExpiredSignatureError:
+            return {'message': 'Token已过期'}, 401
+        except jwt.InvalidTokenError:
+            return {'message': 'Token无效'}, 401
 
-#             # ✅ 打印调试 token 过期时间
-#             print("exp时间戳：", payload['exp'])
-#             print("过期时间：", datetime.fromtimestamp(payload['exp'], tz=timezone.utc))
-#         except jwt.ExpiredSignatureError:
-#             return {'message': 'Token已过期'}, 401
-#         except jwt.InvalidTokenError:
-#             return {'message': 'Token无效'}, 401
 
-#         return f(*args, **kwargs)
-#     return decorated
-
-# 验证token
-# @ns.route('/verify')
-# class TokenVerify(Resource):
-#     @token_required
-#     def get(self):
-#         return {'message': 'Token 有效'}, 200
+# 退出登录：清除 Cookie
+@ns.route('/logout')
+class Logout(Resource):
+    @ns.doc(security=None)
+    def post(self):
+        resp = make_response({'message': '已退出登录'})
+        resp.set_cookie('token_zty', '', httponly=True, secure=True, samesite='Strict', max_age=0)
+        return resp
 
 
 @ns.route('/teammates')

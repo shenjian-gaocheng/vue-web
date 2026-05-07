@@ -2,42 +2,31 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref(localStorage.getItem('token_zty') || '')
-  const isLoggedIn = ref(!!token.value)
+  const isLoggedIn = ref(false)
 
-  let intervalId = null // ⏱️ 保存轮询 ID
+  let intervalId = null
 
-  function logout() {
-    token.value = ''
+  async function logout() {
     isLoggedIn.value = false
-    localStorage.removeItem('token_zty')
+    await fetch('https://zty0322.top/api/logout', {
+      method: 'POST',
+      credentials: 'include'
+    }).catch(() => {})
   }
 
   async function verifyToken() {
-    const storedToken = localStorage.getItem('token_zty')
-    if (!storedToken) {
-      logout()
-      return
-    }
-
     try {
       const res = await fetch('https://zty0322.top/api/verify', {
-        headers: { Authorization: `Bearer ${storedToken}` }
+        credentials: 'include'
       })
-
-      if (res.ok) {
-        token.value = storedToken
-        isLoggedIn.value = true
-      } else {
-        logout()
-      }
+      isLoggedIn.value = res.ok
     } catch (err) {
       console.error('验证失败:', err)
-      logout()
+      isLoggedIn.value = false
     }
   }
 
-  function startPolling(interval = 10 * 60 * 1000) { // 默认 10 秒轮询
+  function startPolling(interval = 10 * 60 * 1000) {
     stopPolling()
     intervalId = setInterval(() => {
       verifyToken()
@@ -51,5 +40,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { token, isLoggedIn, logout, verifyToken, startPolling, stopPolling }
+  return { isLoggedIn, logout, verifyToken, startPolling, stopPolling }
 })

@@ -16,6 +16,7 @@ export function useApi() {
 
     const res = await fetch(`${baseUrl}${path}`, {
       ...options,
+      credentials: 'include',
       headers
     })
 

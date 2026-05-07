@@ -14,7 +14,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
 // 引入 Pinia 状态
 const auth = useAuthStore()
-const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
+const { isLoggedIn } = storeToRefs(auth)  // 保持响应式
 const { logout, verifyToken, startPolling, stopPolling } = auth            // 非 ref 的函数可直接解构
 
 // 调用api
@@ -55,8 +55,6 @@ const login = async () => {
   })
 
   if (ok) {
-    token.value = data.token
-    localStorage.setItem('token_zty', token.value)
     isLoggedIn.value = true
     message.value = '✅ 登录成功！'
   } else {
