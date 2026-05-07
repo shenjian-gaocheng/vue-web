@@ -336,7 +336,7 @@ class StageList(Resource):
         db.session.add(stage)
         db.session.commit()
 
-        logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {get_client_ip()}")
+        logging.info(f"用户: {g.username} 添加演出记录: {data['session']} {data['title']}，IP: {get_client_ip()}")
         return {"message": "演出记录已添加"}, 201
     
 
@@ -366,7 +366,7 @@ class StageItem(Resource):
 
             db.session.commit()
 
-            logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {get_client_ip()}")
+            logging.info(f"用户: {g.username} 更新演出记录: {data['session']} {data['title']}，IP: {get_client_ip()}")
             return {"message": "演出记录已更新"}, 200
         except (KeyError, ValueError) as e:
             print(str(e))
