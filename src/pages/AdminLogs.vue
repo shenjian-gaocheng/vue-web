@@ -97,8 +97,8 @@ onUnmounted(() => {
       <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
         <div>
           <h2 class="mb-1">管理员操作日志</h2>
-          <p class="mb-0 text-muted small">只展示包含“用户:”的日志记录</p>
-          <p v-if="logFile" class="mb-0 text-muted small">日志文件：{{ logFile }}</p>
+          <!-- <p class="mb-0 text-muted small">只展示包含“用户:”的日志记录</p>
+          <p v-if="logFile" class="mb-0 text-muted small">日志文件：{{ logFile }}</p> -->
         </div>
 
         <div class="d-flex align-items-center gap-2">
