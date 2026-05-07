@@ -293,98 +293,104 @@ class StageList(Resource):
         """获取所有演出记录"""
         return Stage.query.all()
 
-    # @ns.expect(stage_model)
-    # @token_required
-    # def post(self):
-    #     """添加一条新的演出记录"""
-    #     data = request.json
-    #     # try:
-    #     #     date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
-    #     # except ValueError:
-    #     #     return {"error": "日期格式应为 YYYY-MM-DD"}, 400
+    @ns.expect(stage_model)
+    @token_required
+    def post(self):
+        """添加一条新的演出记录"""
+        data = request.json
+        # try:
+        #     date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+        # except ValueError:
+        #     return {"error": "日期格式应为 YYYY-MM-DD"}, 400
 
-    #     stage = Stage(
-    #         session=int(data['session']),
-    #         date=data['date'],
-    #         type=data['type'],
-    #         title=data['title'],
-    #         url=data['url'],
-    #         cut_url=data['cut_url'],
-    #         is_stage=data['is_stage'],
-    #         is_end=data['is_end'],
-    #     )
-    #     db.session.add(stage)
-    #     db.session.commit()
+        stage = Stage(
+            session=int(data['session']),
+            date=data['date'],
+            type=data['type'],
+            stage_code=data['stage_code'],
+            title=data['title'],
+            url=data['url'],
+            cut_url=data['cut_url'],
+            time=data['time'],
+            is_stage=data['is_stage'],
+            is_end=data['is_end'],
+        )
+        db.session.add(stage)
+        db.session.commit()
 
-    #     logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {request.remote_addr}")
-    #     return {"message": "演出记录已添加"}, 201
+        logging.info(f"用户: {g.username} 添加演出记录: {data['session']}，IP: {request.remote_addr}")
+        return {"message": "演出记录已添加"}, 201
     
 
-# @ns.route('/stages/<int:id>')
-# class StageItem(Resource):
-#     @ns.expect(stage_model)
-#     @token_required
-#     def put(self, id):
-#         """更新特定 ID 的演出记录"""
-#         data = request.json
-#         stage = db.session.get(Stage, id)
+@ns.route('/stages/<int:id>')
+class StageItem(Resource):
+    @ns.expect(stage_model)
+    @token_required
+    def put(self, id):
+        """更新特定 ID 的演出记录"""
+        data = request.json
+        stage = db.session.get(Stage, id)
 
-#         if not stage:
-#             return {"error": "找不到该演出记录"}, 404
+        if not stage:
+            return {"error": "找不到该演出记录"}, 404
 
-#         try:
-#             stage.session = int(data['session'])
-#             stage.date = data['date']
-#             stage.type = data['type']
-#             stage.title = data['title']
-#             stage.url = data['url']
-#             stage.cut_url = data['cut_url']
-#             stage.is_stage = data['is_stage']
-#             stage.is_end = data['is_end']
+        try:
+            stage.session = int(data['session'])
+            stage.date = data['date']
+            stage.type = data['type']
+            stage.stage_code = data['stage_code']
+            stage.title = data['title']
+            stage.url = data['url']
+            stage.cut_url = data['cut_url']
+            stage.time = data['time']
+            stage.is_stage = data['is_stage']
+            stage.is_end = data['is_end']
 
-#             db.session.commit()
+            db.session.commit()
 
-#             logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {request.remote_addr}")
-#             return {"message": "演出记录已更新"}, 200
-#         except (KeyError, ValueError) as e:
-#             print(str(e))
-#             return {"error": f"更新失败: {str(e)}"}, 400
+            logging.info(f"用户: {g.username} 更新演出记录: {data['session']}，IP: {request.remote_addr}")
+            return {"message": "演出记录已更新"}, 200
+        except (KeyError, ValueError) as e:
+            print(str(e))
+            return {"error": f"更新失败: {str(e)}"}, 400
     
 
-# @ns.route('/stages/batch')
-# class StageBatch(Resource):
-#     @ns.expect([stage_model])  # 注意：接收列表
-#     @token_required
-#     def post(self):
-#         """批量添加演出记录"""
-#         data_list = request.json
+@ns.route('/stages/batch')
+class StageBatch(Resource):
+    @ns.expect([stage_model])  # 注意：接收列表
+    @token_required
+    def post(self):
+        """批量添加演出记录"""
+        data_list = request.json
 
-#         if not isinstance(data_list, list):
-#             return {"error": "请求体应为 JSON 数组"}, 400
+        if not isinstance(data_list, list):
+            return {"error": "请求体应为 JSON 数组"}, 400
 
-#         stages = []
-#         for i, data in enumerate(data_list):
-#             try:
-#                 date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
-#                 stage = Stage(
-#                     session=int(data['session']),
-#                     date=date_obj,
-#                     type=data['type'],
-#                     title=data['title'],
-#                     url=data['url'],
-#                     cut_url=data['cut_url'],
-#                     is_stage=data['is_stage'],
-#                     is_end=data['is_end'],
-#                 )
-#                 stages.append(stage)
-#             except (KeyError, ValueError) as e:
-#                 return {"error": f"第 {i+1} 条数据有误: {str(e)}"}, 400
+        stages = []
+        for i, data in enumerate(data_list):
+            try:
+                date_obj = datetime.strptime(data['date'], "%Y-%m-%d").date()
+                stage = Stage(
+                    session=int(data['session']),
+                    date=date_obj,
+                    type=data['type'],
+                    stage_code=data['stage_code'],
+                    title=data['title'],
+                    url=data['url'],
+                    cut_url=data['cut_url'],
+                    is_stage=data['is_stage'],
+                    is_end=data['is_end'],
+                    time=data['time'],
+                )
+                stages.append(stage)
+            except (KeyError, ValueError) as e:
+                return {"error": f"第 {i+1} 条数据有误: {str(e)}"}, 400
 
-#         db.session.add_all(stages)
-#         db.session.commit()
+        db.session.add_all(stages)
+        db.session.commit()
 
-#         logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {request.remote_addr}")
-#         return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
+        logging.info(f"用户: {g.username} 添加 {len(stages)} 条演出记录，IP: {request.remote_addr}")
+        return {"message": f"成功添加 {len(stages)} 条演出记录"}, 201
 
 @ns.route('/events')
 class EventList(Resource):
