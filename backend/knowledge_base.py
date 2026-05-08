@@ -139,6 +139,7 @@ def serialize_teammate_document(teammate):
         team_text += '新生公演（队友） '
     status_text = '在队' if teammate.is_active else '已毕业或离队'
     content = normalize_whitespace(
+        '周童玥的队友信息：'
         f'成员姓名 {teammate.name}，'
         f'所属队伍 {team_text.strip() or "未知"}，状态 {status_text}，'
         f'备注 {teammate.note or "无"}。'
