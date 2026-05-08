@@ -27,8 +27,10 @@ dist-ssr
 src/pages/RelationOld.vue
 legacy
 
-# db
+# backend, db
 backend/instance/
+backend/__pycache__/
+backend/routes/__pycache__/
 
 # img
 public/event*.jpg

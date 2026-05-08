@@ -82,6 +82,7 @@ const toggle = () => {
           '/events': '大事年表',
           // '/fun': '趣事集锦',
           // '/relation': '团内人物关系',
+          // '/knowledge-chat': '知识库问答',
           '/about': '关于本站',
         }"
         :key="path"

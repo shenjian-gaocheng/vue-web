@@ -10,6 +10,7 @@ import Events from '@/pages/Events.vue'
 import About from '@/pages/About.vue'
 import Login from '@/pages/Login.vue'
 import AdminLogs from '@/pages/AdminLogs.vue'
+import KnowledgeChat from '@/pages/KnowledgeChat.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -23,6 +24,7 @@ const routes = [
   { path: '/about', name: 'About', component: About },
   { path: '/admin-login', name: 'Login', component: Login },
   { path: '/admin-logs', name: 'AdminLogs', component: AdminLogs },
+  { path: '/knowledge-chat', name: 'KnowledgeChat', component: KnowledgeChat },
 ]
 
 const router = createRouter({
