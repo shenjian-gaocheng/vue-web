@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 
 from extensions import BASE_DIR, PROJECT_ROOT
-from models import Event, Stage
+from models import Event, Stage, Teammate
 
 
 BAIKE_FILE_PATH = os.path.join(PROJECT_ROOT, 'src', 'pages', 'Baike.vue')
@@ -17,6 +17,7 @@ KNOWLEDGE_BASE = {
         'baike_documents': 0,
         'stage_documents': 0,
         'event_documents': 0,
+        'teammate_documents': 0,
         'total_documents': 0,
     },
 }
@@ -129,6 +130,28 @@ def serialize_event_document(event):
     }
 
 
+def serialize_teammate_document(teammate):
+    team_text = ''
+    if teammate.is_teamsii:
+        team_text += 'SII队 '
+    if teammate.is_teamnew:
+        team_text += 'NEW队 '
+    status_text = '在队' if teammate.is_active else '已毕业或离队'
+    content = normalize_whitespace(
+        f'成员姓名 {teammate.name}，SNH编号 {teammate.snh_id or "未提供"}，'
+        f'所属队伍 {team_text.strip() or "未知"}，状态 {status_text}，'
+        f'备注 {teammate.note or "无"}。'
+    )
+    return {
+        'id': f'teammate-{teammate.id}',
+        'source_type': 'teammate',
+        'source_label': f'Teammate#{teammate.id}',
+        'title': teammate.name,
+        'content': content,
+        'search_text': f'{teammate.name} {teammate.snh_id or ""} {team_text} {content}'.lower(),
+    }
+
+
 def build_knowledge_base():
     baike_documents = extract_baike_documents()
     stage_documents = [
@@ -139,14 +162,19 @@ def build_knowledge_base():
         serialize_event_document(event)
         for event in Event.query.order_by(Event.date.desc()).all()
     ]
+    teammate_documents = [
+        serialize_teammate_document(teammate)
+        for teammate in Teammate.query.order_by(Teammate.name).all()
+    ]
 
-    documents = baike_documents + stage_documents + event_documents
+    documents = baike_documents + stage_documents + event_documents + teammate_documents
     KNOWLEDGE_BASE['documents'] = documents
     KNOWLEDGE_BASE['built_at'] = datetime.now(timezone.utc).isoformat()
     KNOWLEDGE_BASE['stats'] = {
         'baike_documents': len(baike_documents),
         'stage_documents': len(stage_documents),
         'event_documents': len(event_documents),
+        'teammate_documents': len(teammate_documents),
         'total_documents': len(documents),
     }
     return KNOWLEDGE_BASE
