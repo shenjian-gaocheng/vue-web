@@ -232,7 +232,14 @@ def is_teammate_query(question):
     return any(keyword in question for keyword in teammate_keywords)
 
 
-def score_document(question, terms, document, teammate_intent=False):
+def is_profile_query(question):
+    profile_keywords = (
+        '生日', '基本介绍', '介绍', '身高', '血型', '星座', '昵称', '应援色', '爱好', '特长', '资料'
+    )
+    return any(keyword in question for keyword in profile_keywords)
+
+
+def score_document(question, terms, document, teammate_intent=False, profile_intent=False):
     score = 0
     haystack = document['search_text']
     title = document['title'].lower()
@@ -252,6 +259,12 @@ def score_document(question, terms, document, teammate_intent=False):
         if '新生公演' in question and '新生公演' in haystack:
             score += 4
 
+    if profile_intent:
+        if source_type == 'baike':
+            score += 12
+        elif source_type in ('event', 'stage'):
+            score -= 2
+
     for term in terms:
         if term in haystack:
             score += min(len(term), 6)
@@ -265,17 +278,24 @@ def search_knowledge_base(question, top_k=5):
     knowledge_base = ensure_knowledge_base()
     normalized_question, terms = extract_query_terms(question)
     teammate_intent = is_teammate_query(normalized_question)
+    profile_intent = is_profile_query(normalized_question)
     top_k = max(1, min(int(top_k or 5), 8))
 
     scored_documents = []
     for document in knowledge_base['documents']:
-        score = score_document(normalized_question, terms, document, teammate_intent=teammate_intent)
+        score = score_document(
+            normalized_question,
+            terms,
+            document,
+            teammate_intent=teammate_intent,
+            profile_intent=profile_intent,
+        )
         if score > 0:
             scored_documents.append({**document, 'score': score})
 
     scored_documents.sort(key=lambda item: item['score'], reverse=True)
     matched_documents = scored_documents[:top_k]
-    min_relevance_score = 4 if teammate_intent else 6
+    min_relevance_score = 4 if teammate_intent or profile_intent else 6
     is_relevant = bool(matched_documents) and matched_documents[0]['score'] >= min_relevance_score
     return matched_documents, is_relevant
 
@@ -327,6 +347,30 @@ def generate_teammate_answer_from_roster(question, matched_documents):
         return f'根据知识库名单，{target_name} 在 {preferred.get("title", "该队伍")} 的队友有：' + '、'.join(teammates) + '。'
 
     return f'根据知识库名单，{preferred.get("title", "该队伍")} 成员有：' + '、'.join(names) + '。'
+
+
+def generate_profile_answer_from_baike(question, matched_documents):
+    normalized_question = normalize_whitespace(question).lower()
+    if not is_profile_query(normalized_question):
+        return None
+
+    baike_docs = [doc for doc in matched_documents if doc.get('source_type') == 'baike']
+    if not baike_docs:
+        return None
+
+    merged_text = '\n'.join(doc.get('content', '') for doc in baike_docs)
+    if '生日' in normalized_question:
+        birthday_match = re.search(r'生日\s*[：:]\s*([0-9]{4}[-/.][0-9]{1,2}[-/.][0-9]{1,2})', merged_text)
+        if birthday_match:
+            return f'根据知识库，周童玥的生日是 {birthday_match.group(1)}。'
+
+    if any(keyword in normalized_question for keyword in ('基本介绍', '介绍', '资料')):
+        snippets = [normalize_whitespace(doc.get('content', '')) for doc in baike_docs[:2]]
+        snippets = [item for item in snippets if item]
+        if snippets:
+            return '根据知识库，周童玥的基本介绍如下：' + ' '.join(snippets)
+
+    return None
 
 
 def get_deepseek_client():
@@ -384,4 +428,7 @@ def generate_knowledge_answer(question, matched_documents):
         teammate_answer = generate_teammate_answer_from_roster(question, matched_documents)
         if teammate_answer:
             return teammate_answer
+        profile_answer = generate_profile_answer_from_baike(question, matched_documents)
+        if profile_answer:
+            return profile_answer
     return answer or KNOWLEDGE_FALLBACK_MESSAGE
