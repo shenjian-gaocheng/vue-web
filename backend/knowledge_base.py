@@ -228,7 +228,7 @@ def extract_query_terms(question):
 
 def is_teammate_query(question):
     teammate_keywords = (
-        '队友', '同队', '同一个队', '同一队', 'team', 'sii', '新生公演', '成员'
+        '队友', '同队', '同一个队', '同一队', 'team', 'sii', '新生公演', '成员', '关系'
     )
     return any(keyword in question for keyword in teammate_keywords)
 
@@ -310,6 +310,14 @@ def _extract_roster_names(content):
     return [name.strip() for name in tail.split('、') if name.strip()]
 
 
+def _find_names_in_question(question, candidate_names):
+    matched_names = []
+    for name in sorted(set(candidate_names), key=len, reverse=True):
+        if name and name in question:
+            matched_names.append(name)
+    return matched_names
+
+
 def generate_teammate_answer_from_roster(question, matched_documents):
     normalized_question = normalize_whitespace(question).lower()
     if not is_teammate_query(normalized_question):
@@ -334,12 +342,33 @@ def generate_teammate_answer_from_roster(question, matched_documents):
     if not names:
         return None
 
+    all_roster_names = []
+    for document in roster_docs:
+        all_roster_names.extend(_extract_roster_names(document.get('content', '')))
+
     known_names = [doc.get('title', '').strip() for doc in teammate_docs if doc.get('title')]
-    target_name = None
-    for name in sorted(known_names, key=len, reverse=True):
-        if name and name in question:
-            target_name = name
-            break
+    known_names.extend(all_roster_names)
+    matched_names = _find_names_in_question(question, known_names)
+
+    if '关系' in normalized_question and len(matched_names) >= 2:
+        left_name, right_name = matched_names[:2]
+        left_rosters = [doc for doc in roster_docs if left_name in _extract_roster_names(doc.get('content', ''))]
+        right_rosters = [doc for doc in roster_docs if right_name in _extract_roster_names(doc.get('content', ''))]
+        shared_rosters = [
+            doc for doc in left_rosters
+            if any(doc.get('id') == other.get('id') for other in right_rosters)
+        ]
+
+        if shared_rosters:
+            preferred_shared = next(
+                (doc for doc in shared_rosters if '在团' in doc.get('title', '')),
+                shared_rosters[0],
+            )
+            return f'根据知识库，{left_name}和{right_name}是队友关系，两人同属{preferred_shared.get("title", "同一队伍")}。'
+
+        return f'根据当前知识库名单，无法确认{left_name}和{right_name}属于同一队伍。'
+
+    target_name = matched_names[0] if matched_names else None
 
     if target_name:
         teammates = [name for name in names if name != target_name]
