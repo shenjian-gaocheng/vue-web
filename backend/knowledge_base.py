@@ -135,10 +135,10 @@ def serialize_teammate_document(teammate):
     if teammate.is_teamsii:
         team_text += 'SII队 '
     if teammate.is_teamnew:
-        team_text += 'NEW队 '
+        team_text += '新生公演（队友） '
     status_text = '在队' if teammate.is_active else '已毕业或离队'
     content = normalize_whitespace(
-        f'成员姓名 {teammate.name}，SNH编号 {teammate.snh_id or "未提供"}，'
+        f'成员姓名 {teammate.name}，'
         f'所属队伍 {team_text.strip() or "未知"}，状态 {status_text}，'
         f'备注 {teammate.note or "无"}。'
     )
