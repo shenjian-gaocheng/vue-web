@@ -69,6 +69,20 @@ const sendMessage = async () => {
   scrollToBottom()
 }
 
+// ---- 重建知识库 ----
+const rebuilding = ref(false)
+const rebuildMessage = ref('')
+const rebuildSuccess = ref(false)
+
+const rebuildKnowledgeBase = async () => {
+  rebuilding.value = true
+  rebuildMessage.value = ''
+  const { ok, data } = await apiFetch('/knowledge-base/rebuild', { method: 'POST' })
+  rebuilding.value = false
+  rebuildSuccess.value = ok
+  rebuildMessage.value = ok ? `重建成功：共 ${data.stats?.total_documents ?? '?'} 篇文档` : (data.message || '重建失败')
+}
+
 const handleKeydown = (e) => {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault()
@@ -191,7 +205,15 @@ onUnmounted(() => {
               :disabled="loading || !inputText.trim()"
             >发送</button>
           </div>
-          <div class="text-muted small mt-2">本功能基于 DeepSeek 模型，仅根据知识库内容作答。</div>
+          <div class="d-flex align-items-center gap-2 mt-2">
+            <div class="text-muted small">本功能基于 DeepSeek 模型，仅根据知识库内容作答。</div>
+            <button
+              class="btn btn-outline-secondary btn-sm ms-auto"
+              @click="rebuildKnowledgeBase"
+              :disabled="rebuilding"
+            >{{ rebuilding ? '重建中…' : '🔄 重建知识库' }}</button>
+          </div>
+          <div v-if="rebuildMessage" class="small mt-1" :class="rebuildSuccess ? 'text-success' : 'text-danger'">{{ rebuildMessage }}</div>
         </div>
       </div>
     </main>
