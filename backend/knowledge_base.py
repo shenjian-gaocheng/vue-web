@@ -156,9 +156,10 @@ def serialize_teammate_document(teammate):
 def build_team_roster_documents(teammates):
     """生成按队伍聚合的名单文档，方便回答"谁和谁是不是队友"类问题。"""
     groups = {
-        'SII队': [t.name for t in teammates if t.is_teamsii],
-        '新生公演队友': [t.name for t in teammates if t.is_teamnew],
-        '全体在队成员': [t.name for t in teammates if t.is_active],
+        'SII队在团': [t.name for t in teammates if t.is_teamsii and t.is_active],
+        'SII队离团': [t.name for t in teammates if t.is_teamsii and not t.is_active],
+        '新生公演时期队友': [t.name for t in teammates if t.is_teamnew],
+        # '全体在队成员': [t.name for t in teammates if t.is_active],
         '全体成员（含已毕业）': [t.name for t in teammates],
     }
     docs = []
