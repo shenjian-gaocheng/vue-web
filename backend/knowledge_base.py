@@ -224,13 +224,32 @@ def extract_query_terms(question):
     return normalized_question, sorted(terms, key=len, reverse=True)
 
 
-def score_document(question, terms, document):
+def is_teammate_query(question):
+    teammate_keywords = (
+        '队友', '同队', '同一个队', '同一队', 'team', 'sii', '新生公演', '成员'
+    )
+    return any(keyword in question for keyword in teammate_keywords)
+
+
+def score_document(question, terms, document, teammate_intent=False):
     score = 0
     haystack = document['search_text']
     title = document['title'].lower()
+    source_type = document.get('source_type', '')
 
     if question and question in haystack:
         score += 12
+
+    if teammate_intent:
+        if source_type == 'roster':
+            score += 12
+        elif source_type == 'teammate':
+            score += 5
+
+        if 'sii' in question and ('sii' in haystack or 'team sii' in haystack):
+            score += 4
+        if '新生公演' in question and '新生公演' in haystack:
+            score += 4
 
     for term in terms:
         if term in haystack:
@@ -244,17 +263,19 @@ def score_document(question, terms, document):
 def search_knowledge_base(question, top_k=5):
     knowledge_base = ensure_knowledge_base()
     normalized_question, terms = extract_query_terms(question)
+    teammate_intent = is_teammate_query(normalized_question)
     top_k = max(1, min(int(top_k or 5), 8))
 
     scored_documents = []
     for document in knowledge_base['documents']:
-        score = score_document(normalized_question, terms, document)
+        score = score_document(normalized_question, terms, document, teammate_intent=teammate_intent)
         if score > 0:
             scored_documents.append({**document, 'score': score})
 
     scored_documents.sort(key=lambda item: item['score'], reverse=True)
     matched_documents = scored_documents[:top_k]
-    is_relevant = bool(matched_documents) and matched_documents[0]['score'] >= 6
+    min_relevance_score = 4 if teammate_intent else 6
+    is_relevant = bool(matched_documents) and matched_documents[0]['score'] >= min_relevance_score
     return matched_documents, is_relevant
 
 
