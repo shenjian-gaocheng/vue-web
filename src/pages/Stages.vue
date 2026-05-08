@@ -160,7 +160,7 @@ window.addEventListener('storage', (event) => {
 
 const groupedStages = ref({ 'Team SII': [], '11': [], '新生': [], '其它': [] })
 const expandedGroups = ref({ 'Team SII': false, '11': false, '新生': false, '其它': false })
-const maxInitial = 4
+const maxInitial = 3
 
 const toggleExpanded = group => {
   expandedGroups.value[group] = !expandedGroups.value[group]
