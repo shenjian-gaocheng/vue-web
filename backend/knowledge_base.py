@@ -18,6 +18,7 @@ KNOWLEDGE_BASE = {
         'stage_documents': 0,
         'event_documents': 0,
         'teammate_documents': 0,
+        'roster_documents': 0,
         'total_documents': 0,
     },
 }
@@ -152,6 +153,31 @@ def serialize_teammate_document(teammate):
     }
 
 
+def build_team_roster_documents(teammates):
+    """生成按队伍聚合的名单文档，方便回答"谁和谁是不是队友"类问题。"""
+    groups = {
+        'SII队': [t.name for t in teammates if t.is_teamsii],
+        '新生公演队友': [t.name for t in teammates if t.is_teamnew],
+        '全体在队成员': [t.name for t in teammates if t.is_active],
+        '全体成员（含已毕业）': [t.name for t in teammates],
+    }
+    docs = []
+    for label, names in groups.items():
+        if not names:
+            continue
+        name_list = '、'.join(names)
+        content = f'{label}名单（共 {len(names)} 人）：{name_list}。'
+        docs.append({
+            'id': f'roster-{label}',
+            'source_type': 'roster',
+            'source_label': f'队伍名单·{label}',
+            'title': label,
+            'content': content,
+            'search_text': f'{label} {name_list} 队友 成员 名单'.lower(),
+        })
+    return docs
+
+
 def build_knowledge_base():
     baike_documents = extract_baike_documents()
     stage_documents = [
@@ -162,12 +188,11 @@ def build_knowledge_base():
         serialize_event_document(event)
         for event in Event.query.order_by(Event.date.desc()).all()
     ]
-    teammate_documents = [
-        serialize_teammate_document(teammate)
-        for teammate in Teammate.query.order_by(Teammate.name).all()
-    ]
+    all_teammates = Teammate.query.order_by(Teammate.name).all()
+    teammate_documents = [serialize_teammate_document(t) for t in all_teammates]
+    roster_documents = build_team_roster_documents(all_teammates)
 
-    documents = baike_documents + stage_documents + event_documents + teammate_documents
+    documents = baike_documents + stage_documents + event_documents + teammate_documents + roster_documents
     KNOWLEDGE_BASE['documents'] = documents
     KNOWLEDGE_BASE['built_at'] = datetime.now(timezone.utc).isoformat()
     KNOWLEDGE_BASE['stats'] = {
@@ -175,6 +200,7 @@ def build_knowledge_base():
         'stage_documents': len(stage_documents),
         'event_documents': len(event_documents),
         'teammate_documents': len(teammate_documents),
+        'roster_documents': len(roster_documents),
         'total_documents': len(documents),
     }
     return KNOWLEDGE_BASE
