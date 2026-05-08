@@ -280,6 +280,55 @@ def search_knowledge_base(question, top_k=5):
     return matched_documents, is_relevant
 
 
+def _extract_roster_names(content):
+    marker = '：'
+    tail = content.split(marker, 1)[1] if marker in content else content
+    tail = tail.replace('。', '').strip()
+    if not tail:
+        return []
+    return [name.strip() for name in tail.split('、') if name.strip()]
+
+
+def generate_teammate_answer_from_roster(question, matched_documents):
+    normalized_question = normalize_whitespace(question).lower()
+    if not is_teammate_query(normalized_question):
+        return None
+
+    roster_docs = [doc for doc in matched_documents if doc.get('source_type') == 'roster']
+    teammate_docs = [doc for doc in matched_documents if doc.get('source_type') == 'teammate']
+    if not roster_docs:
+        return None
+
+    # 优先使用与问句最匹配的名单（如 Team SII 在团名单）。
+    preferred = None
+    if 'sii' in normalized_question or 'team sii' in normalized_question or 'sii队' in normalized_question:
+        preferred = next((doc for doc in roster_docs if 'sii队在团' in doc.get('title', '').lower()), None)
+        if preferred is None:
+            preferred = next((doc for doc in roster_docs if 'sii队' in doc.get('title', '').lower()), None)
+
+    if preferred is None:
+        preferred = roster_docs[0]
+
+    names = _extract_roster_names(preferred.get('content', ''))
+    if not names:
+        return None
+
+    known_names = [doc.get('title', '').strip() for doc in teammate_docs if doc.get('title')]
+    target_name = None
+    for name in sorted(known_names, key=len, reverse=True):
+        if name and name in question:
+            target_name = name
+            break
+
+    if target_name:
+        teammates = [name for name in names if name != target_name]
+        if not teammates:
+            return f'根据知识库名单，{target_name} 当前队伍暂无可识别的其他在团队友。'
+        return f'根据知识库名单，{target_name} 在 {preferred.get("title", "该队伍")} 的队友有：' + '、'.join(teammates) + '。'
+
+    return f'根据知识库名单，{preferred.get("title", "该队伍")} 成员有：' + '、'.join(names) + '。'
+
+
 def get_deepseek_client():
     api_key = os.environ.get('DEEPSEEK_API_KEY')
     if not api_key:
@@ -331,4 +380,8 @@ def generate_knowledge_answer(question, matched_documents):
     )
 
     answer = normalize_whitespace(response.choices[0].message.content if response.choices else '')
+    if not answer or answer == KNOWLEDGE_FALLBACK_MESSAGE:
+        teammate_answer = generate_teammate_answer_from_roster(question, matched_documents)
+        if teammate_answer:
+            return teammate_answer
     return answer or KNOWLEDGE_FALLBACK_MESSAGE
