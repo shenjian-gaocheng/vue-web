@@ -206,7 +206,7 @@ onUnmounted(() => {
             >发送</button>
           </div>
           <div class="d-flex align-items-center gap-2 mt-2">
-            <div class="text-muted small">本功能基于 DeepSeek 模型，仅根据知识库内容作答。</div>
+            <div class="text-muted small">本功能基于 DeepSeek 模型，仅根据知识库内容作答。回答仅供参考，无法保证准确性。</div>
             <button
               class="btn btn-outline-secondary btn-sm ms-auto"
               @click="rebuildKnowledgeBase"
