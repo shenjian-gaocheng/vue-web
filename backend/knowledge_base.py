@@ -205,7 +205,7 @@ def search_knowledge_base(question, top_k=5):
 
 
 def get_deepseek_client():
-    api_key = os.environ.get('DEEPSEEK_API_KEY')
+    api_key = os.environ.get('sk-4287651d70084470896da519ac36f98e')
     if not api_key:
         raise RuntimeError('缺少 DEEPSEEK_API_KEY 环境变量，无法调用知识库模型。')
 
