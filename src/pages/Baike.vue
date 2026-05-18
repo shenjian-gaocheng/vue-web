@@ -137,7 +137,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <!-- 个人特长 -->
             <div class="col-md-6">
               <div class="card shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body text-center">
                   <h5 class="card-title text-primary mb-3">个人特长</h5>
                   <ul class="list-unstyled mb-0">
                     <li><i class="fas fa-check text-success me-2"></i>琵琶</li>
@@ -150,7 +150,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <!-- 兴趣爱好 -->
             <div class="col-md-6">
               <div class="card shadow-sm h-100">
-                <div class="card-body">
+                <div class="card-body text-center">
                   <h5 class="card-title text-primary mb-3">兴趣爱好</h5>
                   <ul class="list-unstyled mb-0">
                     <li><i class="fas fa-heart text-danger me-2"></i>美女</li>
@@ -173,7 +173,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <h2 class="fw-bold">主要参与的公演</h2>
           </div>
 
-          <div class="mb-4 py-4 bg-light rounded">
+          <div class="mb-4 py-4 bg-light rounded text-center">
             <h5 class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i><b>2026全新公演企划《1&1 Anyone》公演（2026.05.04 - ）</b>
             </h5>
@@ -204,7 +204,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <h2 class="fw-bold">获奖</h2>
           </div>
 
-          <div class="mb-4 py-4 bg-light rounded">
+          <div class="mb-4 py-4 bg-light rounded text-center">
             <h5 class="mb-3 p-0">
               <i class="fas fa-trophy text-warning me-2"></i>
               <b>2025 SNH48 GROUP 年度青春盛典 No.47（年度梦想成员奖）</b>

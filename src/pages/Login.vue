@@ -25,10 +25,12 @@ const router = useRouter()
 const username = ref('')
 const password = ref('')
 const message = ref('')
+const authChecked = ref(false)
 
 // 轮询监控登录
-onMounted(() => {
-  verifyToken()
+onMounted(async () => {
+  await verifyToken()
+  authChecked.value = true
   startPolling()
 })
 
@@ -109,7 +111,11 @@ const handleLogout = () => {
         style="width: 300px; margin: auto"
         class="d-flex flex-column justify-content-center align-items-center flex-grow-1 text-center"
       >
-        <template v-if="isLoggedIn">
+        <template v-if="!authChecked">
+          <h2>加载中...</h2>
+        </template>
+
+        <template v-else-if="isLoggedIn">
           <h2>🎉 已登录</h2>
           <button class="btn btn-primary w-100 mt-3" @click="router.push('/admin-logs')">查看操作日志</button>
           <button class="btn btn-danger w-100 mt-3" @click="handleLogout">退出登录</button>

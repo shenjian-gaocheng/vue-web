@@ -22,6 +22,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 const auth = useAuthStore()
 const { token, isLoggedIn } = storeToRefs(auth)  // 保持响应式
 const { verifyToken, startPolling, stopPolling } = auth             // 非 ref 的函数可直接解构
+const authChecked = ref(false)
 
 // 调用api
 const { apiFetch } = useApi()
@@ -144,10 +145,6 @@ const handleConfirm = async () => {
     console.error(err)
     return
   }
-
-  showModal.value = false
-  loadStages()
-  alert(`✅ ${selectedItem.value ? '修改' : '添加'}成功`)
 }
 
 // 刷新登录状态
@@ -244,18 +241,18 @@ const loadStages = async () => {
 const isEast8 = ref(true)
 const timezone = ref('')
 
-onMounted(() => {
+onMounted(async () => {
   loadStages()  // 加载
   // getTimezoneOffset 返回的是分钟，东八区 = -480
   isEast8.value = new Date().getTimezoneOffset() === -480
   timezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone
-  verifyToken()
+  await verifyToken()
+  authChecked.value = true
   startPolling()
 })
 
 onUnmounted(() => {
   stopPolling()
-  isLoggedIn.value = true
 })
 
 // 搜索
@@ -390,7 +387,7 @@ const canShowLiveButton = (startDateLike) => {
       <Notification />
 
       <!-- 公演说明文字（放在所有公演列表之前） -->
-      <div class="alert alert-info mb-4" role="note">
+      <div class="alert alert-info mb-4 text-center" role="note">
         <p class="mb-1">以下是目前本站收录的 <strong>周童玥</strong> 参加的公演及活动列表，包括即将进行、正在进行以及已经结束的公演和活动。</p>
         <p class="mb-1">收录了Team SII公演、新生公演以及其它公演和活动。</p>
         <p class="mb-1">点击右侧按钮可跳转至发布在 B 站的直播或视频页面。</p>
@@ -400,11 +397,11 @@ const canShowLiveButton = (startDateLike) => {
         <p class="mb-0">如果按钮为灰色，则代表该场公演没有回放，或是没有制作剪辑。</p>
       </div>
 
-      <div v-if="!isEast8" class="alert alert-warning mb-4">
+      <div v-if="!isEast8" class="alert alert-warning mb-4 text-center">
         <p class="mb-1">🌍 <strong>注意：</strong>以下公演及活动所标出的时间，是您当前所在位置（{{ timezone }}）的时间，而非北京时间。</p>
       </div>
 
-      <div class="mt-4 mb-3">
+      <div class="mt-4 mb-3 text-center">
         <h3 class="mb-3">按条件筛选</h3>
         <p class="mb-1">可按关键词、场次、公演名称、时间来筛选特定的公演。</p>
         <p class="mb-1">若要寻找与周童玥相关的重要公演，请在关键词一栏输入 <strong>周童玥</strong> 并搜索。</p> 
@@ -468,8 +465,8 @@ const canShowLiveButton = (startDateLike) => {
       </div>
 
 
-      <template v-if="isLoggedIn">
-        <button class="btn btn-success mb-3" @click="() => openModal()">
+      <template v-if="authChecked && isLoggedIn">
+        <button class="btn btn-success mb-3 d-block mx-auto" @click="() => openModal()">
           ➕ 新建公演或活动记录
         </button>
       </template>
@@ -482,7 +479,7 @@ const canShowLiveButton = (startDateLike) => {
 
         <!-- 数据已加载 -->
         <template v-for="(items, group) in filteredStages" :key="group">
-          <h3 v-if="items.length" class="mt-4 mb-3">{{ group }}</h3>
+          <h3 v-if="items.length" class="mt-4 mb-3 text-center">{{ group }}</h3>
           <ul class="list-group mb-3">
             <li
               v-for="(item, index) in (expandedGroups[group] ? items : items.slice(0, maxInitial))"
@@ -615,7 +612,7 @@ const canShowLiveButton = (startDateLike) => {
                   </template>
 
                   <!-- ✅ 登录后显示编辑按钮 -->
-                  <template v-if="isLoggedIn">
+                  <template v-if="authChecked && isLoggedIn">
                     <button class="btn btn-sm btn-outline-dark" @click="() => openModal(item)">
                       编辑
                     </button>
@@ -626,7 +623,7 @@ const canShowLiveButton = (startDateLike) => {
           </ul>
           <button
             v-if="items.length > maxInitial"
-            class="btn btn-outline-primary btn-sm mb-4"
+            class="btn btn-outline-primary btn-sm mb-4 d-block mx-auto"
             @click="toggleExpanded(group)"
           >
             {{ expandedGroups[group] ? '收起' : '展开更多' }}

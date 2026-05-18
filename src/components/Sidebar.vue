@@ -41,11 +41,14 @@ const toggle = () => {
       width: props.isMobile
         ? '280px'
         : (props.collapsed ? '100px' : '280px'),
+      flexShrink: 0,
       transform: props.isMobile
         ? (props.collapsed ? 'translateX(-100%)' : 'translateX(0)')
         : 'translateX(0)',
       transition: 'all 0.3s ease',
-      height: '100vh'
+      height: '100vh',
+      position: props.isMobile ? 'fixed' : 'sticky',
+      top: '0'
     }"
   >
 

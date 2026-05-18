@@ -30,7 +30,8 @@ const createPortraitTitle = (item, isCurrent) => {
   if (isCurrent) {
     return `当前公式照：${item.name}`
   }
-  return `${item.ver_yearmonth}公式照：${item.name}`
+  // return `${item.ver_yearmonth}公式照：${item.name}`
+  return `${item.name}`
 }
 
 const orderedPortraitItems = computed(() => {
@@ -190,7 +191,7 @@ onMounted(() => {
         <div class="portrait-header">
           <p class="portrait-kicker">Official Portrait</p>
           <h1 class="portrait-page-title">公式照展示</h1>
-          <p class="portrait-desc">桌面端按整组展示当前版本与历史版本，移动端支持折叠查看和横向切换组图。</p>
+          <!-- <p class="portrait-desc">桌面端按整组展示当前版本与历史版本，移动端支持折叠查看和横向切换组图。</p> -->
         </div>
 
         <div v-if="isLoading" class="empty-tip">正在加载公式照…</div>

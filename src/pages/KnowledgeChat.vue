@@ -17,6 +17,7 @@ const { apiFetch } = useApi()
 const auth = useAuthStore()
 const { isLoggedIn } = storeToRefs(auth)
 const { verifyToken, startPolling, stopPolling } = auth
+const authChecked = ref(false)
 
 // ---- 聊天状态 ----
 const messages = ref([])   // { role: 'user'|'assistant', text: string, sources?: [] }
@@ -92,6 +93,7 @@ const handleKeydown = (e) => {
 
 onMounted(async () => {
   await verifyToken()
+  authChecked.value = true
   if (!isLoggedIn.value) {
     router.push('/admin-login')
     return
@@ -134,7 +136,9 @@ onUnmounted(() => {
     >
       <Notification />
 
-      <div class="row justify-content-center">
+      <div v-if="!authChecked" class="text-muted py-4 text-center">正在校验登录状态...</div>
+
+      <div v-else-if="isLoggedIn" class="row justify-content-center">
         <div class="col-md-10 col-xl-8">
           <h4 class="mb-3">🤖 知识库问答 <small class="text-muted fs-6">（仅限内测用户）</small></h4>
 

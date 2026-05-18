@@ -23,6 +23,7 @@ const loading = ref(false)
 const errorMessage = ref('')
 const logFile = ref('')
 const limit = ref(200)
+const authChecked = ref(false)
 
 const loadLogs = async () => {
   loading.value = true
@@ -52,6 +53,7 @@ const loadLogs = async () => {
 
 onMounted(async () => {
   await verifyToken()
+  authChecked.value = true
   if (!isLoggedIn.value) {
     router.push('/admin-login')
     return
@@ -94,7 +96,10 @@ onUnmounted(() => {
     >
       <Notification />
 
-      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+      <div v-if="!authChecked" class="text-muted">正在校验登录状态...</div>
+
+      <template v-else-if="isLoggedIn">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
         <div>
           <h2 class="mb-1">管理员操作日志</h2>
           <!-- <p class="mb-0 text-muted small">只展示包含“用户:”的日志记录</p>
@@ -115,26 +120,27 @@ onUnmounted(() => {
             {{ loading ? '加载中...' : '刷新日志' }}
           </button>
         </div>
-      </div>
+        </div>
 
-      <div v-if="errorMessage" class="alert alert-danger" role="alert">
-        {{ errorMessage }}
-      </div>
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
 
-      <div v-else-if="loading" class="text-muted">正在读取日志...</div>
+        <div v-else-if="loading" class="text-muted">正在读取日志...</div>
 
-      <div v-else-if="logs.length === 0" class="text-muted">没有匹配到包含“用户:”的日志。</div>
+        <div v-else-if="logs.length === 0" class="text-muted">没有匹配到包含“用户:”的日志。</div>
 
-      <ul v-else class="list-group mb-4">
-        <li
-          v-for="(line, idx) in logs"
-          :key="idx"
-          class="list-group-item"
-          style="font-family: 'Courier New', monospace; white-space: pre-wrap; word-break: break-word;"
-        >
-          {{ line }}
-        </li>
-      </ul>
+        <ul v-else class="list-group mb-4">
+          <li
+            v-for="(line, idx) in logs"
+            :key="idx"
+            class="list-group-item"
+            style="font-family: 'Courier New', monospace; white-space: pre-wrap; word-break: break-word;"
+          >
+            {{ line }}
+          </li>
+        </ul>
+      </template>
     </main>
   </div>
 </template>
