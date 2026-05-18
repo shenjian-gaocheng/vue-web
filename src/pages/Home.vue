@@ -381,7 +381,7 @@ onMounted(() => {
             <div class="calendar-header">
               <div>
                 <p class="calendar-kicker">Stage Calendar</p>
-                <h2>公演与行程日历</h2>
+                <h2>周童玥公演与行程日历</h2>
               </div>
 
               <div class="calendar-actions">
