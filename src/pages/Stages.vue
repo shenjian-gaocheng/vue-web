@@ -576,13 +576,26 @@ const canShowLiveButton = (startDateLike) => {
                   </template>
 
                   <!-- 判断 group 是否为“今日行程”，然后按钮变灰 -->
-                  <template v-else-if="group === '今日行程' || group === '即将开始'">
+                  <template v-else-if="group === '今日行程'">
                     <a
                       href=""
                       target="_blank"
                       class="btn btn-sm btn-success disabled"
                     >
                       暂无直播
+                    </a>
+                  </template>
+                  <!-- 即将开始：显示购票按钮 -->
+                  <template v-else-if="group === '即将开始'">
+                    <a
+                      :href="item.url ? 'https://shop.48.cn/tickets/item/' + item.url : null"
+                      target="_blank"
+                      class="btn btn-sm btn-warning"
+                      :class="item.url ? '' : 'disabled'"
+                      :tabindex="!item.url ? -1 : null"
+                      :aria-disabled="!item.url"
+                    >
+                      购买门票
                     </a>
                   </template>
 

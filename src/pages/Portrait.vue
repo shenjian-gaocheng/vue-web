@@ -212,7 +212,6 @@ onMounted(() => {
             >
               <span class="portrait-title-wrap">
                 <span class="portrait-title">{{ item.title }}</span>
-                <span class="portrait-date">{{ item.ver_yearmonth }}</span>
               </span>
               <span class="portrait-toggle-icon">{{ isPortraitExpanded(item) ? '收起' : '展开' }}</span>
             </button>
@@ -573,6 +572,10 @@ onMounted(() => {
 
   .portrait-mobile-toggle {
     margin-bottom: 0;
+  }
+
+  .portrait-content {
+    margin-top: 8px;
   }
 
   .portrait-mobile-zp {

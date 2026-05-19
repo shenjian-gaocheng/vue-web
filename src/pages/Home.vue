@@ -1,3 +1,15 @@
+/* 日期cell宽度小于82px时，标签在数字下方 */
+.day-cell {
+  container-type: inline-size;
+}
+@container (max-width: 81px) {
+  .day-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 4px !important;
+  }
+}
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
@@ -475,7 +487,7 @@ onMounted(() => {
                     </div>
 
                     <div v-if="loadingStages" class="mobile-selected-empty">正在加载...</div>
-                    <div v-else-if="!selectedDayItems.length" class="mobile-selected-empty">当日暂无记录</div>
+                    <div v-else-if="!selectedDayItems.length" class="mobile-selected-empty">当日没有公演或者行程记录。</div>
                     <div v-else class="mobile-selected-list">
                       <article
                         v-for="item in selectedDayItems"
@@ -512,7 +524,19 @@ onMounted(() => {
                               小周cut
                             </a>
                           </template>
-
+                          <!-- 即将开始（未来公演）购票按钮 -->
+                          <template v-else-if="getCategory(item, item.date) === 'future-stage'">
+                            <a
+                              :href="item.url ? 'https://shop.48.cn/tickets/item/' + item.url : null"
+                              target="_blank"
+                              class="btn btn-sm btn-warning"
+                              :class="item.url ? '' : 'disabled'"
+                              :tabindex="!item.url ? -1 : null"
+                              :aria-disabled="!item.url"
+                            >
+                              购买门票
+                            </a>
+                          </template>
                           <template v-else-if="shouldShowLiveButton(item)">
                             <a
                               v-if="getLiveButtonState(item) === 'watch'"
@@ -589,7 +613,19 @@ onMounted(() => {
                         小周cut视频
                       </a>
                     </template>
-
+                    <!-- 即将开始（未来公演）购票按钮 -->
+                    <template v-else-if="getCategory(item, item.date) === 'future-stage'">
+                      <a
+                        :href="item.url ? 'https://shop.48.cn/tickets/item/' + item.url : null"
+                        target="_blank"
+                        class="btn btn-sm btn-warning"
+                        :class="item.url ? '' : 'disabled'"
+                        :tabindex="!item.url ? -1 : null"
+                        :aria-disabled="!item.url"
+                      >
+                        购买门票
+                      </a>
+                    </template>
                     <template v-else-if="shouldShowLiveButton(item)">
                       <a
                         v-if="getLiveButtonState(item) === 'watch'"
@@ -997,6 +1033,15 @@ onMounted(() => {
 .day-cell.is-selected {
   border-color: #0f172a;
   box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.08) inset, 0 14px 30px rgba(15, 23, 42, 0.1);
+}
+
+/* 所有情况标签都在日期数字下方 */
+.day-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
 }
 
 .day-number {
