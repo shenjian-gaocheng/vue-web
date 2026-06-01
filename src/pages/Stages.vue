@@ -672,8 +672,8 @@ const canShowLiveButton = (startDateLike) => {
             <select v-model="tempItem.type" class="form-select">
               <option disabled value="">请选择队伍</option>
               <option value="Team SII">Team SII</option>
-              <option value="11">1&1 Anyone 公演</option>
-              <option value="New Members">新生公演</option>
+              <option value="11">1&1 Anyone 公演队</option>
+              <option value="New Members">新生公演队</option>
               <option value="Team NII">Team NII</option>
               <option value="Team HII">Team HII</option>
               <option value="Team X">Team X</option>
