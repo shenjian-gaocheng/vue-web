@@ -140,6 +140,7 @@ onMounted(() => {
           allowfullscreen
         ></iframe>
       </div>
+      <p class="small text-body-secondary">*视频来源于B站。相关推荐视频列表由B站自动生成，与本站无关，亦不代表本站立场。</p>
 
       <section class="timeline-section">
         <h2 class="timeline-title">大事年表</h2>
