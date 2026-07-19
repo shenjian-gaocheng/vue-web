@@ -507,11 +507,13 @@ const canShowLiveButton = (startDateLike) => {
                 <!-- 中间：标题 -->
                 <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
                   <div>
-                    <div class="fw-semibold">
-                      <template v-for="(line, lineIndex) in splitTitle(item.title).mainLines" :key="lineIndex">
-                        <span>{{ line }}</span>
-                        <br v-if="lineIndex < splitTitle(item.title).mainLines.length - 1" />
-                      </template>
+                    <div class="fw-semibold">{{ splitTitle(item.title).mainLines[0] }}</div>
+                    <div
+                      v-for="(line, lineIndex) in splitTitle(item.title).mainLines.slice(1)"
+                      :key="lineIndex"
+                      class="text-muted small mt-1"
+                    >
+                      {{ line }}
                     </div>
                     <div v-if="splitTitle(item.title).note" class="text-muted small mt-1">
                       <template v-for="(line, lineIndex) in splitTitle(item.title).noteLines" :key="lineIndex">
