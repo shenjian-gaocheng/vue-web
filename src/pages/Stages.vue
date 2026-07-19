@@ -332,11 +332,19 @@ const parseToDate = (v) => {
 
 const splitTitle = (title) => {
   const normalizedTitle = title.replace(/\\n/g, '\n')
-  const match = title.match(/（完整回放由B站up主“[^"]*”提供）/)
-  if (!match) return { main: normalizedTitle, note: '' }
+  const match = normalizedTitle.match(/（完整回放由B站up主“[^\"]*”提供）/)
+  if (!match) {
+    const main = normalizedTitle.trim()
+    return { main, note: '', mainLines: main.split('\n'), noteLines: [] }
+  }
   const note = match[0]
   const main = normalizedTitle.replace(note, '').trim()
-  return { main, note }
+  return {
+    main,
+    note,
+    mainLines: main.split('\n'),
+    noteLines: note.split('\n')
+  }
 }
 
 const canShowLiveButton = (startDateLike) => {
@@ -499,8 +507,18 @@ const canShowLiveButton = (startDateLike) => {
                 <!-- 中间：标题 -->
                 <div class="flex-grow-1 d-flex justify-content-center align-items-center text-center">
                   <div>
-                    <div class="fw-semibold text-pre-line">{{ splitTitle(item.title).main }}</div>
-                    <div v-if="splitTitle(item.title).note" class="text-muted small mt-1 text-pre-line">{{ splitTitle(item.title).note }}</div>
+                    <div class="fw-semibold">
+                      <template v-for="(line, lineIndex) in splitTitle(item.title).mainLines" :key="lineIndex">
+                        <span>{{ line }}</span>
+                        <br v-if="lineIndex < splitTitle(item.title).mainLines.length - 1" />
+                      </template>
+                    </div>
+                    <div v-if="splitTitle(item.title).note" class="text-muted small mt-1">
+                      <template v-for="(line, lineIndex) in splitTitle(item.title).noteLines" :key="lineIndex">
+                        <span>{{ line }}</span>
+                        <br v-if="lineIndex < splitTitle(item.title).noteLines.length - 1" />
+                      </template>
+                    </div>
                   </div>
                 </div>
 
