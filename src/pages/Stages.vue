@@ -38,6 +38,7 @@ const unitTypeOptions = [
   { value: 'regular', label: '常规' },
   { value: 'yueyaoqu', label: '乐曜曲' },
   { value: 'birthday', label: '生日公演' },
+  { value: 'election', label: '作品展演' },
   { value: 'mvp', label: 'MVP' },
   { value: 'encore', label: '安可/奖励' },
   { value: 'todaymvp', label: '今日之星' },
@@ -88,6 +89,25 @@ const removeUnitItem = (index) => {
 const getUnitTypeLabel = (type) => {
   const found = unitTypeOptions.find(option => option.value === type)
   return found ? found.label : '常规'
+}
+
+const formatUnitDetailLine = (unitItem) => {
+  const name = unitItem?.name || '-'
+  const type = unitItem?.type
+  const typeLabel = getUnitTypeLabel(type)
+  const pos = String(unitItem?.pos ?? '').trim()
+  const isPosOne = pos === '1'
+  const showPos = type === 'regular' || type === 'yueyaoqu'
+
+  if (showPos) {
+    return `${name}（${pos || '-'}号位、${typeLabel}unit）`
+  }
+
+  if (isPosOne) {
+    return `${name}（${typeLabel}unit）`
+  }
+
+  return `${name}（${typeLabel}unit、助演）`
 }
 
 const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
@@ -1067,7 +1087,7 @@ const canShowLiveButton = (startDateLike) => {
                   :class="unitIndex < detailItem.unit.length - 1 ? 'border-bottom' : ''"
                 >
                   <div>
-                    {{ unitItem.name || '-' }}（{{ unitItem.pos || '-' }}号位、{{ getUnitTypeLabel(unitItem.type) }}unit）
+                    {{ formatUnitDetailLine(unitItem) }}
                   </div>
                 </div>
               </div>
