@@ -944,16 +944,16 @@ const canShowLiveButton = (startDateLike) => {
               :key="`unit-${unitIndex}`"
               class="border rounded p-2 mb-2"
             >
-              <div class="row g-2 align-items-center mb-2">
-                <div class="col-md-5">
+              <div class="row gx-2 gy-2 align-items-center mb-2 mx-0">
+                <div class="col-md-5 px-1">
                   <label class="form-label mb-1">Unit歌曲名 <span class="text-danger">*</span></label>
                   <input v-model="unitItem.name" type="text" class="form-control form-control-sm" placeholder="请输入unit名称" />
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 px-1">
                   <label class="form-label mb-1">站位 <span class="text-danger">*</span></label>
                   <input v-model="unitItem.pos" type="number" min="1" step="1" class="form-control form-control-sm" placeholder="正整数" />
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 px-1">
                   <label class="form-label mb-1">类型 <span class="text-danger">*</span></label>
                   <select v-model="unitItem.type" class="form-select form-select-sm">
                     <option
@@ -974,8 +974,8 @@ const canShowLiveButton = (startDateLike) => {
               </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mt-2">
-              <small class="text-muted">Unit歌曲名必填；站位必须是正整数；类型只能选择给定项。</small>
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-start align-items-md-center mt-2">
+              <small class="text-muted text-break">Unit歌曲名必填；站位必须是正整数；类型只能选择给定项。</small>
               <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
                 + 添加 Unit
               </button>
@@ -1086,7 +1086,7 @@ const canShowLiveButton = (startDateLike) => {
                   class="px-3 py-2"
                   :class="unitIndex < detailItem.unit.length - 1 ? 'border-bottom' : ''"
                 >
-                  <div>
+                  <div class="text-break">
                     {{ formatUnitDetailLine(unitItem) }}
                   </div>
                 </div>

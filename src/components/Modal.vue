@@ -45,8 +45,9 @@ const confirm = () => emit('confirm')
   background: white;
   border-radius: 8px;
   width: 800px;
-  max-width: 100%;
+  max-width: calc(100vw - 24px);
   padding: 20px;
+  box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 .modal-title {
@@ -56,6 +57,7 @@ const confirm = () => emit('confirm')
 .modal-body {
   max-height: 70vh; /* 限制高度为视口的60%，你可以调整这个值 */
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .modal-footer {
   display: flex;
