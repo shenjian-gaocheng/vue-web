@@ -926,22 +926,22 @@ const canShowLiveButton = (startDateLike) => {
             >
               <div class="row g-2 align-items-center mb-2">
                 <div class="col-md-5">
-                  <label class="form-label mb-1">name <span class="text-danger">*</span></label>
+                  <label class="form-label mb-1">Unit歌曲名 <span class="text-danger">*</span></label>
                   <input v-model="unitItem.name" type="text" class="form-control form-control-sm" placeholder="请输入unit名称" />
                 </div>
                 <div class="col-md-3">
-                  <label class="form-label mb-1">pos <span class="text-danger">*</span></label>
+                  <label class="form-label mb-1">站位 <span class="text-danger">*</span></label>
                   <input v-model="unitItem.pos" type="number" min="1" step="1" class="form-control form-control-sm" placeholder="正整数" />
                 </div>
                 <div class="col-md-4">
-                  <label class="form-label mb-1">type <span class="text-danger">*</span></label>
+                  <label class="form-label mb-1">类型 <span class="text-danger">*</span></label>
                   <select v-model="unitItem.type" class="form-select form-select-sm">
                     <option
                       v-for="option in unitTypeOptions"
                       :key="option.value"
                       :value="option.value"
                     >
-                      {{ option.value }}：{{ option.label }}
+                      {{ option.label }}
                     </option>
                   </select>
                 </div>
@@ -955,7 +955,7 @@ const canShowLiveButton = (startDateLike) => {
             </div>
 
             <div class="d-flex justify-content-between align-items-center mt-2">
-              <small class="text-muted">name 必填；pos 必须是正整数；type 只能选择给定项。</small>
+              <small class="text-muted">Unit歌曲名必填；站位必须是正整数；类型只能选择给定项。</small>
               <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
                 + 添加 Unit
               </button>
@@ -1066,9 +1066,9 @@ const canShowLiveButton = (startDateLike) => {
                   class="px-3 py-2"
                   :class="unitIndex < detailItem.unit.length - 1 ? 'border-bottom' : ''"
                 >
-                  <div><strong>name：</strong>{{ unitItem.name || '-' }}</div>
-                  <div><strong>pos：</strong>{{ unitItem.pos || '-' }}</div>
-                  <div><strong>type：</strong>{{ unitItem.type || '-' }}（{{ getUnitTypeLabel(unitItem.type) }}）</div>
+                  <div>
+                    {{ unitItem.name || '-' }}（{{ unitItem.pos || '-' }}号位、{{ getUnitTypeLabel(unitItem.type) }}unit）
+                  </div>
                 </div>
               </div>
               <div v-else class="form-control-plaintext border rounded px-3 py-2 bg-light">
