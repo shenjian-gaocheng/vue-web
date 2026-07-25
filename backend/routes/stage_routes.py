@@ -33,6 +33,7 @@ class StageList(Resource):
             time=data['time'],
             is_stage=data['is_stage'],
             is_end=data['is_end'],
+            unit=data['unit'],
         )
         db.session.add(stage)
         db.session.commit()
@@ -63,6 +64,7 @@ class StageItem(Resource):
             stage.time = data['time']
             stage.is_stage = data['is_stage']
             stage.is_end = data['is_end']
+            stage.unit = data['unit']
 
             db.session.commit()
 
@@ -97,6 +99,7 @@ class StageBatch(Resource):
                     is_stage=data['is_stage'],
                     is_end=data['is_end'],
                     time=data['time'],
+                    unit=data['unit'],
                 )
                 stages.append(stage)
             except (KeyError, ValueError) as error:

@@ -20,6 +20,7 @@ stage_model = api.model('Stage', {
     'time': fields.String(description='演出地点'),
     'is_stage': fields.Boolean(required=True, description='是否为公演'),
     'is_end': fields.Boolean(required=True, description='是否结束'),
+    'unit': fields.Raw(description='演出unit信息，JSON格式')
 })
 
 teammate_model = api.model('Teammate', {

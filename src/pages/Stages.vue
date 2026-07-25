@@ -31,6 +31,106 @@ const { apiFetch } = useApi()
 const showModal = ref(false)
 const selectedItem = ref(null)        // 原始数据，用于页面展示
 const tempItem = ref({})              // 临时副本，仅用于弹框编辑
+const showDetailModal = ref(false)
+const detailItem = ref(null)
+
+const unitTypeOptions = [
+  { value: 'regular', label: '常规' },
+  { value: 'yueyaoqu', label: '乐曜曲' },
+  { value: 'birthday', label: '生日公演' },
+  { value: 'mvp', label: 'MVP' },
+  { value: 'encore', label: '安可/奖励' },
+  { value: 'todaymvp', label: '今日之星' },
+  { value: 'special', label: '特殊' }
+]
+
+const unitTypeValueSet = new Set(unitTypeOptions.map(option => option.value))
+
+const createEmptyUnit = () => ({
+  name: '',
+  pos: '',
+  type: 'regular'
+})
+
+const normalizeUnitList = (rawUnit) => {
+  let source = rawUnit
+
+  if (!source) return []
+
+  if (typeof source === 'string') {
+    try {
+      source = JSON.parse(source)
+    } catch {
+      return []
+    }
+  }
+
+  if (!Array.isArray(source)) return []
+
+  return source.map((item) => ({
+    name: String(item?.name || ''),
+    pos: item?.pos === undefined || item?.pos === null ? '' : String(item.pos),
+    type: unitTypeValueSet.has(item?.type) ? item.type : 'regular'
+  }))
+}
+
+const addUnitItem = () => {
+  if (!Array.isArray(tempItem.value.unit)) {
+    tempItem.value.unit = []
+  }
+  tempItem.value.unit.push(createEmptyUnit())
+}
+
+const removeUnitItem = (index) => {
+  tempItem.value.unit.splice(index, 1)
+}
+
+const getUnitTypeLabel = (type) => {
+  const found = unitTypeOptions.find(option => option.value === type)
+  return found ? found.label : '常规'
+}
+
+const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
+
+const validateUnits = (units) => {
+  if (!Array.isArray(units)) return true
+
+  for (let i = 0; i < units.length; i += 1) {
+    const item = units[i] || {}
+    const lineNumber = i + 1
+    const name = String(item.name || '').trim()
+    const pos = String(item.pos ?? '').trim()
+    const type = item.type
+
+    if (!name) {
+      alert(`❗ Unit 第 ${lineNumber} 条：name 为必填项`)
+      return false
+    }
+
+    if (!isPositiveInteger(pos)) {
+      alert(`❗ Unit 第 ${lineNumber} 条：pos 必须是正整数`)
+      return false
+    }
+
+    if (!unitTypeValueSet.has(type)) {
+      alert(`❗ Unit 第 ${lineNumber} 条：type 只能选择给定选项`)
+      return false
+    }
+  }
+
+  return true
+}
+
+const normalizeUnitsForPayload = (units) => {
+  if (!Array.isArray(units)) return []
+
+  return units.map(item => ({
+    name: String(item.name || '').trim(),
+    pos: Number(String(item.pos).trim()),
+    type: item.type
+  }))
+}
+
 function formatDateForInput(datetimeStr) {
   // 原始格式: "2025-06-15 13:45:00+08:00"
   // 去掉秒和时区部分
@@ -54,6 +154,7 @@ const openModal = (item = null) => {
     // 编辑：深拷贝已有项
     selectedItem.value = item
     tempItem.value = JSON.parse(JSON.stringify(item))
+    tempItem.value.unit = normalizeUnitList(tempItem.value.unit)
     if (tempItem.value.date) {
       tempItem.value.date = formatDateForInput(tempItem.value.date)
     }
@@ -71,9 +172,22 @@ const openModal = (item = null) => {
       time: '',
       is_stage: false,
       is_end: false,
+      unit: [],
     }
   }
   showModal.value = true
+}
+
+const openDetailModal = (item) => {
+  detailItem.value = {
+    ...item,
+    unit: normalizeUnitList(item.unit)
+  }
+  showDetailModal.value = true
+}
+
+const closeDetailModal = () => {
+  showDetailModal.value = false
 }
 
 const handleConfirm = async () => {
@@ -88,6 +202,13 @@ const handleConfirm = async () => {
     return
   }
 
+  if (!validateUnits(tempItem.value.unit)) {
+    showModal.value = true
+    return
+  }
+
+  const normalizedUnit = normalizeUnitsForPayload(tempItem.value.unit)
+
   const payload = {
     session: tempItem.value.session,
     date: toISOWithTimezoneOffset(new Date(tempItem.value.date)),
@@ -98,7 +219,8 @@ const handleConfirm = async () => {
     cut_url: tempItem.value.cut_url,
     time: tempItem.value.time,
     is_stage: tempItem.value.is_stage,
-    is_end: tempItem.value.is_end
+    is_end: tempItem.value.is_end,
+    unit: normalizedUnit
   }
 
   let result
@@ -345,6 +467,46 @@ const splitTitle = (title) => {
     mainLines: main.split('\n'),
     noteLines: note.split('\n')
   }
+}
+
+const getTypeLabel = (type) => {
+  const map = {
+    'Team SII': 'Team SII',
+    '11': '1&1 Anyone 公演队',
+    'New Members': '新生公演队',
+    'Team NII': 'Team NII',
+    'Team HII': 'Team HII',
+    'Team X': 'Team X',
+    'Others': '其它（特殊公演或非公演）'
+  }
+  return map[type] || type || '-'
+}
+
+const getStageCodeLabel = (stageCode) => {
+  const map = {
+    MX: '命运的X号',
+    'HJ-B': '幻镜-B版',
+    XII: '代号XII 2.0',
+    'HJ-C': '幻镜-C版',
+    ITL: 'INTO THE LIGHT',
+    11: '1&1 Anyone',
+    SJHS: '三角函数',
+    FX: 'Fire X',
+    SP: '其它（特殊公演或非公演）'
+  }
+  return map[stageCode] || stageCode || '-'
+}
+
+const getVenueLabel = (venue) => {
+  const map = {
+    BEJ: 'BEJ48壹空间',
+    GNZ: 'GNZ48星梦剧院',
+    CKG: 'CKG48星梦剧院',
+    CGT: 'CGT48星梦剧院',
+    HZ: '杭州星梦空间',
+    NA: '其它剧场'
+  }
+  return map[venue] || 'SNH48星梦剧院'
 }
 
 const canShowLiveButton = (startDateLike) => {
@@ -622,6 +784,10 @@ const canShowLiveButton = (startDateLike) => {
 
                   <!-- 否则显示原有两个按钮 -->
                   <template v-else>
+                    <button class="btn btn-sm btn-outline-dark" @click="() => openDetailModal(item)">
+                      详情
+                    </button>
+
                     <a
                       :href="item.url ? 'https://www.bilibili.com/video/' + item.url : null"
                       target="_blank"
@@ -750,6 +916,53 @@ const canShowLiveButton = (startDateLike) => {
           </div>
         </div>
 
+        <div class="form-group row mb-2">
+          <label class="col-sm-3 col-form-label text-start">Unit</label>
+          <div class="col-sm-9">
+            <div
+              v-for="(unitItem, unitIndex) in tempItem.unit"
+              :key="`unit-${unitIndex}`"
+              class="border rounded p-2 mb-2"
+            >
+              <div class="row g-2 align-items-center mb-2">
+                <div class="col-md-5">
+                  <label class="form-label mb-1">name <span class="text-danger">*</span></label>
+                  <input v-model="unitItem.name" type="text" class="form-control form-control-sm" placeholder="请输入unit名称" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label mb-1">pos <span class="text-danger">*</span></label>
+                  <input v-model="unitItem.pos" type="number" min="1" step="1" class="form-control form-control-sm" placeholder="正整数" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label mb-1">type <span class="text-danger">*</span></label>
+                  <select v-model="unitItem.type" class="form-select form-select-sm">
+                    <option
+                      v-for="option in unitTypeOptions"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.value }}：{{ option.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="text-end">
+                <button type="button" class="btn btn-outline-danger btn-sm" @click="removeUnitItem(unitIndex)">
+                  删除该条
+                </button>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <small class="text-muted">name 必填；pos 必须是正整数；type 只能选择给定项。</small>
+              <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
+                + 添加 Unit
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row mb-2 align-items-center">
           <label class="col-sm-3 col-form-label text-start">完整视频回放<br>（请输入SNH48在b站官号发布的公演视频回放bv号）</label>
           <div class="col-sm-9">
@@ -764,6 +977,138 @@ const canShowLiveButton = (startDateLike) => {
           </div>
         </div>
         <!-- 你可以放任何 slot 内容，甚至是编辑表单 -->
+      </Modal>
+
+      <Modal v-model="showDetailModal" title="详情" cancel-text="关闭" :show-confirm="false">
+        <template v-if="detailItem">
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">时间</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                <ZonedDateTime :datetime="detailItem.date" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">场次</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ detailItem.session !== '0' ? `第 ${detailItem.session} 场` : '不计入场次' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">标题</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ detailItem.title || '-' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">队伍</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ getTypeLabel(detailItem.type) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">公演类别</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ getStageCodeLabel(detailItem.stage_code) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">演出地点</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ getVenueLabel(detailItem.time) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">是否已结束</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ detailItem.is_end ? '是' : '否' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">是否为公演</label>
+            <div class="col-sm-9">
+              <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                {{ detailItem.is_stage ? '是' : '否' }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2">
+            <label class="col-sm-3 col-form-label text-start">Unit</label>
+            <div class="col-sm-9">
+              <div
+                v-if="Array.isArray(detailItem.unit) && detailItem.unit.length"
+                class="border rounded bg-light"
+              >
+                <div
+                  v-for="(unitItem, unitIndex) in detailItem.unit"
+                  :key="`detail-unit-${unitIndex}`"
+                  class="px-3 py-2"
+                  :class="unitIndex < detailItem.unit.length - 1 ? 'border-bottom' : ''"
+                >
+                  <div><strong>name：</strong>{{ unitItem.name || '-' }}</div>
+                  <div><strong>pos：</strong>{{ unitItem.pos || '-' }}</div>
+                  <div><strong>type：</strong>{{ unitItem.type || '-' }}（{{ getUnitTypeLabel(unitItem.type) }}）</div>
+                </div>
+              </div>
+              <div v-else class="form-control-plaintext border rounded px-3 py-2 bg-light">
+                -
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">完整视频回放</label>
+            <div class="col-sm-9">
+              <a
+                :href="detailItem.url ? 'https://www.bilibili.com/video/' + detailItem.url : null"
+                target="_blank"
+                class="btn btn-sm"
+                :class="detailItem.url ? 'btn-primary' : 'btn-secondary disabled'"
+                :tabindex="!detailItem.url ? -1 : null"
+                :aria-disabled="!detailItem.url"
+              >
+                完整视频回放
+              </a>
+            </div>
+          </div>
+
+          <div class="form-group row mb-2 align-items-center">
+            <label class="col-sm-3 col-form-label text-start">小周cut视频</label>
+            <div class="col-sm-9">
+              <a
+                :href="detailItem.cut_url ? 'https://www.bilibili.com/video/' + detailItem.cut_url : null"
+                target="_blank"
+                class="btn btn-sm"
+                :class="detailItem.cut_url ? 'btn-warning' : 'btn-secondary disabled'"
+                :tabindex="!detailItem.cut_url ? -1 : null"
+                :aria-disabled="!detailItem.cut_url"
+              >
+                小周cut视频
+              </a>
+            </div>
+          </div>
+        </template>
       </Modal>
     </main>
   </div>

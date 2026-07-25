@@ -6,17 +6,20 @@
         <slot />
       </div>
       <div class="modal-footer">
-        <button class="btn" @click="close">取消</button>
-        <button class="btn btn-primary" @click="confirm">确认</button>
+        <button class="btn" @click="close">{{ cancelText }}</button>
+        <button v-if="showConfirm" class="btn btn-primary" @click="confirm">{{ confirmText }}</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   modelValue: Boolean,
-  title: { type: String, default: '提示' }
+  title: { type: String, default: '提示' },
+  cancelText: { type: String, default: '取消' },
+  confirmText: { type: String, default: '确认' },
+  showConfirm: { type: Boolean, default: true }
 })
 const emit = defineEmits(['update:modelValue', 'confirm'])
 

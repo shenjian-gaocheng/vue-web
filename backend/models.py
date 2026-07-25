@@ -28,6 +28,7 @@ class Stage(db.Model):
     time = db.Column(db.String(255))
     is_stage = db.Column(db.Boolean, nullable=False)
     is_end = db.Column(db.Boolean, nullable=False)
+    unit = db.Column(db.JSON)
 
 
 class Teammate(db.Model):
