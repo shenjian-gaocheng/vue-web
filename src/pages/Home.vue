@@ -238,6 +238,25 @@ function formatItemType(type) {
   return normalized
 }
 
+function splitStageTitle(title) {
+  const normalized = String(title || '')
+    .replace(/\\\\n/g, '\n')
+    .replace(/\\n/g, '\n')
+  const lines = normalized
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+
+  if (!lines.length) {
+    return { main: '-', subLines: [] }
+  }
+
+  return {
+    main: lines[0],
+    subLines: lines.slice(1),
+  }
+}
+
 function canShowLiveButton(startDateLike) {
   const start = parseToDate(startDateLike)
   if (!start) return false
@@ -498,7 +517,16 @@ onMounted(() => {
                           <span class="mobile-selected-type" :class="categoryMeta[getCategory(item, item.date)]?.className">
                             {{ categoryMeta[getCategory(item, item.date)]?.label }}
                           </span>
-                          <span class="mobile-selected-text">{{ `${item.title}（${formatLocalTime(item.date)}）` }}</span>
+                          <span class="mobile-selected-text-wrap">
+                            <span class="mobile-selected-text">{{ `${splitStageTitle(item.title).main}（${formatLocalTime(item.date)}）` }}</span>
+                            <span
+                              v-for="(line, idx) in splitStageTitle(item.title).subLines"
+                              :key="`mobile-title-${item.id ?? item.date}-${idx}`"
+                              class="mobile-selected-subtext"
+                            >
+                              {{ line }}
+                            </span>
+                          </span>
                         </div>
 
                         <div class="mobile-selected-actions">
@@ -584,7 +612,13 @@ onMounted(() => {
                     </span>
                     <span v-if="String(item.session) !== '0'" class="detail-session">第{{ item.session }}场</span>
                   </div>
-                  <h4>{{ item.title }}</h4>
+                  <h4>{{ splitStageTitle(item.title).main }}</h4>
+                  <p v-if="splitStageTitle(item.title).subLines.length" class="detail-title-sub">
+                    <template v-for="(line, idx) in splitStageTitle(item.title).subLines" :key="`detail-title-${item.id ?? item.date}-${idx}`">
+                      <span>{{ line }}</span>
+                      <br v-if="idx < splitStageTitle(item.title).subLines.length - 1" />
+                    </template>
+                  </p>
                   <p class="detail-meta">
                     {{ formatItemType(item.type) }} · {{ formatLocalTime(item.date) }}
                   </p>
@@ -1132,6 +1166,22 @@ onMounted(() => {
   line-height: 1.35;
 }
 
+.mobile-selected-text-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mobile-selected-subtext {
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: #64748b;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
 .mobile-selected-empty {
   font-size: 12px;
   color: #64748b;
@@ -1219,6 +1269,13 @@ onMounted(() => {
   margin: 10px 0 6px;
   font-size: 16px;
   color: #0f172a;
+}
+
+.detail-title-sub {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
 }
 
 .detail-item-head {

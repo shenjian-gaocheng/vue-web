@@ -130,6 +130,25 @@ const handleUnitDragEnd = () => {
   dragOverUnitIndex.value = null
 }
 
+const moveUnitItemUp = (index) => {
+  if (!Array.isArray(tempItem.value.unit)) return
+  if (index <= 0) return
+
+  const units = tempItem.value.unit
+  const [current] = units.splice(index, 1)
+  units.splice(index - 1, 0, current)
+}
+
+const moveUnitItemDown = (index) => {
+  if (!Array.isArray(tempItem.value.unit)) return
+
+  const units = tempItem.value.unit
+  if (index < 0 || index >= units.length - 1) return
+
+  const [current] = units.splice(index, 1)
+  units.splice(index + 1, 0, current)
+}
+
 const getUnitTypeLabel = (type) => {
   const found = unitTypeOptions.find(option => option.value === type)
   return found ? found.label : '常规'
@@ -272,6 +291,7 @@ const handleConfirm = async () => {
   }
 
   const normalizedUnit = normalizeUnitsForPayload(tempItem.value.unit)
+  const normalizedVenue = String(tempItem.value.time || '').trim()
 
   const payload = {
     session: tempItem.value.session,
@@ -281,7 +301,7 @@ const handleConfirm = async () => {
     title: tempItem.value.title,
     url: tempItem.value.url,
     cut_url: tempItem.value.cut_url,
-    time: tempItem.value.time,
+    time: normalizedVenue,
     is_stage: tempItem.value.is_stage,
     is_end: tempItem.value.is_end,
     unit: normalizedUnit
@@ -517,7 +537,9 @@ const parseToDate = (v) => {
 }
 
 const splitTitle = (title) => {
-  const normalizedTitle = title.replace(/\\n/g, '\n')
+  const normalizedTitle = String(title || '')
+    .replace(/\\\\n/g, '\n')
+    .replace(/\\n/g, '\n')
   const match = normalizedTitle.match(/（完整回放由B站up主“[^\"]*”提供）/)
   if (!match) {
     const main = normalizedTitle.trim()
@@ -562,7 +584,9 @@ const getStageCodeLabel = (stageCode) => {
 }
 
 const getVenueLabel = (venue) => {
+  const normalizedVenue = String(venue || '').trim()
   const map = {
+    SNH: 'SNH48星梦剧院',
     BEJ: 'BEJ48壹空间',
     GNZ: 'GNZ48星梦剧院',
     CKG: 'CKG48星梦剧院',
@@ -570,7 +594,10 @@ const getVenueLabel = (venue) => {
     HZ: '杭州星梦空间',
     NA: '其它剧场'
   }
-  return map[venue] || 'SNH48星梦剧院'
+  if (!normalizedVenue) {
+    return 'SNH48星梦剧院'
+  }
+  return map[normalizedVenue] || normalizedVenue
 }
 
 const canShowLiveButton = (startDateLike) => {
@@ -954,15 +981,23 @@ const canShowLiveButton = (startDateLike) => {
         <div class="form-group row mb-2 align-items-center">
           <label class="col-sm-3 col-form-label text-start">演出地点</label>
           <div class="col-sm-9">
-            <select v-model="tempItem.time" class="form-select">
-              <option disabled value="">请选择演出地点，如果是在SNH48剧场演出的，则不用填</option>
+            <input
+              v-model="tempItem.time"
+              type="text"
+              class="form-control"
+              placeholder="SNH48剧场可留空；已支持剧场请填写代号（如 GNZ）"
+              list="venue-options"
+            />
+            <datalist id="venue-options">
+              <option value="SNH">SNH48星梦剧院</option>
               <option value="BEJ">BEJ48壹空间</option>
               <option value="GNZ">GNZ48星梦剧院</option>
               <option value="CKG">CKG48星梦剧院</option>
               <option value="CGT">CGT48星梦剧院</option>
               <option value="HZ">杭州星梦空间（无直播）</option>
               <option value="NA">其它剧场（无直播）</option>
-            </select>
+            </datalist>
+            <small class="text-muted d-block mt-1">可自行填写演出地点；自行填写的地点默认按无直播处理。</small>
           </div>
         </div>
 
@@ -1033,7 +1068,23 @@ const canShowLiveButton = (startDateLike) => {
                 </div>
               </div>
 
-              <div class="text-end">
+              <div class="d-flex justify-content-end gap-2 flex-wrap">
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  :disabled="unitIndex === 0"
+                  @click="moveUnitItemUp(unitIndex)"
+                >
+                  上移
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  :disabled="unitIndex === tempItem.unit.length - 1"
+                  @click="moveUnitItemDown(unitIndex)"
+                >
+                  下移
+                </button>
                 <button type="button" class="btn btn-outline-danger btn-sm" @click="removeUnitItem(unitIndex)">
                   删除该条
                 </button>
@@ -1049,7 +1100,7 @@ const canShowLiveButton = (startDateLike) => {
             </datalist>
 
             <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-start align-items-md-center mt-2">
-              <small class="text-muted text-break">Unit歌曲名可从默认选项中选择，也可自行填写；类型只能选择给定项；支持拖动排序。</small>
+              <small class="text-muted text-break">Unit歌曲名可从默认选项中选择，也可自行填写；类型只能选择给定项；支持拖动排序，也可用上移/下移按钮排序。</small>
               <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
                 + 添加 Unit
               </button>
@@ -1097,7 +1148,20 @@ const canShowLiveButton = (startDateLike) => {
             <label class="col-sm-3 col-form-label text-start">标题</label>
             <div class="col-sm-9">
               <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
-                {{ detailItem.title || '-' }}
+                <div>{{ splitTitle(detailItem.title).mainLines[0] || '-' }}</div>
+                <div
+                  v-for="(line, lineIndex) in splitTitle(detailItem.title).mainLines.slice(1)"
+                  :key="`detail-title-main-${lineIndex}`"
+                  class="text-muted small mt-1"
+                >
+                  {{ line }}
+                </div>
+                <div v-if="splitTitle(detailItem.title).note" class="text-muted small mt-1">
+                  <template v-for="(line, lineIndex) in splitTitle(detailItem.title).noteLines" :key="`detail-title-note-${lineIndex}`">
+                    <span>{{ line }}</span>
+                    <br v-if="lineIndex < splitTitle(detailItem.title).noteLines.length - 1" />
+                  </template>
+                </div>
               </div>
             </div>
           </div>

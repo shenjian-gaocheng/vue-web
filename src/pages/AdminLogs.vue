@@ -46,7 +46,7 @@ const loadLogs = async () => {
     return
   }
 
-  logs.value = Array.isArray(data.logs) ? data.logs : []
+  logs.value = Array.isArray(data.logs) ? [...data.logs].reverse() : []
   logFile.value = data.log_file || ''
   loading.value = false
 }
