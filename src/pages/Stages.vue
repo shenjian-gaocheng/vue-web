@@ -107,10 +107,10 @@ const formatUnitDetailLine = (unitItem) => {
     return `${name}（${typeLabel}unit）`
   }
 
-  return `${name}（${typeLabel}unit、助演）`
+  return `${name}（${typeLabel}unit、助演${pos || ''}）`
 }
 
-const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
+// const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
 
 const validateUnits = (units) => {
   if (!Array.isArray(units)) return true
@@ -127,10 +127,10 @@ const validateUnits = (units) => {
       return false
     }
 
-    if (!isPositiveInteger(pos)) {
-      alert(`❗ Unit 第 ${lineNumber} 条：pos 必须是正整数`)
-      return false
-    }
+    // if (!isPositiveInteger(pos)) {
+    //   alert(`❗ Unit 第 ${lineNumber} 条：pos 必须是正整数`)
+    //   return false
+    // }
 
     if (!unitTypeValueSet.has(type)) {
       alert(`❗ Unit 第 ${lineNumber} 条：type 只能选择给定选项`)
@@ -146,7 +146,7 @@ const normalizeUnitsForPayload = (units) => {
 
   return units.map(item => ({
     name: String(item.name || '').trim(),
-    pos: Number(String(item.pos).trim()),
+    pos: String(item.pos).trim(),
     type: item.type
   }))
 }
@@ -951,7 +951,7 @@ const canShowLiveButton = (startDateLike) => {
                 </div>
                 <div class="col-md-3 px-1">
                   <label class="form-label mb-1">站位 <span class="text-danger">*</span></label>
-                  <input v-model="unitItem.pos" type="number" min="1" step="1" class="form-control form-control-sm" placeholder="正整数" />
+                  <input v-model="unitItem.pos" type="text" class="form-control form-control-sm" placeholder="常规unit填站位数字，助演unit填被助演成员名" />
                 </div>
                 <div class="col-md-4 px-1">
                   <label class="form-label mb-1">类型 <span class="text-danger">*</span></label>
