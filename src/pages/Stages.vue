@@ -47,6 +47,19 @@ const unitTypeOptions = [
 
 const unitTypeValueSet = new Set(unitTypeOptions.map(option => option.value))
 
+const unitSongOptionsByStageCode = {
+  'MX': ['Ice Queen', 'Battle Cry', '占卜师', '深海之声', '双生花', '最后的曙光'],
+  'HJ-B': ['初眠（Ring）', '下一站是你', 'Let it down（深海之森）', 'Scream Out（火柴梗）', '爱未央', 'Miss D（迷失地）'],
+  'XII': ['她和她', '完美超载', 'Love Letter', '初吻练习曲', '自以为', '人间规则'],
+  'HJ-C': ['爱的加速器', '最好的朋友', '关不掉', '皆渡', '粉红狙击手', '0.2s'],
+  'ITL': ['残骸（ForEver）', 'Like it（随机碰撞）', '呓语（Lullaby）', 'Over & Over', '距离（Hesitate）', '新纪元（Nova Terra）', '换下制服之前', '女孩', '回响（Calling when I\'m gone）', '看春春欲晚'],
+}
+
+const getUnitSongOptions = (stageCode) => {
+  const code = String(stageCode || '').trim()
+  return unitSongOptionsByStageCode[code] || []
+}
+
 const createEmptyUnit = () => ({
   name: '',
   pos: '',
@@ -947,7 +960,13 @@ const canShowLiveButton = (startDateLike) => {
               <div class="row gx-2 gy-2 align-items-center mb-2 mx-0">
                 <div class="col-md-5 px-1">
                   <label class="form-label mb-1">Unit歌曲名 <span class="text-danger">*</span></label>
-                  <input v-model="unitItem.name" type="text" class="form-control form-control-sm" placeholder="请输入unit名称" />
+                  <input
+                    v-model="unitItem.name"
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="可选默认曲目或自行填写"
+                    list="unit-song-options"
+                  />
                 </div>
                 <div class="col-md-3 px-1">
                   <label class="form-label mb-1">站位 <span class="text-danger">*</span></label>
@@ -974,8 +993,16 @@ const canShowLiveButton = (startDateLike) => {
               </div>
             </div>
 
+            <datalist id="unit-song-options">
+              <option
+                v-for="song in getUnitSongOptions(tempItem.stage_code)"
+                :key="song"
+                :value="song"
+              />
+            </datalist>
+
             <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-start align-items-md-center mt-2">
-              <small class="text-muted text-break">Unit歌曲名必填；站位必须是正整数；类型只能选择给定项。</small>
+              <small class="text-muted text-break">Unit歌曲名可从默认选项中选择，也可自行填写；类型只能选择给定项。</small>
               <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
                 + 添加 Unit
               </button>
