@@ -99,6 +99,37 @@ const removeUnitItem = (index) => {
   tempItem.value.unit.splice(index, 1)
 }
 
+const draggedUnitIndex = ref(null)
+const dragOverUnitIndex = ref(null)
+
+const handleUnitDragStart = (index) => {
+  draggedUnitIndex.value = index
+}
+
+const handleUnitDragOver = (index) => {
+  if (draggedUnitIndex.value === null || draggedUnitIndex.value === index) return
+  dragOverUnitIndex.value = index
+}
+
+const handleUnitDrop = (index) => {
+  const fromIndex = draggedUnitIndex.value
+  if (fromIndex === null || fromIndex === index) return
+  if (!Array.isArray(tempItem.value.unit)) return
+
+  const units = tempItem.value.unit
+  const [movedItem] = units.splice(fromIndex, 1)
+  if (!movedItem) return
+
+  units.splice(index, 0, movedItem)
+  draggedUnitIndex.value = index
+  dragOverUnitIndex.value = null
+}
+
+const handleUnitDragEnd = () => {
+  draggedUnitIndex.value = null
+  dragOverUnitIndex.value = null
+}
+
 const getUnitTypeLabel = (type) => {
   const found = unitTypeOptions.find(option => option.value === type)
   return found ? found.label : '常规'
@@ -956,7 +987,23 @@ const canShowLiveButton = (startDateLike) => {
               v-for="(unitItem, unitIndex) in tempItem.unit"
               :key="`unit-${unitIndex}`"
               class="border rounded p-2 mb-2"
+              :class="dragOverUnitIndex === unitIndex ? 'border-primary bg-light' : ''"
+              @dragover.prevent="handleUnitDragOver(unitIndex)"
+              @drop.prevent="handleUnitDrop(unitIndex)"
             >
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <small class="text-muted">第 {{ unitIndex + 1 }} 条</small>
+                <span
+                  class="text-muted small"
+                  draggable="true"
+                  style="cursor: grab; user-select: none;"
+                  @dragstart="handleUnitDragStart(unitIndex)"
+                  @dragend="handleUnitDragEnd"
+                >
+                  拖动排序
+                </span>
+              </div>
+
               <div class="row gx-2 gy-2 align-items-center mb-2 mx-0">
                 <div class="col-md-5 px-1">
                   <label class="form-label mb-1">Unit歌曲名 <span class="text-danger">*</span></label>
@@ -1002,7 +1049,7 @@ const canShowLiveButton = (startDateLike) => {
             </datalist>
 
             <div class="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-start align-items-md-center mt-2">
-              <small class="text-muted text-break">Unit歌曲名可从默认选项中选择，也可自行填写；类型只能选择给定项。</small>
+              <small class="text-muted text-break">Unit歌曲名可从默认选项中选择，也可自行填写；类型只能选择给定项；支持拖动排序。</small>
               <button type="button" class="btn btn-outline-primary btn-sm" @click="addUnitItem">
                 + 添加 Unit
               </button>
