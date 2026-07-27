@@ -155,6 +155,8 @@ const getUnitTypeLabel = (type) => {
   return found ? found.label : '常规'
 }
 
+const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
+
 const formatUnitDetailLine = (unitItem) => {
   const name = unitItem?.name || '-'
   const type = unitItem?.type
@@ -164,7 +166,7 @@ const formatUnitDetailLine = (unitItem) => {
   const showPos = type === 'regular' || type === 'yueyaoqu' || type === 'b50'
   const isSpecial = type === 'special'
 
-  if (showPos) {
+  if (showPos || (isSpecial && isPositiveInteger(pos))) {
     return `${name}（${pos || '-'}号位、${typeLabel}unit）`
   }
 
@@ -178,8 +180,6 @@ const formatUnitDetailLine = (unitItem) => {
 
   return `${name}（${typeLabel}unit、助演${pos || ''}）`
 }
-
-// const isPositiveInteger = (value) => /^[1-9]\d*$/.test(String(value).trim())
 
 const validateUnits = (units) => {
   if (!Array.isArray(units)) return true
