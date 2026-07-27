@@ -42,6 +42,7 @@ const unitTypeOptions = [
   { value: 'mvp', label: 'MVP' },
   { value: 'encore', label: '安可/奖励' },
   { value: 'todaymvp', label: '今日之星' },
+  { value: 'b50', label: '金曲大赏' },
   { value: 'special', label: '特殊' }
 ]
 
@@ -160,7 +161,7 @@ const formatUnitDetailLine = (unitItem) => {
   const typeLabel = getUnitTypeLabel(type)
   const pos = String(unitItem?.pos ?? '').trim()
   const isPosOne = pos === '1'
-  const showPos = type === 'regular' || type === 'yueyaoqu'
+  const showPos = type === 'regular' || type === 'yueyaoqu' || type === 'b50'
 
   if (showPos) {
     return `${name}（${pos || '-'}号位、${typeLabel}unit）`
