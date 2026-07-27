@@ -162,6 +162,7 @@ const formatUnitDetailLine = (unitItem) => {
   const pos = String(unitItem?.pos ?? '').trim()
   const isPosOne = pos === '1'
   const showPos = type === 'regular' || type === 'yueyaoqu' || type === 'b50'
+  const isSpecial = type === 'special'
 
   if (showPos) {
     return `${name}（${pos || '-'}号位、${typeLabel}unit）`
@@ -169,6 +170,10 @@ const formatUnitDetailLine = (unitItem) => {
 
   if (isPosOne) {
     return `${name}（${typeLabel}unit）`
+  }
+
+  if (isSpecial) {
+    return `${name}（${typeLabel}unit、${pos}）`
   }
 
   return `${name}（${typeLabel}unit、助演${pos || ''}）`
