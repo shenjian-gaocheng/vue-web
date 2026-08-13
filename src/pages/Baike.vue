@@ -207,8 +207,12 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           <div class="mb-4 py-4 bg-light rounded text-center">
             <h5 class="mb-3 p-0">
               <i class="fas fa-trophy text-warning me-2"></i>
-              <b>2025 SNH48 GROUP 年度青春盛典 No.47（年度梦想成员奖）</b>
+              <b>2026 SNH48 GROUP 年度青春盛典 No.41（年度梦想成员奖）</b>
             </h5>
+            <p class="mb-2 p-0">
+              <i class="fas fa-trophy text-warning me-2"></i>
+              <b>2025 SNH48 GROUP 年度青春盛典 No.47（年度梦想成员奖）</b>
+            </p>
             <p class="m-0 p-0">
               <i class="fas fa-trophy text-warning me-2"></i>
               2024 SNH48 GROUP 年度青春盛典 No.53
@@ -219,19 +223,19 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       </div>
 
       <!-- 团内人物关系 -->
-      <div class="row justify-content-center mt-4 mb-4">
-        <div class="col-md-10 col-xl-8">
-
-          <!-- 模块标题（与内容同宽） -->
-          <div class="text-center mb-4">
+      <details class="relationship-collapsible mt-4 mb-4">
+        <summary class="relationship-summary row justify-content-center mb-3">
+          <div class="col-md-10 col-xl-8 text-center">
             <h2 class="fw-bold mb-2">团内人物关系</h2>
-            <!-- 可选副标题 -->
-            <!-- <div class="text-muted small">周童玥的队友与其他活动关系整理</div> -->
+            <div class="relationship-hint">点击展开</div>
           </div>
+        </summary>
 
-          <!-- 外层卡片 -->
-          <div class="bg-light shadow-sm border-0">
-            <div class="card-body p-4 p-md-5">
+        <div class="row justify-content-center">
+          <div class="col-md-10 col-xl-8">
+            <!-- 外层卡片 -->
+            <div class="bg-light shadow-sm border-0">
+              <div class="card-body p-4 p-md-5">
 
               <!-- 分区标题 -->
               <div class="mb-4">
@@ -262,7 +266,6 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
                   <div class="d-flex flex-wrap name-wrap">
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">曹可甜、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈雨孜、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">蒋夏羽、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘婧阳、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">刘诗彤、</span>
@@ -278,6 +281,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">杨心渝、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张雷雷、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">张倩、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">吉雅楠（预备生）、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">武博涵（Team X兼任）</span>
                   </div>
                 </div>
@@ -307,7 +311,8 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">黄怡慈（原BEJ48 Team B兼任）、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">段艺璇、</span>
                     <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">沈小爱、</span>
-                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">赵天杨、</span>
+                    <span class="badge rounded-pill text-dark px-0 fs-6 fw-normal">陈雨孜</span>
                   </div>
                 </div>
               </section>
@@ -405,11 +410,11 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                 </div>
               </section>
 
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
+      </details>
 
 
     </main>
@@ -428,5 +433,42 @@ hr {
 .name-wrap{
   max-width: 720px;   /* 关键：控制一行大约 6 个 */
   margin: 0 auto;     /* 居中 */
+}
+
+.relationship-collapsible {
+  display: block;
+}
+
+.relationship-collapsible summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.relationship-collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+.relationship-collapsible summary:hover {
+  opacity: 0.9;
+}
+
+.relationship-hint {
+  display: inline-block;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: #e9ecef;
+  color: #6c757d;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  margin: 0 auto;
+}
+
+.relationship-collapsible:not([open]) .relationship-hint {
+  display: inline-block;
+}
+
+.relationship-collapsible[open] .relationship-hint {
+  display: none;
 }
 </style>
