@@ -34,16 +34,35 @@ body {
 }
 
 @media (max-width: 768px) {
+  html,
+  body,
+  #app {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
   .layout-page {
+    height: 100svh;
+    min-height: 100svh;
     overflow: hidden;
   }
 
+  @supports (height: 100dvh) {
+    .layout-page {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
+  }
+
   .layout-page > main {
+    flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
     touch-action: pan-y;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
   }
 }
 
@@ -54,6 +73,7 @@ body {
   opacity: 0;
   background: linear-gradient(45deg, #a4552c, #d56aa0, #4472ca, #e6b422, #a4552c);
   background-size: 400% 400%;
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
