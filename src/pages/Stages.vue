@@ -1133,7 +1133,7 @@ const canShowLiveButton = (startDateLike) => {
         <!-- 你可以放任何 slot 内容，甚至是编辑表单 -->
       </Modal>
 
-      <Modal v-model="showDetailModal" title="详情" cancel-text="关闭" :show-confirm="false">
+      <Modal v-model="showDetailModal" title="详情（可上下滑动查看全部信息）" cancel-text="关闭" :show-confirm="false">
         <template v-if="detailItem">
           <div class="form-group row mb-2 align-items-center">
             <label class="col-sm-3 col-form-label text-start">时间</label>
