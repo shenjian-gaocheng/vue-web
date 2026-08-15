@@ -167,6 +167,9 @@ const formatUnitDetailLine = (unitItem) => {
   const isSpecial = type === 'special'
 
   if (showPos || (isSpecial && isPositiveInteger(pos))) {
+    if (pos === '0') {
+      return `${name}（Solo、${typeLabel}unit）`
+    }
     return `${name}（${pos || '-'}号位、${typeLabel}unit）`
   }
 
