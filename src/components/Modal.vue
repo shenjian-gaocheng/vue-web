@@ -40,6 +40,8 @@ const confirm = () => emit('confirm')
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 12px;
+  box-sizing: border-box;
 }
 .modal-container {
   background: white;
@@ -49,13 +51,17 @@ const confirm = () => emit('confirm')
   padding: 20px;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  max-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
 }
 .modal-title {
   margin-top: 0;
   margin-bottom: 1rem;
 }
 .modal-body {
-  max-height: 70vh; /* 限制高度为视口的60%，你可以调整这个值 */
+  max-height: 70vh;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -75,5 +81,27 @@ const confirm = () => emit('confirm')
 .btn-primary {
   background: #409eff;
   color: white;
+}
+
+@media (max-width: 768px) {
+  .modal-mask {
+    align-items: flex-start;
+    padding-top: calc(76px + env(safe-area-inset-top) + 12px);
+    padding-right: 12px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+    padding-left: 12px;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .modal-body {
+    max-height: none;
+    flex: 1 1 auto;
+  }
 }
 </style>

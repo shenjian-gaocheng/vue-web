@@ -1202,7 +1202,7 @@ const canShowLiveButton = (startDateLike) => {
             </div>
           </div>
 
-          <div class="form-group row mb-2 align-items-center">
+          <!-- <div class="form-group row mb-2 align-items-center">
             <label class="col-sm-3 col-form-label text-start">是否已结束</label>
             <div class="col-sm-9">
               <div class="form-control-plaintext border rounded px-3 py-2 bg-light">
@@ -1218,7 +1218,7 @@ const canShowLiveButton = (startDateLike) => {
                 {{ detailItem.is_stage ? '是' : '否' }}
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="form-group row mb-2">
             <label class="col-sm-3 col-form-label text-start">Unit</label>
