@@ -34,19 +34,11 @@ body {
 }
 
 @media (max-width: 768px) {
-  body {
-    height: 100dvh;
-    overflow: hidden;
-  }
-
   .layout-page {
-    height: 100dvh;
-    min-height: 100dvh;
     overflow: hidden;
   }
 
   .layout-page > main {
-    height: 100%;
     min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;

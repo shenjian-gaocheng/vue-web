@@ -652,7 +652,7 @@ const canShowLiveButton = (startDateLike) => {
         'overflow-auto',
         !isMobile ? 'main-scrollable' : ''
       ]"
-      :style="{ paddingTop: isMobile ? '76px' : '16px' }"
+      :style="{ paddingTop: isMobile ? 'calc(76px + env(safe-area-inset-top))' : '16px' }"
     >
 
       <Notification />
