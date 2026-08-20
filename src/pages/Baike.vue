@@ -3,6 +3,7 @@ import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import Notification from '@/components/Notification.vue'
+import SocialIcon from '@/components/SocialIcon.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 
 const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
@@ -58,15 +59,18 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
           <p class="text-muted">TEAM SII（SNH48 十八期生）</p>
 
           <!-- 社交链接 -->
-          <div class="mt-3">
-            <a href="https://weibo.com/u/7861137548" class="mx-3" target="_blank">
-              <i class="fab fa-weibo fa-2x text-danger"></i>
+          <div class="mt-3 baike-social-links">
+            <a href="https://weibo.com/u/7861137548" class="mx-3 baike-social-link" target="_blank">
+              <SocialIcon class-name="social-weibo" class="fa-2x" />
             </a>
-            <a href="https://v.douyin.com/R0CZVXm5esU/" class="mx-3" target="_blank">
-              <i class="fab fa-tiktok fa-2x text-dark"></i>
+            <a href="https://v.douyin.com/R0CZVXm5esU/" class="mx-3 baike-social-link" target="_blank">
+              <SocialIcon class-name="social-douyin" class="fa-2x" />
             </a>
-            <a href="https://space.bilibili.com/3537104390850991" class="mx-3" target="_blank">
-              <i class="fab fa-bilibili fa-2x text-primary"></i>
+            <a href="https://space.bilibili.com/3537104390850991" class="mx-3 baike-social-link" target="_blank">
+              <SocialIcon class-name="social-bilibili" class="fa-2x" />
+            </a>
+            <a href="https://www.xiaohongshu.com/user/profile/65534da40000000002035d6f" class="mx-3 baike-social-link" target="_blank">
+              <SocialIcon class-name="social-xhs" class="fa-2x" />
             </a>
           </div>
 
@@ -426,6 +430,36 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
   border: none;
   background-color: #f8f9fa;
 }
+
+.baike-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.baike-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.baike-social-link:hover,
+.baike-social-link:focus,
+.baike-social-link:active,
+.baike-social-link:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+.baike-social-link :deep(.social-icon-image) {
+  display: block;
+}
+
 hr {
   border-top: 1px solid #dee2e6;
 }

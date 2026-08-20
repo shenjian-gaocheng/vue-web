@@ -17,6 +17,7 @@ import OverlayMask from '@/components/OverlayMask.vue'
 import Topbar from '@/components/Topbar.vue'
 import Sidebar from '@/components/Sidebar.vue'
 import Notification from '@/components/Notification.vue'
+import SocialIcon from '@/components/SocialIcon.vue'
 import { useResponsiveSidebar } from '@/composables/useResponsiveSidebar'
 import { useApi } from '@/composables/fetch'
 
@@ -53,28 +54,41 @@ const socialLinks = [
   {
     name: '@周童玥∠( ᐛ 」∠)_',
     href: 'https://v.douyin.com/R0CZVXm5esU/',
-    description: '短视频与日常更新',
+    description: '周童玥抖音',
     className: 'social-douyin',
   },
   {
     name: '@周童玥_zty',
     href: 'https://space.bilibili.com/3537104390850991',
-    description: '视频与搬运内容',
+    description: '周童玥B站',
     className: 'social-bilibili',
+  },
+  {
+    name: '@皮皮鸭狗',
+    href: 'https://www.xiaohongshu.com/user/profile/65534da40000000002035d6f',
+    description: '周童玥小红书',
+    className: 'social-xhs',
   },
   {
     name: '@SNH48-周童玥的满月泛周记录厅',
     href: 'https://weibo.com/u/6660861957',
-    description: '关注最新应援动态',
+    description: '记录厅微博',
     className: 'social-weibo',
   },
   {
     name: '@SNH48-周童玥的宇宙情书',
     href: 'https://space.bilibili.com/3546857020066246',
-    description: '视频与搬运内容',
+    description: '记录厅B站（公演切片、直播回放）',
     className: 'social-bilibili',
   },
 ]
+
+const socialLinkGroups = computed(() => {
+  const firstGroup = socialLinks.slice(0, 4)
+  const secondGroup = socialLinks.slice(4)
+
+  return [firstGroup, secondGroup].filter((group) => group.length)
+})
 
 const today = computed(() => dayjs().startOf('day'))
 
@@ -189,13 +203,6 @@ function selectDay(key) {
 
 function isSelectedRow(row) {
   return row.some((cell) => cell.key === selectedDateKey.value)
-}
-
-function getSocialIconClass(className) {
-  if (className.includes('weibo')) return 'fab fa-weibo'
-  if (className.includes('douyin')) return 'fab fa-tiktok'
-  if (className.includes('bilibili')) return 'fab fa-bilibili'
-  return 'fas fa-link'
 }
 
 function parseToDate(value) {
@@ -686,23 +693,31 @@ onMounted(() => {
               </p> -->
             </div>
 
-            <div class="social-list">
-              <a
-                v-for="link in socialLinks"
-                :key="link.href"
-                class="social-card"
-                :class="link.className"
-                :href="link.href"
-                target="_blank"
-                rel="noreferrer"
+            <div class="social-groups">
+              <div
+                v-for="(group, groupIndex) in socialLinkGroups"
+                :key="`social-group-${groupIndex}`"
+                class="social-group"
               >
-                <span class="social-name-row">
-                  <i :class="getSocialIconClass(link.className)"></i>
-                  <span class="social-name">{{ link.name }}</span>
-                </span>
-                <!-- <span class="social-desc">{{ link.description }}</span> -->
-                <span class="social-arrow">↗</span>
-              </a>
+                <div class="social-list">
+                  <a
+                    v-for="link in group"
+                    :key="link.href"
+                    class="social-card"
+                    :class="link.className"
+                    :href="link.href"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span class="social-name-row">
+                      <SocialIcon :class-name="link.className" />
+                      <span class="social-name">{{ link.name }}</span>
+                    </span>
+                    <!-- <span class="social-desc">{{ link.description }}</span> -->
+                    <span class="social-arrow">↗</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
@@ -773,7 +788,16 @@ onMounted(() => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.social-groups {
   margin-top: 20px;
+}
+
+.social-group + .social-group {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(15, 23, 42, 0.15);
 }
 
 @media (min-width: 1101px) {
@@ -783,14 +807,6 @@ onMounted(() => {
 
   .social-panel-header {
     margin-top: 24px;
-  }
-
-  .social-list .social-card:nth-child(3) {
-    grid-column: 1;
-  }
-
-  .social-list .social-card:nth-child(4) {
-    grid-column: 1;
   }
 }
 
@@ -838,6 +854,10 @@ onMounted(() => {
   background: linear-gradient(180deg, #60a5fa, #2563eb);
 }
 
+.social-card.social-xhs::before {
+  background: linear-gradient(180deg, #ef4444, #be123c);
+}
+
 .social-name {
   font-size: 17px;
   font-weight: 800;
@@ -848,15 +868,6 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-}
-
-.social-card.social-weibo .social-name-row i,
-.social-card.social-weibo-alt .social-name-row i {
-  color: #e11d48;
-}
-
-.social-card.social-bilibili .social-name-row i {
-  color: #2563eb;
 }
 
 .social-desc {
