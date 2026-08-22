@@ -40,6 +40,7 @@ const unitTypeOptions = [
   { value: 'birthday', label: '生日公演' },
   { value: 'election', label: '作品展演' },
   { value: 'mvp', label: 'MVP' },
+  { value: 'graduation', label: '毕业公演' },
   { value: 'encore', label: '安可/奖励' },
   { value: 'todaymvp', label: '今日之星' },
   { value: 'b50', label: '金曲大赏' },
