@@ -23,6 +23,9 @@ const formatYearMonth = (ym) => {
 }
 
 const portraitWebsite = (verCode) => {
+  if (verCode === "-") {
+    return `https://www.snh48.com/images/member/`
+  }
   return `https://snh48-group-member-girls-gsz-1301155593.cos.ap-shanghai.myqcloud.com/SNH48_GROUP_MEMBER_GIRLS_GSZ/image/snh48/${verCode}/`
 }
 
