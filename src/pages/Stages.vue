@@ -167,7 +167,7 @@ const formatUnitDetailLine = (unitItem) => {
   const showPos = type === 'regular' || type === 'yueyaoqu' || type === 'b50'
   const isSpecial = type === 'special'
 
-  if (showPos || (isSpecial && isPositiveInteger(pos))) {
+  if (showPos || (isSpecial && (isPositiveInteger(pos) || pos === '0'))) {
     if (pos === '0') {
       return `${name}（Solo、${typeLabel}unit）`
     }
