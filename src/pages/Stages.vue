@@ -39,7 +39,7 @@ const unitTypeOptions = [
   { value: 'yueyaoqu', label: '乐曜曲' },
   { value: 'birthday', label: '生日公演' },
   { value: 'election', label: '作品展演' },
-  { value: 'mvp', label: 'MVP' },
+  { value: 'mvp', label: 'MVP公演' },
   { value: 'graduation', label: '毕业公演' },
   { value: 'encore', label: '安可/奖励' },
   { value: 'todaymvp', label: '今日之星' },
