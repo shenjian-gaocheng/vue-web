@@ -53,7 +53,7 @@ const unitSongOptionsByStageCode = {
   'MX': ['Ice Queen', 'Battle Cry', '占卜师', '深海之声', '双生花', '最后的曙光'],
   'HJ-B': ['初眠（Ring）', '下一站是你', 'Let it down（深海之森）', 'Scream Out（火柴梗）', '爱未央', 'Miss D（迷失地）'],
   'XII': ['她和她', '完美超载', 'Love Letter', '初吻练习曲', '自以为', '人间规则'],
-  'HJ-C': ['爱的加速器', '最好的朋友', '关不掉', '皆渡', '粉红狙击手', '0.2s'],
+  'HJ-C': ['爱的加速器', '最好的朋友', '关不掉', '皆渡（莲）', '粉红狙击手', '0.2s'],
   'ITL': ['残骸（ForEver）', 'Like it（随机碰撞）', '呓语（Lullaby）', 'Over & Over', '距离（Hesitate）', '新纪元（Nova Terra）', '换下制服之前', '女孩', '回响（Calling when I\'m gone）', '看春春欲晚'],
 }
 
