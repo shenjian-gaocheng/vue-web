@@ -179,10 +179,13 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
           <div class="mb-4 py-4 bg-light rounded text-center">
             <h5 class="mb-3 p-0">
+              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《48Hz》公演（2026.10.10 - ）</b>
+            </h5>
+            <h5 class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i><b>2026全新公演企划《1&1 Anyone》公演（2026.05.04 - ）</b>
             </h5>
             <h5 class="mb-3 p-0">
-              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - ）</b>
+              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - 2026.10.02）</b>
             </h5>
             <p class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i>《命运的X号》新生公演（2023.05.02 - 2024.04.24）
