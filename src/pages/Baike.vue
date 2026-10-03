@@ -197,7 +197,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
               <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《幻镜》C版公演（2025.02.23 - 2025.07.27）
             </p>
             <p class="m-0 p-0">
-              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - 2026.10.02）</b>
+              <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《INTO THE LIGHT》公演（2025.08.16 - 2026.10.02）
             </p>
           </div>
         </div>
