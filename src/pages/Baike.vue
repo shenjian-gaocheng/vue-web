@@ -184,9 +184,6 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <h5 class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i><b>2026全新公演企划《1&1 Anyone》公演（2026.05.04 - ）</b>
             </h5>
-            <h5 class="mb-3 p-0">
-              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - 2026.10.02）</b>
-            </h5>
             <p class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i>《命运的X号》新生公演（2023.05.02 - 2024.04.24）
             </p>
@@ -196,8 +193,11 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             <p class="mb-3 p-0">
               <i class="fas fa-theater-masks text-warning me-2"></i>《代号XII 2.0》新生公演（2024.05.05 - 2025.03.12）
             </p>
-            <p class="m-0 p-0">
+            <p class="mb-3 p-0">
               <i class="fas fa-theater-masks text-primary me-2"></i>Team SII《幻镜》C版公演（2025.02.23 - 2025.07.27）
+            </p>
+            <p class="m-0 p-0">
+              <i class="fas fa-theater-masks text-primary me-2"></i><b>Team SII《INTO THE LIGHT》公演（2025.08.16 - 2026.10.02）</b>
             </p>
           </div>
         </div>
@@ -230,7 +230,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
       </div>
 
       <!-- 团内人物关系 -->
-      <details class="relationship-collapsible mt-4 mb-4">
+      <!-- <details class="relationship-collapsible mt-4 mb-4">
         <summary class="relationship-summary row justify-content-center mb-3">
           <div class="col-md-10 col-xl-8 text-center">
             <h2 class="fw-bold mb-2">团内人物关系</h2>
@@ -240,11 +240,11 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
 
         <div class="row justify-content-center">
           <div class="col-md-10 col-xl-8">
-            <!-- 外层卡片 -->
+            <1!-- 外层卡片 --1>
             <div class="bg-light shadow-sm border-0">
               <div class="card-body p-4 p-md-5">
 
-              <!-- 分区标题 -->
+              <1!-- 分区标题 --1>
               <div class="mb-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                   <h4 class="mb-0 fw-bold">周童玥的队友</h4>
@@ -255,10 +255,10 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     周童玥在 Team SII 以及新生公演时期的队友。
                   </p>
                 </div>
-                <!-- <hr class="my-3"> -->
+                <1!-- <hr class="my-3"> --1>
               </div>
 
-              <!-- Team SII 现队友 -->
+              <1!-- Team SII 现队友 --1>
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
@@ -294,7 +294,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                 </div>
               </section>
 
-              <!-- Team SII 前队友 -->
+              <1!-- Team SII 前队友 --1>
               <section class="border-0 bg-light-subtle mb-4">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
@@ -324,7 +324,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                 </div>
               </section>
 
-              <!-- 新生公演 前队友 -->
+              <1!-- 新生公演 前队友 --1>
               <section class="border-0 bg-light-subtle mb-5">
                 <div class="card-body p-4">
                   <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
@@ -374,7 +374,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                 </div>
               </section>
 
-              <!-- 其他关系 -->
+              <1!-- 其他关系 --1>
               <div class="mb-4">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
                   <h4 class="mb-0 fw-bold">其他关系</h4>
@@ -385,7 +385,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
                     周童玥在 SNH48 GROUP 其他活动中的队友。
                   </p>
                 </div>
-                <!-- <hr class="my-3"> -->
+                <1!-- <hr class="my-3"> --1>
               </div>
 
               <section class="border-0 bg-light-subtle mb-4">
@@ -421,7 +421,7 @@ const { isMobile, isSidebarCollapsed } = useResponsiveSidebar()
             </div>
           </div>
         </div>
-      </details>
+      </details> -->
 
 
     </main>
