@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,6 +10,28 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      (function () {
+        function isLegacyBrowser() {
+          var ua = window.navigator.userAgent || ''
+          var isIE = !!document.documentMode || /MSIE|Trident/.test(ua)
+          var hasModernApis =
+            typeof Promise !== 'undefined' &&
+            typeof fetch !== 'undefined' &&
+            typeof Symbol !== 'undefined' &&
+            typeof URLSearchParams !== 'undefined'
+
+          return isIE || !hasModernApis
+        }
+
+        if (isLegacyBrowser()) {
+          if (window.location.pathname !== '/unsupported-browser.html') {
+            window.location.replace('/unsupported-browser.html')
+          }
+        }
+      })()
+    </script>
+    <script nomodule src="/legacy-browser-redirect.js"></script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
