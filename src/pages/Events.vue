@@ -131,10 +131,10 @@ onMounted(() => {
     >
       <Notification />
 
-      <h2 class="timeline-title">周童玥2026 SNH48 GROUP年度青春盛典《For the future》PV</h2>
+      <h2 class="timeline-title">Team SII《48Hz》首演 周童玥Unit《Up To You（真相背后）》</h2>
       <div class="video-wrapper">
         <iframe
-          src="https://player.bilibili.com/player.html?isOutside=true&aid=116821063697409&bvid=BV11y7p6pE7S&cid=39449659370&p=1"
+          src="https://player.bilibili.com/player.html?isOutside=true&aid=117416856196521&bvid=BV1YSpu6gEHF&cid=42650371492&p=1"
           scrolling="no"
           frameborder="0"
           allowfullscreen
