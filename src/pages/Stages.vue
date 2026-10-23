@@ -55,6 +55,7 @@ const unitSongOptionsByStageCode = {
   'XII': ['她和她', '完美超载', 'Love Letter', '初吻练习曲', '自以为', '人间规则'],
   'HJ-C': ['爱的加速器', '最好的朋友', '关不掉', '皆渡（莲）', '粉红狙击手', '0.2s'],
   'ITL': ['残骸（ForEver）', 'Like it（随机碰撞）', '呓语（Lullaby）', 'Over & Over', '距离（Hesitate）', '新纪元（Nova Terra）', '换下制服之前', '女孩', '回响（Calling when I\'m gone）', '看春春欲晚'],
+  '48Hz': ['返校日（Class H）', '今日晴', 'Brave Heart', '要你说爱我', 'Up To You （真相背后）', 'Black Rain'],
 }
 
 const getUnitSongOptions = (stageCode) => {
